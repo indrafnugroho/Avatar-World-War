@@ -2,4 +2,4 @@
 
 ## Cara Compile
 Masukkan command berikut pada terminal:
-[code]$ make
+```$ make```
