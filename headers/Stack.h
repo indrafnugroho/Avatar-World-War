@@ -1,15 +1,15 @@
 #ifndef _STACK_H
 #define _STACK_H
 
-#include "LinkedList.h"
+#include "List.h"
 #include "bool.h"
 
-typedef LinkedListVal_t StackVal_t;
-typedef LinkedListElement StackElement;
-typedef LinkedList Stack;
+typedef ListVal_t StackVal_t;
+typedef ListElement StackElement;
+typedef List Stack;
 
-#define StackTop(s) LinkedListFirstElement(s)
-#define StackValueTop(s) LinkedListValueFirst(s)
+#define StackTop(s) ListFirstElement(s)
+#define StackValueTop(s) ListValueFirst(s)
 
 bool StackIsEmpty(Stack s);
 void StackPush(Stack* s, StackVal_t x);

@@ -8,8 +8,8 @@ INCDIR = headers
 INCPATH = -I$(INCDIR)
 TEMPDIR = .tmp
 
-DEPS = bool LinkedList Stack Queue
-SOURCES = main LinkedList Stack Queue
+DEPS = bool List Stack Queue
+SOURCES = main List Stack Queue
 
 HEADERS = $(patsubst %,$(INCDIR)/%.h,$(DEPS))
 OBJS =  $(patsubst %,$(TEMPDIR)/%.o,$(SOURCES))

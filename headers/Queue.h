@@ -1,16 +1,16 @@
 #ifndef _QUEUE_H
 #define _QUEUE_H
 
-#include "LinkedList.h"
+#include "List.h"
 
-typedef LinkedListVal_t QueueVal_t;
-typedef LinkedListElement QueueElement;
-typedef LinkedList Queue;
+typedef ListVal_t QueueVal_t;
+typedef ListElement QueueElement;
+typedef List Queue;
 
-#define QueueHead(q) LinkedListFirstElement(q)
-#define QueueTail(q) LinkedListLastElement(q)
-#define QueueValueHead(q) LinkedListValueFirst(q)
-#define QueueValueTail(q) LinkedListValueLast(q)
+#define QueueHead(q) ListFirstElement(q)
+#define QueueTail(q) ListLastElement(q)
+#define QueueValueHead(q) ListValueFirst(q)
+#define QueueValueTail(q) ListValueLast(q)
 
 bool QueueIsEmpty(Queue q);
 void QueueAdd(Queue* q, QueueVal_t x);
