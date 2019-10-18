@@ -1,3 +1,5 @@
+
+
 #include "Stack.h"
 
 bool StackIsEmpty(Stack s) {

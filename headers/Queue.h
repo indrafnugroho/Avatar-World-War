@@ -1,3 +1,10 @@
+/*
+Queue.h
+DEFINISI ADT QUEUE <Queue>
+Queue adalah varian dari List dengan penyisipan hanya dilakukan dari elemen
+terakhir (Tail) dan penghapusan hanya dilakukan dari elemen pertama (Head).
+*/
+
 #ifndef _QUEUE_H
 #define _QUEUE_H
 

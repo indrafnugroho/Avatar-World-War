@@ -1,3 +1,10 @@
+/*
+Stack.h
+DEFINISI ADT STACK <Stack>
+Stack adalah varian dari List dengan penyisipan  dan penghapusan hanya
+dilakukan dari elemen pertama (Top).
+*/
+
 #ifndef _STACK_H
 #define _STACK_H
 

@@ -21,6 +21,7 @@ void printlist(List l) {
 int main() {
     int i, x;
     List list;
+    ListElement* k;
     ListCreate(&list);
     for (i = 0; i < 10; i++) {
         ListAddFirst(&list, i);
@@ -30,6 +31,14 @@ int main() {
         ListAddLast(&list, i);
         printlist(list);
     }
+    k = ListSearch(list, 13);
+    printf("[%d]", ListElementVal(k));
+    ListAddAfter(&list, 9000, k);
+    printlist(list);
+    k = ListSearch(list, 4);
+    printf("[%d]", ListElementVal(k));
+    ListDelAfter(&list, &x, k);
+    printlist(list);
     for (i = 0; i < 8; i++) {
         ListDelFirst(&list, &x);
         printlist(list);
