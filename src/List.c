@@ -1,3 +1,8 @@
+/*
+List.c
+IMPLEMENTASI ADT LIST LINIER <List>
+*/
+
 #include "List.h"
 #include <stdlib.h>
 
