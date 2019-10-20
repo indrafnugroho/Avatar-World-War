@@ -11,7 +11,7 @@ List adalah list berkait satu arah.
 
 #define Nil 0
 
-typedef int ListVal_t;
+typedef void* ListVal_t;
 
 /* Definisi Elemen List Linier / ListElement */
 typedef struct ListElement ListElement;
@@ -104,6 +104,15 @@ void ListDelAfter(List* l, ListVal_t* x, ListElement* prec);
     F.S.
         Elemen suksesor prec dihapus dan nilainya dimasukkan ke x.
         Jika suksesor adalah last(l), last(l) = prec
+    */
+
+void ListDelVal(List* l, ListVal_t x, bool success);
+    /*
+    I.S.
+        l tidak kosong.
+    F.S.
+        Jika ada elemen bernilai x di l, hapus n dan success bernilai true.
+        Jika tidak ada, success bernilai false.
     */
 
 void ListDelLast(List* l, ListVal_t* x);

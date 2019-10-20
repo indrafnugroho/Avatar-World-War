@@ -163,6 +163,29 @@ void ListDelAfter(List* l, ListVal_t* x, ListElement* prec) {
     free(p);
 }
 
+void ListDelVal(List* l, ListVal_t x, bool success) {
+    /*
+    I.S.
+        l tidak kosong.
+    F.S.
+        Jika ada elemen bernilai x di l, hapus n dan success bernilai true.
+        Jika tidak ada, success bernilai false.
+    */
+    /* Kamus Lokal */
+    ListElement* p;
+    ListVal_t discard;
+    /* Algoritma */
+    p = ListFirstElement(*l);
+    if (ListElementVal(p) == x) {
+        ListDelFirst(l, &discard);
+    } else {
+        while (ListElementVal(ListElementNext(p)) != x) {
+            p = ListElementNext(p);
+        }
+        ListDelAfter(l, &discard, p);
+    }
+}
+
 void ListDelLast(List* l, ListVal_t* x) {
     /*
     I.S.
