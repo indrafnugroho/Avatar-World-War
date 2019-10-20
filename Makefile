@@ -1,7 +1,7 @@
 CC = gcc
 DEL_FILE = rm -f
 COPY_FILE = cp -f
-CFLAGS = -lm
+CFLAGS = -lm -Wno-pointer-to-int-cast -Wno-format -Wno-int-conversion
 
 SRCDIR = src
 INCDIR = headers
