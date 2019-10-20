@@ -19,7 +19,8 @@ void printlist(List l) {
 }
 
 int main() {
-    int i, x;
+    int i;
+    ListVal_t x;
     List list;
     ListElement* k;
     ListCreate(&list);
