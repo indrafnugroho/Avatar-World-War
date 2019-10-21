@@ -20,8 +20,17 @@ typedef struct {
 #define GraphMaxElement(g) IArrayMaxElement(g.vert)
 
 void GraphCreate(Graph* g, int MaxEl);
+    /*
+    I.S.
+        g sembarang
+    F.S.
+        g merupakan graph terdefinisi yang kosong
+    */
 
 void GraphIsEmpty(Graph g);
+    /*
+    Menghasilkan true jika g kosong (g.vert kosong)
+    */
 
 void GraphSize(Graph g);
 
