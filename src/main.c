@@ -5,12 +5,11 @@
 #include "List.h"
 
 void printlist(List l) {
-    ListElement* p = ListFirstElement(l);
+    ListElement* p;
     if(!ListIsEmpty(l)) {
         printf("<");
-        while (p != Nil) {
+        ListTraversal(p, ListFirstElement(l), p != Nil) {
             printf("%d, ", (int) ListElementVal(p));
-            p = ListElementNext(p);
         }
         printf("> %d %d\n",  ListValueFirst(l), ListValueLast(l));
     } else {
@@ -36,6 +35,7 @@ int main() {
     printf("[%d]", ListElementVal(k));
     ListAddAfter(&list, 9000, k);
     printlist(list);
+    printf("\n>>%d<<\n", ListSize(list));
     k = ListSearch(list, 4);
     printf("[%d]", ListElementVal(k));
     ListDelAfter(&list, &x, k);

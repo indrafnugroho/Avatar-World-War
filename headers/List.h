@@ -24,6 +24,9 @@ struct ListElement {
 #define ListElementVal(p) (p)->value
 #define ListElementNext(p) (p)->next
 
+/* Makro traversal list */
+#define ListTraversal(p, expinit, exploop) for (p = expinit; exploop; p = ListElementNext(p))
+
 /* Primitif */
 ListElement* ListElementAlloc(ListVal_t x);
     /*

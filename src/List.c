@@ -52,11 +52,9 @@ int ListSize(List l) {
         return 0;
     } else {
         count = 0;
-        p = ListFirstElement(l);
-        while (p != Nil) {
-            p = ListElementNext(p);
+        ListTraversal (p, ListFirstElement(l), p != Nil) {
             count++;
-        } /* p == Nil */
+        }
         return count;
     }
 }
@@ -179,9 +177,8 @@ void ListDelVal(List* l, ListVal_t x, bool success) {
     if (ListElementVal(p) == x) {
         ListDelFirst(l, &discard);
     } else {
-        while (ListElementVal(ListElementNext(p)) != x) {
-            p = ListElementNext(p);
-        }
+        ListTraversal (p, ListFirstElement(*l),
+            ListElementVal(ListElementNext(p)) != x) {}
         ListDelAfter(l, &discard, p);
     }
 }
@@ -199,10 +196,8 @@ void ListDelLast(List* l, ListVal_t* x) {
     if (ListFirstElement(*l) == ListLastElement(*l)) {
         ListDelFirst(l, x);
     } else {
-        p = ListFirstElement(*l);
-        while (ListElementNext(p) != ListLastElement(*l)) {
-            p = ListElementNext(p);
-        }
+        ListTraversal (p, ListFirstElement(*l),
+            ListElementNext(p) != ListLastElement(*l)) {}
         ListDelAfter(l, x, p);
     }
 }
@@ -215,15 +210,14 @@ ListElement* ListSearch(List l, ListVal_t x) {
     /*
     Mengembalikan banyak elemen dalam l
     */
+    /* Kamus Lokal */
     ListElement* p;
-    int count;
+    /* Algoritma */
     if (ListIsEmpty(l)) {
         return Nil;
     } else {
-        p = ListFirstElement(l);
-        while (ListElementNext(p) != Nil && ListElementVal(p) != x) {
-            p = ListElementNext(p);
-        }
+        ListTraversal (p, ListFirstElement(l),
+            ListElementNext(p) != Nil && ListElementVal(p) != x) {}
         if (ListElementVal(p) == x) {
             return p;
         } else {
