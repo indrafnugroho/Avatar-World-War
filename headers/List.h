@@ -65,6 +65,32 @@ int ListSize(List l);
     */
 
 /* Tambah Elemen */
+void ListElAddFirst(List* l, ListElement* p);
+    /*
+    I.S.
+        l terdefinisi, boleh kosong, p teralokasi
+    F.S.
+        Elemen p diletakkan di depan l, menjadi first
+    */
+
+void ListElAddAfter(List* l, ListElement* p, ListElement* prec);
+    /*
+    I.S.
+        l terdefinisi, tidak kosong.
+        p teralokasi.
+        prec != Nil dan berada pada l.
+    F.S.
+        Elemen p diletakkan setelah prec
+    */
+
+void ListElAddLast(List* l, ListElement* p);
+    /*
+    I.S.
+        l terdefinisi, boleh kosong.
+    F.S.
+        Elemen p diletakkan di belakang l, menjadi last
+    */
+
 void ListAddFirst(List* l, ListVal_t x);
     /*
     I.S.
@@ -91,6 +117,41 @@ void ListAddLast(List* l, ListVal_t x);
     */
 
 /* Hapus Elemen */
+void ListElDelFirst(List* l, ListElement** p);
+    /*
+    I.S.
+        l tidak kosong
+    F.S.
+        Elemen first(l) dihapus dan menjadi elemen p
+    */
+
+
+void ListElDelAfter(List* l, ListElement** p, ListElement* prec);
+    /*
+    I.S.
+        l tidak kosong, prec != Nil dan berada pada l
+    F.S.
+        Elemen suksesor prec dihapus dan menjadi p.
+        Jika suksesor adalah last(l), last(l) = prec
+    */
+
+void ListElDel(List* l, ListElement* p);
+    /*
+    I.S.
+        l tidak kosong.
+        p pasti berada di dalam l
+    F.S.
+        Elemen p dihapus dari l.
+    */
+
+void ListElDelLast(List* l, ListElement** p);
+    /*
+    I.S.
+        l tidak kosong
+    F.S.
+        Elemen last(l) dihapus dan menjadi p.
+    */
+
 void ListDelFirst(List* l, ListVal_t* x);
     /*
     I.S.
@@ -114,8 +175,8 @@ void ListDelVal(List* l, ListVal_t x, bool success);
     I.S.
         l tidak kosong.
     F.S.
-        Jika ada elemen bernilai x di l, hapus n dan success bernilai true.
-        Jika tidak ada, success bernilai false.
+        Jika ada elemen bernilai x di l, hapus n. Jika tidak ada, tidak terjadi
+        apa-apa.
     */
 
 void ListDelLast(List* l, ListVal_t* x);
@@ -126,9 +187,10 @@ void ListDelLast(List* l, ListVal_t* x);
         Elemen last(l) dihapus dan nilainya dimasukkan ke x
     */
 
+/* Pencarian */
 ListElement* ListSearch(List l, ListVal_t x);
     /*
-    Mengembalikan pointer ke ListElement dengan value x jika ada,
+    Mengembalikan pointer ke ListElement dengan value x paling awal jika ada,
     mengambelikan Nil jika tidak ditemukan.
     */
 
