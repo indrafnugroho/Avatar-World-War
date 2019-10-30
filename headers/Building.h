@@ -43,3 +43,5 @@ void LevelAdd (Building *B);
         - Level bangunan bertambah apabila jumlah pasukan pada bangunan >= M/2
         - Jika level bangunan bertambah, jumlah pasukan pada bangunan berkurang sebanyak M/2
     */
+
+#endif

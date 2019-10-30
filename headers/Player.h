@@ -16,3 +16,4 @@ typedef struct {
     Skill S;
 } Player;
 
+#endif
