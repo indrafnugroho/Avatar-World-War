@@ -13,10 +13,10 @@ void MatrixCreate(Matrix* m, int mMax, int nMax) {
     NEff(*m) = 0;
 
     //Allocate Matrix
-    M(*m) = (MatrixVal_t**) malloc ((mMax+1) * sizeof(MatrixVal_t*));
+    M(*m) = (MatrixVal_t**) malloc ((mMax) * sizeof(MatrixVal_t*));
 
-    for (int i=1; i<=mMax; i++) {
-        (*m).M[i] = (MatrixVal_t*) malloc ((nMax+1) * sizeof(MatrixVal_t));
+    for (int i = 0; i<mMax; i++) {
+        (*m).M[i] = (MatrixVal_t*) malloc ((nMax) * sizeof(MatrixVal_t));
     }
 }
 
@@ -81,17 +81,10 @@ Matrix MatrixTranspose(Matrix m) {
     NEff(m) = tempInt;
 }
 
-void MatrixRealloc(Matrix* m, int mNew, int nNew) {
-    MMax(*m) = mNew;
-    NMax(*m) = nNew;
-
-    M(*m) = realloc(M(*m), ((mNew+1) * sizeof(MatrixVal_t*)));
-
-    for (int i=1; i<=nNew; i++) {
-        (*m).M[i] = realloc((*m).M[i], ((nNew+1)*sizeof(MatrixVal_t)));
-    }
-}
-
 void MatrixDealloc(Matrix* m) {
+    int i;
+    for(i = 0; i < MMax(*m); i++) {
+        free(M(*m)[i]);
+    }
     free(M(*m));
 }
