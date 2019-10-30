@@ -17,6 +17,7 @@ typedef struct {
 #define NMax(m) m.NMax
 #define MEff(m) m.MEff
 #define NEff(m) m.NEff
+#define M(m) (m).M
 #define MatrixElement(m, i, j) m.M[i][j]
 
 void MatrixCreate(Matrix* m, int mMax, int nMax);
