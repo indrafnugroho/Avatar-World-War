@@ -4,8 +4,8 @@
 void CreateSkillQueue(Skill* S, Player* P) {
     /* Define queue skill awal yang berisi IU */
     int new = 1;
-    QueueCreate(Skill(P));  // Reference to player adt P.Skill
-    QueueAdd(Skill(P), &new);
+    QueueCreate(SkillQueue(S));  // Reference to player adt P.Skill
+    QueueAdd(SkillQueue(S), &new);
 }
 
 void AddSkill(int SkillNum, Skill* S, Player* P) {
@@ -21,12 +21,12 @@ void AddSkill(int SkillNum, Skill* S, Player* P) {
     6. Instant Reinforcement (IR)   :   Semua bangunan yang dimiliki memiliki level 4
     7. Barrage (BR)                 :   Lawan baru saja bertambah bangunannya 
                                         menjadi 10 bangunan */
-    QueueAdd(Skill(P), &SkillNum);
+    QueueAdd(SkillQueue(Skill(P)), &SkillNum);
 }
 
 void DisplaySkill(Skill S, Player P) {
     /* Menampilkan skill yang tersedia pada terminal */
-    switch ((int*)QueueValueHead(Skill)) {  // Sesuai skill ID
+    switch ((int*)QueueValueHead(SkillQueue(S))) {  // Sesuai skill ID
         case 0:
             printf("-\n");
             break;
@@ -57,12 +57,39 @@ void DisplaySkill(Skill S, Player P) {
     }
 }
 
-void UseSkill(Skill* S) {
+void UseSkill(Skill* S, Player* P) {
     /* Menggunakan skill yang tersedia */
     int SkillID;
 
     if (!SkillIsEmpty(*Skill)) {
         QueueDel(Skill, &(int*)SkillID);
+    }
+
+    switch (SkillID) {
+        case 1:
+            IU(P);
+            break;
+        case 2:
+            SH(P);
+            break;
+        case 3:
+            ET(P);
+            break;
+        case 4:
+            AU(P);
+            break;
+        case 5:
+            CH(P);
+            break;
+        case 6:
+            IR(P);
+            break;
+        case 7:
+            BR(P);
+            break;
+        default:
+            printf("Invalid Skill\n");
+            break;
     }
 }
 

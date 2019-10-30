@@ -39,7 +39,7 @@ void AddSkill(int SkillNum, Skill* S, Player* P);
 void DisplaySkill(Skill S, Player P);
 /* Menampilkan skill yang tersedia pada terminal */
 
-void UseSkill(Skill* S);
+void UseSkill(Skill* S, Player* P);
 /* Menggunakan skill yang tersedia */
 
 bool SkillIsEmpty(Skill S);
