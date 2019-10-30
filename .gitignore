@@ -1,3 +1,6 @@
 *.o
 wrgmavow
 .tmp
+
+src/mChar.c
+mChar
