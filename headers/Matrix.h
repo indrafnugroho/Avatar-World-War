@@ -6,6 +6,8 @@ DEFINISI ADT MATRIX <Matrix>
 #ifndef _MATRIX_H
 #define _MATRIX_H
 
+#include "bool.h"
+
 typedef void* MatrixVal_t;
 typedef int MatrixIndex;
 typedef struct {
@@ -13,10 +15,10 @@ typedef struct {
     int MMax, NMax, MEff, NEff;
 } Matrix;
 
-#define MMax(m) m.MMax
-#define NMax(m) m.NMax
-#define MEff(m) m.MEff
-#define NEff(m) m.NEff
+#define MMax(m) (m).MMax
+#define NMax(m) (m).NMax
+#define MEff(m) (m).MEff
+#define NEff(m) (m).NEff
 #define M(m) (m).M
 #define MatrixElement(m, i, j) m.M[i][j]
 
@@ -33,8 +35,6 @@ bool MatrixIsSquare(Matrix m);
 bool MatrixIsSimetrical(Matrix m);
 
 Matrix MatrixTranspose(Matrix m);
-
-void MatrixRealloc(Matrix* m, int mNew, int nNew);
 
 void MatrixDealloc(Matrix* m);
 
