@@ -12,12 +12,19 @@ typedef struct {
     int owner;
     int pasukan;
     int level;
-    int A;
-    int M;
-    int P;
-    int U;
+    int A; // nilai penambahan pasukan pada bangunan tiap awal giliran
+    int M; // jumlah maksimum pasukan yang bisa terdapat pada bangunan
+    int P; // pertahanan bangunan
+    int U; // 
     int type;
 } Building;
+
+#define Owner(B) (B).owner
+#define Pasukan(B) (B).pasukan
+#define Level(B) (B).level
+#define A(B) (B).A
+#define M(B) (B).M
+#define 
 
 void InitialBuilding (Building *B);
     /*
