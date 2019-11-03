@@ -5,6 +5,7 @@
 Word CWord;
 Word TEMPWORD;
 bool EndWord;
+bool wpJustStartedReading = true;
 
 const char MAXNUMASCII = '9';
 const char MINNUMASCII = '0';
@@ -23,14 +24,19 @@ void IgnoreBlank()
     }
 }
 
-void STARTWORD(char* path)
+bool STARTWORD(char* path)
 {
-    EndWord = false;
+    bool res = true;
     CreateEmpty(&CWord);
+    if (path != NULL) wpJustStartedReading = true;
     if (path != NULL || !cpStarted || (path == NULL && (cpReadFromFile))) {
-        START(path);
+        res = START(path);
     }
-    ADVWORD();
+    EndWord = !res;
+    if (!EndWord) {
+        ADVWORD();
+    }
+    return res;
 }
 
 void ADVWORD()
@@ -48,67 +54,22 @@ void SalinWord()
 {
     CreateEmpty(&CWord);
     int i = 0;
-    while (i < NMax && !EOP && (CC != BLANK && CC != NEWLINE)) {
+    while (i < NMax && !EOP && CC != BLANK && CC != NEWLINE) {
         CWord.Tab[i] = CC;
         i++;
         ADV();
     }
+    while (i >= NMax && !EOP && CC != BLANK && CC != NEWLINE) {
+        ADV();
+    } 
     if (EOP) {
         EndWord = true;
     }
 }
 
-void CopyWord(Word from, Word* to) {
-    CreateEmpty(to);
-    int i = 0;
-    while (i < NMax) {
-        if (from.Tab[i] == MARK) {
-            i = NMax;
-        } else {
-            (*to).Tab[i] = from.Tab[i];
-            i++;
-        }
-    }
-}
 
-void ScanWord(Word* to) {
-    if (!cpStarted || cpReadFromFile) {
-        STARTWORD(NULL);
-    } else {
-        ADVWORD();
-    }
-    CreateEmpty(to);
-    CopyWord(CWord, to);
-}
+// --------------------------- FUNGSI FUNGSI UMUM ---------------------------
 
-void ScanInt(int* to) {
-    ScanWord(&TEMPWORD);
-    WordToInt(TEMPWORD, to);
-}
-
-void ScanString(char* to, int limit) {
-    int rLimit = limit-1;
-    int i, j;
-    for (i = 0; i < limit; i++) {
-        to[i] = MARK;
-    }
-    i = 0;
-    IgnoreBlank();
-    while (i < rLimit && !EOP && CC != NEWLINE) {
-        ScanWord(&TEMPWORD);
-        j = 0;
-        while (i < rLimit && TEMPWORD.Tab[j] != MARK) {
-            to[i] = TEMPWORD.Tab[j];
-            i++;
-            j++;
-        }
-        while (i < rLimit && !EOP && CC == BLANK) {
-            to[i] = BLANK;
-            i++;
-            ADV();
-        }
-    }
-}
 
 void OutputWord(Word w, bool newline) {
     int i = 0;
@@ -161,4 +122,133 @@ bool WordToInt(Word w, int* i) {
     }
 
     return true;
+}
+
+void CopyWord(Word from, Word* to) {
+    CreateEmpty(to);
+    int i = 0;
+    while (i < NMax) {
+        if (from.Tab[i] == MARK) {
+            i = NMax;
+        } else {
+            (*to).Tab[i] = from.Tab[i];
+            i++;
+        }
+    }
+}
+
+bool WordEquals(Word a, Word b) {
+    int i = 0;
+    bool equal = true;
+    while (i < NMax && a.Tab[i] != MARK && b.Tab[i] != MARK && equal) {
+        if (a.Tab[i] != b.Tab[i]) equal = false;
+        i++;
+    }
+    if (a.Tab[i] != b.Tab[i]) equal = false;
+
+    return equal;
+}
+
+bool WordEqualsString(Word a, char* s) {
+    int i = 0;
+    bool equal = true;
+    while (i < NMax && a.Tab[i] != MARK && s[i] != MARK && equal) {
+        if (a.Tab[i] != s[i]) equal = false;
+        i++;
+    }
+    if (a.Tab[i] != s[i]) equal = false;
+
+    return equal;
+}
+
+
+// --------------------------- FUNGSI FUNGSI MASUKAN PENGGUNA ---------------------------
+
+void ScanWord(Word* to) {
+    if (!cpStarted || cpReadFromFile) {
+        STARTWORD(NULL);
+    } else {
+        ADVWORD();
+    }
+    CreateEmpty(to);
+    CopyWord(CWord, to);
+}
+
+bool ScanInt(int* to) {
+    ScanWord(&TEMPWORD);
+    return WordToInt(TEMPWORD, to);
+}
+
+void ScanString(char* to, int limit) {
+    int rLimit = limit-1;
+    int i, j;
+    for (i = 0; i < limit; i++) {
+        to[i] = MARK;
+    }
+    i = 0;
+    IgnoreBlank();
+    while (i < rLimit && !EOP && CC != NEWLINE) {
+        ScanWord(&TEMPWORD);
+        j = 0;
+        while (i < rLimit && TEMPWORD.Tab[j] != MARK) {
+            to[i] = TEMPWORD.Tab[j];
+            i++;
+            j++;
+        }
+        while (i < rLimit && !EOP && CC == BLANK) {
+            to[i] = BLANK;
+            i++;
+            ADV();
+        }
+    }
+}
+
+
+// --------------------------- FUNGSI FUNGSI PEMBACAAN FILE ---------------------------
+
+
+bool ReadStart(char* path) {
+    return STARTWORD(path);
+}
+
+void ReadWord(Word* to) {
+    if (!cpStarted || !cpReadFromFile) {
+        return;
+    }
+    if (!wpJustStartedReading) {
+        ADVWORD();
+    } else {
+        wpJustStartedReading = false;
+    }
+    CreateEmpty(to);
+    CopyWord(CWord, to);
+}
+
+bool ReadInt(int* to) {
+    ReadWord(&TEMPWORD);
+    return WordToInt(TEMPWORD, to);
+}
+
+void ReadLine(char* to, int limit) {
+    int rLimit = limit-1;
+    int i, j;
+    for (i = 0; i < limit; i++) {
+        to[i] = MARK;
+    }
+    i = 0;
+    IgnoreBlank();
+    while (i < rLimit && !EOP && CC != NEWLINE) {
+        ReadWord(&TEMPWORD);
+        j = 0;
+        while (i < rLimit && TEMPWORD.Tab[j] != MARK) {
+            to[i] = TEMPWORD.Tab[j];
+            i++;
+            j++;
+        }
+        while (i < rLimit && !EOP && CC == BLANK) {
+            to[i] = BLANK;
+            i++;
+            ADV();
+        }
+    }
 }

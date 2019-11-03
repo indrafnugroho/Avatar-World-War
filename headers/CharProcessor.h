@@ -14,9 +14,11 @@ extern bool EOP;
 extern bool cpStarted;
 extern bool cpReadFromFile;
 
-void START(char* path);
-/* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.
+bool START(char* path);
+/* Mesin siap dioperasikan. Pita disiapkan untuk membaca dari file atau dari stdin.
+   Jika path = NULL, mesin membaca dari stdin.
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.
+   Mengembalikan false jika file pada path gagal dibaca, true jika berhasil.
    I.S. : sembarang
    F.S. : CC adalah karakter pertama pada pita
           Jika EOF maka EOP akan bernilai true 

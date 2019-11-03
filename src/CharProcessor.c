@@ -9,7 +9,7 @@ bool cpReadFromFile;
 static FILE * cpStream;
 static int retval;
 
-void START(char* path) {
+bool START(char* path) {
 
     /* Algoritma */
     cpStarted = true;
@@ -21,6 +21,7 @@ void START(char* path) {
         cpReadFromFile = true;
     }
     ADV();
+    return cpStream != NULL;
 }
 
 void ADV() {
