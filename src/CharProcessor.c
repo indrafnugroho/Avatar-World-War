@@ -16,13 +16,14 @@ bool START(char* path) {
         fclose(cpStream);
     }
     cpStarted = true;
-    if (path == NULL) {
-        cpStream = stdin;
-        cpReadFromFile = false;
-    } else {
+
+    cpReadFromFile = (path != NULL);
+    if (cpReadFromFile) {
         cpStream = fopen(path, "r");
-        cpReadFromFile = true;
+    } else {
+        cpStream = stdin;
     }
+    
     ADV();
     return cpStream != NULL;
 }
