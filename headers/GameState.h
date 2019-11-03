@@ -31,7 +31,7 @@ typedef struct {
 // } GameStack;
 
 /* Definisi akses dengan Selektor : Set dan Get */
-#define Top(GS) ListFirstElement(s)
+#define Top(GS) ListFirstElement(GS)
 #define StateTop(GS) ListValueFirst(GS)
 #define RecentCom(GS) ListValueFirst(GS).RecentCom
 

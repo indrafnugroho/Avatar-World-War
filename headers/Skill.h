@@ -10,10 +10,18 @@
 #include "bool.h"
 #include "stdio.h"
 
-void CreateSkillQueue(Queue* Skill, Player* P);
+typedef struct {
+    Queue SkillQueue;
+    int SkillCount;
+} Skill;
+
+#define SkillQueue(S) (S).SkillQueue
+#define SkillCount(S) (S).SkillCount
+
+void CreateSkillQueue(Skill* S, Player* P);
 /* Define queue skill awal yang berisi IU */
 
-void AddSkill(int SkillNum, Queue* Skill, Player* P);
+void AddSkill(int SkillNum, Skill* S, Player* P);
 /* Add skill by SkillNum to List Queue*/
 /* Skill List: 
     1. Instant Upgrade (IU)         :   Default skill awal
@@ -28,13 +36,13 @@ void AddSkill(int SkillNum, Queue* Skill, Player* P);
                                         menjadi 10 bangunan
 */
 
-void DisplaySkill(Queue Skill, Player P);
+void DisplaySkill(Skill S, Player P);
 /* Menampilkan skill yang tersedia pada terminal */
 
-void UseSkill(Queue* Skill);
+void UseSkill(Skill* S, Player* P);
 /* Menggunakan skill yang tersedia */
 
-bool SkillIsEmpty(Queue Skill);
+bool SkillIsEmpty(Skill S);
 /* Mengecek apakah skill sudah habis */
 
 /****** IMPLEMENTASI EFEK SKILL ******/
