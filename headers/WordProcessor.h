@@ -77,11 +77,20 @@ void PrintWord(Word w);
    I.S. : w terdefinisi
    F.S. : w tercetak di layar diakhiri simbol \n */
 
-
 void CopyWord(Word from, Word* to);
 /* Menyamakan tiap karakter pada to dengan tiap karakter pada from.
    I.S. : from terdefinisi, to sembarang
    F.S. : to berisi karakter yang sama dengan pada from */
+
+bool WordEquals(Word a, Word b);
+/* Mengembalikan true jika tiap karakter a sama dengan tiap karakter b, false jika tidak.
+   I.S. : a dan b terdefinisi.
+   F.S. : Mengembalikan true jika tiap karakter a sama dengan tiap karakter b, false jika tidak. */
+
+bool WordEqualsString(Word a, char* s);
+/* Mengembalikan true jika tiap karakter a sama dengan tiap karakter pada string s, false jika tidak.
+   I.S. : a dan b terdefinisi.
+   F.S. : Mengembalikan true jika tiap karakter a sama dengan tiap karakter pada string s, false jika tidak. */
 
 
 // --------------------------- FUNGSI FUNGSI MASUKAN PENGGUNA ---------------------------

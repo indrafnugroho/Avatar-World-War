@@ -236,8 +236,7 @@ void ReadLine(char* to, int limit) {
         to[i] = MARK;
     }
     i = 0;
-    IgnoreBlank();
-    while (i < rLimit && !EOP && CC != NEWLINE) {
+    while (i < rLimit && !EOP && (CC != NEWLINE || wpJustStartedReading)) {
         ReadWord(&TEMPWORD);
         j = 0;
         while (i < rLimit && TEMPWORD.Tab[j] != MARK) {
