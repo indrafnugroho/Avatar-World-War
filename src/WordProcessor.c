@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "WordProcessor.h"
+#include "CharProcessor.h"
 
 Word CWord;
 Word TEMPWORD;
@@ -17,7 +18,7 @@ void CreateEmpty(Word* w) {
 
 void IgnoreBlank()
 {
-    while (CC == BLANK && !EOP) {
+    while ((CC == BLANK || CC == NEWLINE) && !EOP) {
         ADV();
     }
 }
@@ -26,7 +27,9 @@ void STARTWORD(char* path)
 {
     EndWord = false;
     CreateEmpty(&CWord);
-    START(path);
+    if (path != NULL || !cpStarted || (path == NULL && (cpReadFromFile))) {
+        START(path);
+    }
     ADVWORD();
 }
 
@@ -38,7 +41,6 @@ void ADVWORD()
     } else {
         EndWord = false;
         SalinWord();
-        IgnoreBlank();
     }
 }
 
@@ -46,10 +48,13 @@ void SalinWord()
 {
     CreateEmpty(&CWord);
     int i = 0;
-    while (i < NMax && !EOP && CC != BLANK) {
+    while (i < NMax && !EOP && (CC != BLANK && CC != NEWLINE)) {
         CWord.Tab[i] = CC;
         i++;
         ADV();
+    }
+    if (EOP) {
+        EndWord = true;
     }
 }
 
@@ -67,7 +72,11 @@ void CopyWord(Word from, Word* to) {
 }
 
 void ScanWord(Word* to) {
-    STARTWORD(NULL);
+    if (!cpStarted || cpReadFromFile) {
+        STARTWORD(NULL);
+    } else {
+        ADVWORD();
+    }
     CreateEmpty(to);
     CopyWord(CWord, to);
 }
@@ -75,6 +84,30 @@ void ScanWord(Word* to) {
 void ScanInt(int* to) {
     ScanWord(&TEMPWORD);
     WordToInt(TEMPWORD, to);
+}
+
+void ScanString(char* to, int limit) {
+    int rLimit = limit-1;
+    int i, j;
+    for (i = 0; i < limit; i++) {
+        to[i] = MARK;
+    }
+    i = 0;
+    IgnoreBlank();
+    while (i < rLimit && !EOP && CC != NEWLINE) {
+        ScanWord(&TEMPWORD);
+        j = 0;
+        while (i < rLimit && TEMPWORD.Tab[j] != MARK) {
+            to[i] = TEMPWORD.Tab[j];
+            i++;
+            j++;
+        }
+        while (i < rLimit && !EOP && CC == BLANK) {
+            to[i] = BLANK;
+            i++;
+            ADV();
+        }
+    }
 }
 
 void OutputWord(Word w, bool newline) {
@@ -90,7 +123,7 @@ void OutputWord(Word w, bool newline) {
         }
         
     }
-    if (printed) printf("\n");
+    if (printed && newline) printf("\n");
 }
 
 void PrintWord(Word w) {
@@ -114,7 +147,7 @@ bool WordToInt(Word w, int* i) {
             j = NMax;
         } else {
             if (w.Tab[j] > '9' || w.Tab[j] < '0') {
-                return 0;
+                return false;
             }
             int a = (w.Tab[j] - '0');
             t = t*10 + a;
@@ -127,5 +160,5 @@ bool WordToInt(Word w, int* i) {
         (*i) *= -1;
     }
 
-    return 1;
+    return true;
 }

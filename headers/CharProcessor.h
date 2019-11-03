@@ -11,6 +11,8 @@ DEFINISI ADT MESIN KARAKTER <CharProcessor>
 /* State Mesin */
 extern char CC;
 extern bool EOP;
+extern bool cpStarted;
+extern bool cpReadFromFile;
 
 void START(char* path);
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.
