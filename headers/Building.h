@@ -9,22 +9,24 @@ DEFINISI ABSTRAKSI GAME
 #include "Player.h"
 
 typedef struct {
-    int owner;
-    int pasukan;
-    int level;
-    int A; // nilai penambahan pasukan pada bangunan tiap awal giliran
-    int M; // jumlah maksimum pasukan yang bisa terdapat pada bangunan
-    int P; // pertahanan bangunan
-    int U; // 
-    int type;
+    char Type;
+    Player* Owner;
+    int Pasukan;
+    int Level;
+    int A; // Nilai penambahan pasukan pada bangunan tiap awal giliran
+    int M; // Jumlah maksimum pasukan yang bisa terdapat pada bangunan
+    int P; // Status pertahanan bangunan
+    int U; // Pasukan awal yang harus dikalahkan untuk menjadikan bangunan milik pemain
 } Building;
 
+/* Selektor */
+#define Type(B) (B).Type
 #define Owner(B) (B).owner
 #define Pasukan(B) (B).pasukan
 #define Level(B) (B).level
 #define A(B) (B).A
 #define M(B) (B).M
-#define 
+#define U(B) (B).U
 
 void InitialBuilding (Building *B);
     /*
