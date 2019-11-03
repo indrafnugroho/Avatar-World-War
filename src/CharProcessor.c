@@ -12,6 +12,9 @@ static int retval;
 bool START(char* path) {
 
     /* Algoritma */
+    if (cpStarted && cpReadFromFile) {
+        fclose(cpStream);
+    }
     cpStarted = true;
     if (path == NULL) {
         cpStream = stdin;

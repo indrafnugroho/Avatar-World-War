@@ -95,6 +95,8 @@ bool WordEqualsString(Word a, char* s);
 
 // --------------------------- FUNGSI FUNGSI MASUKAN PENGGUNA ---------------------------
 
+// JANGAN PAKAI FUNGSI FUNGSI INI DIANTARA FUNGSI READ
+
 void ScanWord(Word* to);
 /* Menerima masukan satu kata (berhenti pada spasi atau newline).
    I.S. : to sembarang
@@ -115,9 +117,10 @@ void ScanString(char* to, int limit);
 
 // --------------------------- FUNGSI FUNGSI PEMBACAAN FILE ---------------------------
 
+// UNTUK MEMAKAI, WAJIB GUNAKAN FUNGSI ReadStart(char* path) TERLEBIH DAHULU! 
 
 bool ReadStart(char* path);
-/* Mulai membaca dari suatu file.
+/* Mulai membaca dari suatu file. WAJIB DIGUNAKAN SEBELUM MEMAKAI FUNGSI-FUNGSI READ.
    Mengembalikan true jika berhasil membaca dari file tersebut, mengembalikan false jika gagal.
    I.S. : path terdefinisi sebagai alamat file yang ingin dibaca
    F.S. : WordProcessor terkonfigurasi untuk membaca file dari alamat tersebut */
