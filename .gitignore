@@ -5,3 +5,4 @@ wrgmavow
 src/mChar.c
 mChar
 mChar.exe
+.vscode/c_cpp_properties.json
