@@ -3,34 +3,36 @@
 
 char CC;
 bool EOP;
+bool cpStarted = false;
+bool cpReadFromFile;
 
-bool readFromFile;
-static FILE * pita;
+static FILE * cpStream;
 static int retval;
 
-void START(char* path) {
+bool START(char* path) {
 
     /* Algoritma */
-    if (path == NULL) {
-        pita = stdin;
-        readFromFile = false;
-    } else {
-        pita = fopen(path, "r");
-        readFromFile = true;
+    if (cpStarted && cpReadFromFile) {
+        fclose(cpStream);
     }
+    cpStarted = true;
+
+    cpReadFromFile = (path != NULL);
+    if (cpReadFromFile) {
+        cpStream = fopen(path, "r");
+    } else {
+        cpStream = stdin;
+    }
+    
     ADV();
+    return cpStream != NULL;
 }
 
 void ADV() {
-
-    /* Algoritma */
-    retval = fscanf(pita,"%c",&CC);
-    if (readFromFile) {
-        EOP = (retval == EOF);
-    } else {
-        EOP = (CC == '\n');
-    }
-    if (EOP) {
-       fclose(pita);
+    
+    retval = fscanf(cpStream,"%c",&CC);
+    EOP = (retval < 1);
+    if (cpReadFromFile && EOP) {
+        fclose(cpStream);
     }
 }
