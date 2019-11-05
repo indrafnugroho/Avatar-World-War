@@ -12,8 +12,12 @@ DEFINISI ABSTRAKSI GAME
 #include "Skill.h"
 
 typedef struct {
-    Building B[];
+    List ListOfBuildings;
     Skill S;
 } Player;
+
+/* Selektor */
+#define ListOfBuildings(P) (P).ListOfBuildings
+#define S(P) (P).S
 
 #endif
