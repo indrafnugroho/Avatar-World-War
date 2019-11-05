@@ -21,9 +21,9 @@ typedef struct {
 
 /* Selektor */
 #define Type(B) (B).Type
-#define Owner(B) (B).owner
-#define Pasukan(B) (B).pasukan
-#define Level(B) (B).level
+#define Owner(B) (B).Owner
+#define Pasukan(B) (B).Pasukan
+#define Level(B) (B).Level
 #define A(B) (B).A
 #define M(B) (B).M
 #define U(B) (B).U
