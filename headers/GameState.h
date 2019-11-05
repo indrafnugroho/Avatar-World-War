@@ -9,8 +9,10 @@
 #define Nil 0
 #define MaxEl 100
 
-#include "bool.h"
+#include "Player.h"
+#include "Building.h"
 #include "Stack.h"
+#include "bool.h"
 
 /* Type Definition */
 typedef int infotype;
@@ -21,7 +23,7 @@ typedef GameState* ListElement;
 /* Recent command */
 typedef struct {
     char RecentCom[50];
-    Building BuildingState; // Reference to ADT Building
+    Player P1x,P2x;
     /* .... another state? */
 } GameState;
 
@@ -34,13 +36,14 @@ typedef struct {
 #define Top(GS) ListFirstElement(GS)
 #define StateTop(GS) ListValueFirst(GS)
 #define RecentCom(GS) ListValueFirst(GS).RecentCom
-
+#define P1(GS) (GS)->P1
+#define P2(GS) (GS)->P2
 
 /******** GAME STATE ********/
 void CaptureFirstGameState(GameState* G);
 /* Mengakuisisi game state pertama setelah memulai turn */
 
-void CaptureGameState(GameState* G);
+void CaptureGameState(GameState* G, Player* P);
 /* Mengakuisisi game state saat prosedur dijalankan */
 
 

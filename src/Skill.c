@@ -1,14 +1,14 @@
 #include "Skill.h"
 #include "Queue.h"
 
-void CreateSkillQueue(Skill* S, Player* P) {
+void CreateSkillQueue(Player* P) {
     /* Define queue skill awal yang berisi IU */
     int new = 1;
-    QueueCreate(SkillQueue(S));  // Reference to player adt P.Skill
-    QueueAdd(SkillQueue(S), &new);
+    QueueCreate(SkillQueue(Skill(P)));  // Reference to player adt P.Skill
+    QueueAdd(SkillQueue(Skill(P)), &new);
 }
 
-void AddSkill(int SkillNum, Skill* S, Player* P) {
+void AddSkill(int SkillNum, Player* P) {
     /* Add skill by SkillNum to List Queue*/
     /* Skill List: 
     1. Instant Upgrade (IU)         :   Default skill awal
@@ -24,9 +24,9 @@ void AddSkill(int SkillNum, Skill* S, Player* P) {
     QueueAdd(SkillQueue(Skill(P)), &SkillNum);
 }
 
-void DisplaySkill(Skill S, Player P) {
+void DisplaySkill(Player P) {
     /* Menampilkan skill yang tersedia pada terminal */
-    switch ((int*)QueueValueHead(SkillQueue(S))) {  // Sesuai skill ID
+    switch ((int*)QueueValueHead(SkillQueue(Skill(P)))) {  // Sesuai skill ID
         case 0:
             printf("-\n");
             break;
@@ -57,12 +57,12 @@ void DisplaySkill(Skill S, Player P) {
     }
 }
 
-void UseSkill(Skill* S, Player* P) {
+void UseSkill(Player* P) {
     /* Menggunakan skill yang tersedia */
     int SkillID;
 
-    if (!SkillIsEmpty(*Skill)) {
-        QueueDel(Skill, &(int*)SkillID);
+    if (!SkillIsEmpty(Skill(*P))) {
+        QueueDel(Skill(P), &(int*)SkillID);
     }
 
     switch (SkillID) {
@@ -93,19 +93,36 @@ void UseSkill(Skill* S, Player* P) {
     }
 }
 
-bool SkillIsEmpty(Skill S) {
+bool SkillIsEmpty(Player P) {
     /* Mengecek apakah skill sudah habis */
-    return QueueIsEmpty(Skill);
+    return QueueIsEmpty(Skill(P));
+}
+
+/****** CEK SKILL ******/
+void CheckSkill(Player* P) {
+    if (BangunanCount(*P) == 2) {
+        AddSkill(2, P);  // Shield
+    }
+
+    // Add more
 }
 
 /****** IMPLEMENTASI EFEK SKILL ******/
 void IU(Player* P) {
-    /* Instant Upgrade */
+    /* Instant Upgrade (ID: 1)*/
     /* Seluruh bangunan yang dimiliki pemain akan naik 1 level */
+    /* Representasi Array */
+    int i;
+    for (i = GetFirstIdx(Bangunan(*P)); i <= GetLastIdx(Bangunan(*P)); i++) {
+        if (Level(Bangunan(*P)[i]) < 4) {
+            Level(Bangunan(*P)[i]) += 1;
+        }
+    }
 }
 
-void SH(Player* P) {
-    /* Shield */
+void SH(Player* P, GameState* GS) {
+    /* Shield (ID: 2)*/
+    /* Bangunan pemain sisa 2 setelah diserang lawan */
     /* Seluruh bangunan yang dimiliki oleh pemain akan memiliki 
    pertahanan selama 2 turn */
     /* Apabila skill ini digunakan 2 kali berturut-turut, 
@@ -113,28 +130,30 @@ void SH(Player* P) {
 }
 
 void ET(Player* P) {
-    /* Extra Turn */
+    /* Extra Turn (ID: 3)*/
+    /* Fort pemain direbut lawan */
     /* Pemain pada turn selanjutnya tetap pemain yang sama */
 }
 
 void AU(Player* P) {
-    /* Attack Up */
+    /* Attack Up (ID: 4)*/
     /* Pertahanan bangunan musuh tidak akan mempengaruhi penyerangan */
 }
 
 void CH(Player* P) {
-    /* Critical Hit */
+    /* Critical Hit (ID: 5)*/
     /* Jumlah pasukan pada bangunan yang melakukan serangan tepat 
    selanjutnya hanya berkurang ½ dari jumlah seharusnya */
 }
 
 void IR(Player* P) {
-    /* Instant Reinforcement */
+    /* Instant Reinforcement (ID: 6)*/
+    /* Bangunan yang dimiliki memiliki level 4 */
     /* Seluruh bangunan mendapatkan tambahan 5 pasukan */
 }
 
 void BR(Player* P) {
-    /* Barrage */
+    /* Barrage (ID: 7)*/
     /* Jumlah pasukan pada seluruh bangunan musuh akan berkurang
    sebanyak 10 pasukan */
 }

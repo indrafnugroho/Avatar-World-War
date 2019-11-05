@@ -6,10 +6,12 @@
 #ifndef _SKILL_H
 #define _SKILL_H
 
+#include "GameState.h"
 #include "Queue.h"
 #include "bool.h"
 #include "stdio.h"
 
+#define MaxSkill 10
 typedef struct {
     Queue SkillQueue;
     int SkillCount;
@@ -18,10 +20,10 @@ typedef struct {
 #define SkillQueue(S) (S).SkillQueue
 #define SkillCount(S) (S).SkillCount
 
-void CreateSkillQueue(Skill* S, Player* P);
+void CreateSkillQueue(Player* P);
 /* Define queue skill awal yang berisi IU */
 
-void AddSkill(int SkillNum, Skill* S, Player* P);
+void AddSkill(int SkillNum, Player* P);
 /* Add skill by SkillNum to List Queue*/
 /* Skill List: 
     1. Instant Upgrade (IU)         :   Default skill awal
@@ -36,13 +38,13 @@ void AddSkill(int SkillNum, Skill* S, Player* P);
                                         menjadi 10 bangunan
 */
 
-void DisplaySkill(Skill S, Player P);
+void DisplaySkill(Player P);
 /* Menampilkan skill yang tersedia pada terminal */
 
-void UseSkill(Skill* S, Player* P);
+void UseSkill(Player* P);
 /* Menggunakan skill yang tersedia */
 
-bool SkillIsEmpty(Skill S);
+bool SkillIsEmpty(Player P);
 /* Mengecek apakah skill sudah habis */
 
 /****** IMPLEMENTASI EFEK SKILL ******/
@@ -50,7 +52,7 @@ void IU(Player* P);  // ADT Reference to Player
 /* Instant Upgrade */
 /* Seluruh bangunan yang dimiliki pemain akan naik 1 level */
 
-void SH(Player* P);  // ADT Reference to Player
+void SH(Player* P, GameState* GS);  // ADT Reference to Player
 /* Shield */
 /* Seluruh bangunan yang dimiliki oleh pemain akan memiliki 
    pertahanan selama 2 turn */
