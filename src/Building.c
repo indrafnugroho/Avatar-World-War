@@ -6,7 +6,7 @@ IMPLEMENTASI ABSTRAKSI BUILDING
 #include "Building.h"
 #include "Player.h"
 
-void InitialBuilding (Building *B) 
+void InitializationBuilding (Building *B) 
 /*
 I.S.
     Parameter-parameter pada Building belum terisi
@@ -62,10 +62,10 @@ F.S.
 
     /* ALGORITMA */
     p = ListFirstElement(*l);
-    ListTraversal(p,ListFirstElement(*l),ListElementNext(p) != Nil) {
-        B = ListElementVal(p);
-        if(Pasukan(*B) + A(*B) <= M(*B)) {
-            Pasukan(*B) += A(*B);
+    ListTraversal(p,ListFirstElement(*l),ListElementNext(p) != Nil) { //SALAH, HARUSNYA PAKE ARRAY
+        //B = ListElementVal(p);
+        if(Pasukan(B) + A(B) <= M(B)) {
+            Pasukan(B) += A(B);
         }
     }
 }
@@ -84,5 +84,3 @@ F.S.
         Pasukan(*B) -= M(*B)/2;
     } 
 }
-
-void Attack()

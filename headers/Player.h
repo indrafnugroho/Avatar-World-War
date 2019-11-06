@@ -11,15 +11,40 @@ DEFINISI ABSTRAKSI GAME
 #include "List.h"
 
 typedef struct {
-    List ListOfBuildings;
-    Skill S;
+    Building B[30];
+    Queue SkillQueue;
 } Player;
 
 /* Selektor */
-#define ListOfBuildings(P) (P).ListOfBuildings
-#define S(P) (P).S
+#define B(P) (P).B
+#define SkillQueue(P) (P).SkillQueue
+#define Nil 0
 
-int NbOfBuildings();
-/* Mengembalikan banyaknya bangunan yang dimiliki pemain*/
+void CreateSkillQueue(Player* P);
+/*
+I.S.
+    Pada awal permainan, pemain belum memiliki skill.
+F.S.
+    Queue skill pemain dibuat, dengan skill awal hanya berisi IU.
+*/
+
+void CreateNewPlayer(Player P);
+/*
+I.S.
+    Parameter-parameter player belum terisi
+F.S.
+    Parameter-parameter player terisi, keadaan awal building dan skill player belum ada
+*/
+
+int NbOfBuildings(Player P);
+/* Mengembalikan banyaknya bangunan yang dimiliki player*/
+
+void ClonePlayer(Player Pin,Player *Pout);
+/*
+I.S.
+    Terdapat sembarang player Pin dan Pout.
+F.S.
+    Pout memiliki seluruh skill dan building yang dimiliki Pin tanpa tambahan lain.
+*/
 
 #endif

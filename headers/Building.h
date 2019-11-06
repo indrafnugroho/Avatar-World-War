@@ -7,8 +7,10 @@ DEFINISI ABSTRAKSI GAME
 #define _BUILDING_H
 
 #include "Player.h"
+#include "Point.h"
 
 typedef struct {
+    Point Koordinat;
     char Type;
     Player* Owner;
     int Pasukan;
@@ -20,6 +22,7 @@ typedef struct {
 } Building;
 
 /* Selektor */
+#define Koordinat(B) (B).Koordinat
 #define Type(B) (B).Type
 #define Owner(B) (B).Owner
 #define Pasukan(B) (B).Pasukan
@@ -28,7 +31,7 @@ typedef struct {
 #define M(B) (B).M
 #define U(B) (B).U
 
-void InitialBuilding (Building *B);
+void InitializationBuilding (Building *B);
     /*
     I.S.
         Parameter-parameter pada Building belum terisi
