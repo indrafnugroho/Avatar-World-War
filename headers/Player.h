@@ -12,21 +12,13 @@ DEFINISI ABSTRAKSI GAME
 
 typedef struct {
     Building B[30];
-    Queue SkillQueue;
+    Skill S;
 } Player;
 
 /* Selektor */
 #define B(P) (P).B
-#define SkillQueue(P) (P).SkillQueue
+#define Skill(P) (P).S
 #define Nil 0
-
-void CreateSkillQueue(Player* P);
-/*
-I.S.
-    Pada awal permainan, pemain belum memiliki skill.
-F.S.
-    Queue skill pemain dibuat, dengan skill awal hanya berisi IU.
-*/
 
 void CreateNewPlayer(Player P);
 /*
