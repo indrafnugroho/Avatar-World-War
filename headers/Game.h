@@ -10,7 +10,7 @@ DEFINISI ABSTRAKSI GAME
 #include "Building.h"
 #include "Player.h"
 
-#include "IArray.h"
+#include "ArrayDin.h"
 #include "GameMap.h"
 #include "GameState.h"
 #include "Stack.h"
@@ -21,7 +21,7 @@ typedef struct {
     Player* P1;
     Player* P2;
     Player* turn;
-    IArray arrBuilding;
+    ArrayDin Buildings;
     Stack stkGameState;
     Graph grpBuildingAdjacency;
     GameMap map;
