@@ -8,11 +8,11 @@ DEFINISI ABSTRAKSI GAME
 
 #include "Player.h"
 #include "Point.h"
+#include "ArrayDin.h"
 
 typedef struct {
     Point Koordinat;
     char Type;
-    Player* Owner;
     int Pasukan;
     int Level;
     int A; // Nilai penambahan pasukan pada bangunan tiap awal giliran
@@ -24,7 +24,6 @@ typedef struct {
 /* Selektor */
 #define Koordinat(B) (B).Koordinat
 #define Type(B) (B).Type
-#define Owner(B) (B).Owner
 #define Pasukan(B) (B).Pasukan
 #define Level(B) (B).Level
 #define A(B) (B).A

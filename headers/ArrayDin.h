@@ -3,82 +3,85 @@ IArray.h
 DEFINISI ADT Array Implisit <IArray>
 */
 
-#ifndef _IARRAY_H
-#define _IARRAY_H
+#ifndef ARRAYDIN_H
+#define ARRAYDIN_H
+
+#include "bool.h"
+#include "Building.h"
 
 #define IndexUndef 0
 #define ValUndef -999999
 
-typedef void* IArrayVal_t
-typedef int IArrayIndex
+//typedef Building Building;
+typedef int ArrayIndex;
 
 typedef struct {
-    IArrayVal_t* T;
+    Building T;
     int Neff;
-    int MaxEl;
+    int MaxElem;
 } ArrayDin;
 
 /* ********** SELEKTOR ********** */
 #define Neff(T) (T).Neff
-#define TI(T) (T).TI
-#define Elmt(T, i) (T).TI[(i)]
-#define MaxEl(T) (T).MaxEl
+#define TI(T) (T).T
+#define Elmt(T, i) (T).T[(i)]
+#define MaxElem(T) (T).MaxElem
 
 /* ********** KONSTRUKTOR ********** */
 /* Konstruktor : create tabel kosong  */
-void MakeEmpty(TabInt *T, int maxel);
-/* I.S. T sembarang, maxel > 0 */
-/* F.S. Terbentuk tabel T kosong dengan kapasitas maxel + 1 */
+void MakeEmpty(ArrayDin *T, int MaxElem);
+/* I.S. T sembarang, MaxElem > 0 */
+/* F.S. Terbentuk tabel T kosong dengan kapasitas MaxElem + 1 */
 
-void Dealokasi(TabInt *T);
+void Dealokasi(ArrayDin *T);
 /* I.S. T terdefinisi; */
-/* F.S. TI(T) dikembalikan ke system, MaxEl(T)=0; Neff(T)=0 */
+/* F.S. TI(T) dikembalikan ke system, MaxElem(T)=0; Neff(T)=0 */
 
 /* ********** SELEKTOR (TAMBAHAN) ********** */
 /* *** Banyaknya elemen *** */
-int NbElmt(TabInt T);
+int NbElmt(ArrayDin T);
 /* Mengirimkan banyaknya elemen efektif tabel */
 /* Mengirimkan nol jika tabel kosong */
 /* *** Daya tampung container *** */
-int MaxElement(TabInt T);
+int MaxElement(ArrayDin T);
 /* Mengirimkan maksimum elemen yang dapat ditampung oleh tabel */
 /* *** Selektor INDEKS *** */
-IdxType GetFirstIdx(TabInt T);
+ArrayIndex GetFirstIdx(ArrayDin T);
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen T pertama */
-IdxType GetLastIdx(TabInt T);
+ArrayIndex GetLastIdx(ArrayDin T);
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen T terakhir */
 
 /* ********** Test Indeks yang valid ********** */
-boolean IsIdxValid(TabInt T, IdxType i);
+bool IsIdxValid(ArrayDin T, ArrayIndex i);
 /* Mengirimkan true jika i adalah indeks yang valid utk ukuran tabel */
 /* yaitu antara indeks yang terdefinisi utk container*/
-boolean IsIdxEff(TabInt T, IdxType i);
+bool IsIdxEff(ArrayDin T, ArrayIndex i);
 /* Mengirimkan true jika i adalah indeks yang terdefinisi utk tabel */
 /* yaitu antara FirstIdx(T)..LastIdx(T) */
 
 /* ********** TEST KOSONG/PENUH ********** */
 /* *** Test tabel kosong *** */
-boolean IsEmpty(TabInt T);
+bool IsEmpty(ArrayDin T);
 /* Mengirimkan true jika tabel T kosong, mengirimkan false jika tidak */
 /* *** Test tabel penuh *** */
-boolean IsFull(TabInt T);
+bool IsFull(ArrayDin T);
 /* Mengirimkan true jika tabel T penuh, mengirimkan false jika tidak */
 
 /* ********** BACA dan TULIS dengan INPUT/OUTPUT device ********** */
 /* *** Mendefinisikan isi tabel dari pembacaan *** */
-void BacaIsi(TabInt *T);
+void BacaIsi(ArrayDin *T);
 /* I.S. T sembarang dan sudah dialokasikan sebelumnya */
 /* F.S. Tabel T terdefinisi */
 /* Proses : membaca banyaknya elemen T dan mengisi nilainya */
 /* 1. Baca banyaknya elemen diakhiri enter, misalnya N */
-/*    Pembacaan diulangi sampai didapat N yang benar yaitu 0 <= N <= MaxElement(T) */
+/*    Pembacaan diulangi sampai didapat N yang benar yaitu 0 <= N <= MaxElemement(T) */
 /*    Jika N tidak valid, tidak diberikan pesan kesalahan */
-/* 2. Jika 0 < N <= MaxElement(T); Lakukan N kali: Baca elemen mulai dari indeks
+/* 2. Jika 0 < N <= MaxElemement(T); Lakukan N kali: Baca elemen mulai dari indeks
       IdxMin satu per satu diakhiri enter */
 /*    Jika N = 0; hanya terbentuk T kosong */
-void TulisIsiTab(TabInt T);
+void TulisIsiTab(ArrayDin T);
 /* Proses : Menuliskan isi tabel dengan traversal, tabel ditulis di antara kurung siku;
    antara dua elemen dipisahkan dengan separator "koma", tanpa tambahan karakter di depan,
    di tengah, atau di belakang, termasuk spasi dan enter */
@@ -89,47 +92,47 @@ void TulisIsiTab(TabInt T);
 
 /* ********** OPERATOR ARITMATIKA ********** */
 /* *** Aritmatika tabel : Penjumlahan, pengurangan, perkalian, ... *** */
-TabInt PlusMinusTab(TabInt T1, TabInt T2, boolean plus);
+ArrayDin PlusMinusTab(ArrayDin T1, ArrayDin T2, bool plus);
 /* Prekondisi : T1 dan T2 memiliki Neff sama dan tidak kosong */
 /* Jika plus = true, mengirimkan  T1+T2, yaitu setiap elemen T1 dan T2 pada indeks yang sama dijumlahkan */
 /* Jika plus = false, mengirimkan T1-T2, yaitu setiap elemen T1 dikurangi elemen T2 pada indeks yang sama */
 
 /* ********** OPERATOR RELASIONAL ********** */
 /* *** Operasi pembandingan tabel : < =, > *** */
-boolean IsEQ(TabInt T1, TabInt T2);
+bool IsEQ(ArrayDin T1, ArrayDin T2);
 /* Mengirimkan true jika T1 sama dengan T2 yaitu jika Neff T1 = T2 dan semua elemennya sama */
 
 /* ********** SEARCHING ********** */
 /* ***  Perhatian : Tabel boleh kosong!! *** */
-IdxType Search1(TabInt T, ElType X);
+ArrayIndex Search1(ArrayDin T, Building X);
 /* Search apakah ada elemen tabel T yang bernilai X */
 /* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
 /* Jika tidak ada, mengirimkan IdxUndef */
 /* Menghasilkan indeks tak terdefinisi (IdxUndef) jika tabel T kosong */
 /* Skema Searching yang digunakan bebas */
-boolean SearchB(TabInt T, ElType X);
+bool SearchB(ArrayDin T, Building X);
 /* Search apakah ada elemen tabel T yang bernilai X */
 /* Jika ada, menghasilkan true, jika tidak ada menghasilkan false */
 /* Skema searching yang digunakan bebas */
 
 /* ********** OPERASI LAIN ********** */
-void CopyTab(TabInt Tin, TabInt *Tout);
+void CopyTab(ArrayDin Tin, ArrayDin *Tout);
 /* I.S. Tin terdefinisi tidak kosong, Tout sembarang */
-/* F.S. Tout berisi salinan dari Tin (identik, Neff dan MaxEl sama) */
+/* F.S. Tout berisi salinan dari Tin (identik, Neff dan MaxElem sama) */
 /* Proses : Menyalin isi Tin ke Tout */
-int CountX(TabInt T, ElType X);
+int CountX(ArrayDin T, Building X);
 /* Menghasilkan berapa banyak kemunculan X di T */
 /* Jika T kosong menghasilkan 0 */
 
 
 /* ********** MENAMBAH DAN MENGHAPUS ELEMEN DI AKHIR ********** */
 /* *** Menambahkan elemen terakhir *** */
-void AddAsLastEl(TabInt *T, ElType X);
+void AddAsLastEl(ArrayDin *T, Building X);
 /* Proses: Menambahkan X sebagai elemen terakhir tabel */
 /* I.S. Tabel T boleh kosong, tetapi tidak penuh */
 /* F.S. X adalah elemen terakhir T yang baru */
 /* ********** MENGHAPUS ELEMEN ********** */
-void DelLastEl(TabInt *T, ElType *X);
+void DelLastEl(ArrayDin *T, Building *X);
 /* Proses : Menghapus elemen terakhir tabel */
 /* I.S. Tabel tidak kosong */
 /* F.S. X adalah nilai elemen terakhir T sebelum penghapusan, */
@@ -137,20 +140,20 @@ void DelLastEl(TabInt *T, ElType *X);
 /*      Tabel T mungkin menjadi kosong */
 
 /* ********* MENGUBAH UKURAN ARRAY ********* */
-void GrowTab(TabInt *T, int num);
+void GrowTab(ArrayDin *T, int num);
 /* Proses : Menambahkan max element sebanyak num */
 /* I.S. Tabel sudah terdefinisi */
 /* F.S. Ukuran tabel bertambah sebanyak num */
 
-void ShrinkTab(TabInt *T, int num);
+void ShrinkTab(ArrayDin *T, int num);
 /* Proses : Mengurangi max element sebanyak num */
-/* I.S. Tabel sudah terdefinisi, ukuran MaxEl > num, dan Neff < MaxEl - num. */
+/* I.S. Tabel sudah terdefinisi, ukuran MaxElem > num, dan Neff < MaxElem - num. */
 /* F.S. Ukuran tabel berkurang sebanyak num. */
 
-void CompactTab(TabInt *T);
-/* Proses : Mengurangi max element sehingga Neff = MaxEl */
+void CompactTab(ArrayDin *T);
+/* Proses : Mengurangi max element sehingga Neff = MaxElem */
 /* I.S. Tabel tidak kosong */
-/* F.S. Ukuran MaxEl = Neff */
+/* F.S. Ukuran MaxElem = Neff */
 
-#define
+
 #endif

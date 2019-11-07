@@ -8,15 +8,14 @@ DEFINISI ABSTRAKSI GAME
 
 #include "Building.h"
 #include "Skill.h"
-#include "List.h"
 
 typedef struct {
-    Building B[30];
+    ArrayDin Buildings;
     Skill S;
 } Player;
 
 /* Selektor */
-#define B(P) (P).B
+#define Buildings(P) (P).Buildings
 #define Skill(P) (P).S
 #define Nil 0
 

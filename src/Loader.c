@@ -10,9 +10,11 @@ F.S.
 {
     /* KAMUS LOKAL */
     Word CWord,TEMPWORD;
-    int i,N,M,B;
+    int i,N,M,NbOfB;
     int temp;
     char to;
+    ArrayDin *ArrayOfBuildings;
+    Building *B;
 
     /* ALGORITMA */
     CreateEmpty(&CWord);
@@ -27,8 +29,21 @@ F.S.
         }
         ReadWord(&CWord);
         if(WordToInt(CWord,&temp)){
-            B = temp;
+            NbOfB = temp;
         }
-        // Buat baca konfigurasi Building butuh ADT arraydin
+        MakeEmpty(ArrayOfBuildings,B);
+        for(i = 1; i <= MaxElement(*ArrayOfBuildings); i++) {
+            ReadWord(&CWord);
+            Type(*B) = CC;
+            ReadWord(&CWord);
+            if(WordToInt(CWord,&temp)){
+                PointX(Koordinat(*B)) = temp;
+            }
+            ReadWord(&CWord);
+            if(WordToInt(CWord,&temp)){
+                PointY(Koordinat(*B)) = temp;
+            }
+            AddAsLastEl(ArrayOfBuildings,B);
+        }
     }
 }
