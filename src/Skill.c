@@ -1,11 +1,12 @@
 #include "Skill.h"
+#include "GameState.h"
 #include "Queue.h"
 
 void CreateSkillQueue(Player* P) {
     /* Define queue skill awal yang berisi IU */
     int new = 1;
-    QueueCreate(SkillQueue(Skill(P)));  // Reference to player adt P.Skill
-    QueueAdd(SkillQueue(Skill(P)), &new);
+    QueueCreate(SkillQueue(Skill(*P)));  // Reference to player adt P.Skill
+    QueuePush(SkillQueue(Skill(*P)), &new);
 }
 
 void AddSkill(int SkillNum, Player* P) {
@@ -21,12 +22,12 @@ void AddSkill(int SkillNum, Player* P) {
     6. Instant Reinforcement (IR)   :   Semua bangunan yang dimiliki memiliki level 4
     7. Barrage (BR)                 :   Lawan baru saja bertambah bangunannya 
                                         menjadi 10 bangunan */
-    QueueAdd(SkillQueue(Skill(P)), &SkillNum);
+    QueueAdd(SkillQueue(Skill(*P)), &SkillNum);
 }
 
 void DisplaySkill(Player P) {
     /* Menampilkan skill yang tersedia pada terminal */
-    switch ((int*)QueueValueHead(SkillQueue(Skill(P)))) {  // Sesuai skill ID
+    switch ((int*)QueueValueHead(SkillQueue(Skill(*P)))) {  // Sesuai skill ID
         case 0:
             printf("-\n");
             break;
@@ -57,12 +58,12 @@ void DisplaySkill(Player P) {
     }
 }
 
-void UseSkill(Player* P) {
+void UseSkill(Player* P, Player* PEnemy) {
     /* Menggunakan skill yang tersedia */
     int SkillID;
 
     if (!SkillIsEmpty(Skill(*P))) {
-        QueueDel(Skill(P), &(int*)SkillID);
+        QueueDel(Skill(*P), &(int*)SkillID);
     }
 
     switch (SkillID) {
@@ -85,7 +86,7 @@ void UseSkill(Player* P) {
             IR(P);
             break;
         case 7:
-            BR(P);
+            BR(PEnemy);
             break;
         default:
             printf("Invalid Skill\n");
@@ -99,11 +100,27 @@ bool SkillIsEmpty(Player P) {
 }
 
 /****** CEK SKILL ******/
-void CheckSkill(Player* P) {
-    if (BangunanCount(*P) == 2) {
-        AddSkill(2, P);  // Shield
+void CheckSkill(Player* P, Player* PEnemy, GameState* GS) {
+    /* Kamus */
+    int i;
+    bool isLevel4;
+
+    /* Cek skill SH */
+    if (RecentCom(*GS) == "ATTACK" && NbOfBuildings(*PEnemy) == 2) {
+        AddSkill(2, PEnemy);  // Shield
     }
 
+    /* Cek skill IR */
+    isLevel4 = true;
+    i = 1 while (i <= NbOfBuildings(*P)) {
+        if (Level(Elmt(Buildings(*P), i)) != 4) {
+            isLevel4 = false
+        }
+        i++;
+    }
+    if (isLevel4) {
+        AddSkill(6, P);
+    }
     // Add more
 }
 
@@ -113,9 +130,9 @@ void IU(Player* P) {
     /* Seluruh bangunan yang dimiliki pemain akan naik 1 level */
     /* Representasi Array */
     int i;
-    for (i = GetFirstIdx(Bangunan(*P)); i <= GetLastIdx(Bangunan(*P)); i++) {
-        if (Level(Bangunan(*P)[i]) < 4) {
-            Level(Bangunan(*P)[i]) += 1;
+    for (i = GetFirstIdx(Buildings(*P)); i <= GetLastIdx(Buildings(*P)); i++) {
+        if (Level(Buildings(*P)[i]) < 4) {
+            Level(Buildings(*P)[i]) += 1;
         }
     }
 }
@@ -124,15 +141,16 @@ void SH(Player* P, GameState* GS) {
     /* Shield (ID: 2)*/
     /* Bangunan pemain sisa 2 setelah diserang lawan */
     /* Seluruh bangunan yang dimiliki oleh pemain akan memiliki 
-   pertahanan selama 2 turn */
+    pertahanan selama 2 turn */
     /* Apabila skill ini digunakan 2 kali berturut-turut, 
-   durasi tidak akan bertambah, namun menjadi nilai maksimum (2 turn) */
+    durasi tidak akan bertambah, namun menjadi nilai maksimum (2 turn) */
 }
 
-void ET(Player* P) {
+void ET(Player* P, Game* game) {
     /* Extra Turn (ID: 3)*/
     /* Fort pemain direbut lawan */
     /* Pemain pada turn selanjutnya tetap pemain yang sama */
+    Next(Turn(*game)) = (*P);
 }
 
 void AU(Player* P) {
@@ -143,17 +161,22 @@ void AU(Player* P) {
 void CH(Player* P) {
     /* Critical Hit (ID: 5)*/
     /* Jumlah pasukan pada bangunan yang melakukan serangan tepat 
-   selanjutnya hanya berkurang ½ dari jumlah seharusnya */
+    selanjutnya hanya berkurang ½ dari jumlah seharusnya */
 }
 
 void IR(Player* P) {
     /* Instant Reinforcement (ID: 6)*/
     /* Bangunan yang dimiliki memiliki level 4 */
     /* Seluruh bangunan mendapatkan tambahan 5 pasukan */
+    int i;
+
+    for (i = 1; i <= NbOfBuildings(*P); i++) {
+        Pasukan(Elmt(Buildings(*P), i)) += 5;
+    }
 }
 
 void BR(Player* P) {
     /* Barrage (ID: 7)*/
     /* Jumlah pasukan pada seluruh bangunan musuh akan berkurang
-   sebanyak 10 pasukan */
+    sebanyak 10 pasukan */
 }

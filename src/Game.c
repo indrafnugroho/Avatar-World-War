@@ -42,7 +42,7 @@ void GameInit(Game* game) {
     
 }
 
-void GameTurn(Game* game) {
+void GameTurn(Game* game) { 
     /*
     I.S.
         Game sudah diinisiasi atau turn pemain sebelumnya sudah selesai
@@ -51,6 +51,7 @@ void GameTurn(Game* game) {
         oleh pemain.
     */
     /* Algoritma */
+    // Minta variabel Next turn buat skill Extra Turn
 }
 
 void GameLoop(Game* game) {
