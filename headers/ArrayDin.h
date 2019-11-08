@@ -115,11 +115,21 @@ bool SearchB(ArrayDin T, Building X);
 /* Jika ada, menghasilkan true, jika tidak ada menghasilkan false */
 /* Skema searching yang digunakan bebas */
 
+void MaxMin(ArrayDin T, Building *Max, Building *Min);
+/* I.S. Tabel T tidak kosong */
+/* F.S. Max berisi nilai maksimum T;
+        Min berisi nilai minimum T */
+
 /* ********** OPERASI LAIN ********** */
 void CopyTab(ArrayDin Tin, ArrayDin *Tout);
 /* I.S. Tin terdefinisi tidak kosong, Tout sembarang */
 /* F.S. Tout berisi salinan dari Tin (identik, Neff dan MaxElem sama) */
 /* Proses : Menyalin isi Tin ke Tout */
+
+int SumTab(ArrayDin T);
+/* Menghasilkan hasil penjumlahan semua elemen T */
+/* Jika T kosong menghasilkan 0 */
+
 int CountX(ArrayDin T, Building X);
 /* Menghasilkan berapa banyak kemunculan X di T */
 /* Jika T kosong menghasilkan 0 */
