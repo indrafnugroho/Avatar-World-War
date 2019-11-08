@@ -12,7 +12,7 @@ void MakeEmpty(ArrayDin *T, int MaxElem){
 /* F.S. Terbentuk tabel T kosong dengan kapasitas MaxElem + 1 */
     (TI(*T)) = (Building *) malloc (100 * sizeof(Building));
     Neff(*T) = 0;
-    MaxEl(*T) = maxel;
+    MaxEl(*T) = MaxElem;
 }
 
 
@@ -21,7 +21,7 @@ void Dealokasi(ArrayDin *T){
 /* F.S. TI(T) dikembalikan ke system, MaxElem(T)=0; Neff(T)=0 */
     free(TI(*T));
     Neff(*T) = 0;
-    MaxEl(*T) = 0;
+    MaxElem(*T) = 0;
 }
 
 /* ********** SELEKTOR (TAMBAHAN) ********** */
@@ -37,7 +37,7 @@ int NbElmt(ArrayDin T){
 int MaxElement(ArrayDin T){
 /* Mengirimkan maksimum elemen yang dapat ditampung oleh tabel */
 /* *** Selektor INDEKS *** */
-    return MaxEl(T);
+    return MaxElem(T);
 }
 
 ArrayIndex GetFirstIdx(ArrayDin T){
@@ -54,7 +54,7 @@ ArrayIndex GetLastIdx(ArrayDin T){
 bool IsIdxValid(ArrayDin T, ArrayIndex i){
 /* Mengirimkan true jika i adalah indeks yang valid utk ukuran tabel */
 /* yaitu antara indeks yang terdefinisi utk container*/
-    return((0<= i) && (i <= MaxEl(T)));
+    return((0<= i) && (i <= MaxElem(T)));
 }
 bool IsIdxEff(ArrayDin T, ArrayIndex i){
 /* Mengirimkan true jika i adalah indeks yang terdefinisi utk tabel */
@@ -72,7 +72,7 @@ bool IsEmpty(ArrayDin T){
 
 bool IsFull(ArrayDin T){
 /* Mengirimkan true jika tabel T penuh, mengirimkan false jika tidak */
-    return(Neff(T) == MaxEl(T));
+    return(Neff(T) == MaxElem(T));
 }
 
 /* ********** BACA dan TULIS dengan INPUT/OUTPUT device ********** */
@@ -202,7 +202,7 @@ void GrowTab(ArrayDin *T, int num){
 /* I.S. Tabel sudah terdefinisi */
 /* F.S. Ukuran tabel bertambah sebanyak num */
     TabInt temp;
-	MakeEmpty(&temp,MaxEl(*T));
+	MakeEmpty(&temp,MaxElem(*T));
 	CopyTab(*T,&temp);
 	MakeEmpty(T,MaxEl(*T)+num);
 	CopyTab(temp,T);
@@ -212,12 +212,12 @@ void ShrinkTab(ArrayDin *T, int num){
 /* Proses : Mengurangi max element sebanyak num */
 /* I.S. Tabel sudah terdefinisi, ukuran MaxElem > num, dan Neff < MaxElem - num. */
 /* F.S. Ukuran tabel berkurang sebanyak num. */
-     MaxEl(*T) -= num;
+     MaxElem(*T) -= num;
 }
 
 void CompactTab(ArrayDin *T){
 /* Proses : Mengurangi max element sehingga Neff = MaxElem */
 /* I.S. Tabel tidak kosong */
 /* F.S. Ukuran MaxElem = Neff */
-    MaxEl(*T) = Neff(*T);
+    MaxElem(*T) = Neff(*T);
 }
