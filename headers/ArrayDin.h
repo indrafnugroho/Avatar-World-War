@@ -16,15 +16,15 @@ DEFINISI ADT Array Implisit <IArray>
 typedef int ArrayIndex;
 
 typedef struct {
-    Building* T;
+    Building* TI;
     int Neff;
     int MaxElem;
 } ArrayDin;
 
 /* ********** SELEKTOR ********** */
 #define Neff(T) (T).Neff
-#define TI(T) (T).T
-#define Elmt(T, i) (T).T[(i)]
+#define TI(T) (T).TI
+#define Elmt(T, i) (T).TI[(i)]
 #define MaxElem(T) (T).MaxElem
 
 /* ********** KONSTRUKTOR ********** */

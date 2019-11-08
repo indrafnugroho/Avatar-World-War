@@ -10,7 +10,7 @@ IMPLEMENTASI ABSTRAKSI ARRAY DINAMIS
 void MakeEmpty(ArrayDin *T, int MaxElem){
 /* I.S. T sembarang, MaxElem > 0 */
 /* F.S. Terbentuk tabel T kosong dengan kapasitas MaxElem + 1 */
-    (TI(*T)) = (int *) malloc (100 * sizeof(Building*));
+    (TI(*T)) = (Building *) malloc (100 * sizeof(Building));
     Neff(*T) = 0;
     MaxEl(*T) = maxel;
 }
