@@ -16,7 +16,7 @@ DEFINISI ADT Array Implisit <IArray>
 typedef int ArrayIndex;
 
 typedef struct {
-    Building* TI;
+    Building** TI;
     int Neff;
     int MaxElem;
 } ArrayDin;
