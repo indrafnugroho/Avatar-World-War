@@ -145,84 +145,7 @@ ArrayDin PlusMinusTab(ArrayDin T1, ArrayDin T2, bool plus){
 }
 
 
-/* ********** OPERATOR RELASIONAL ********** */
-/* *** Operasi pembandingan tabel : < =, > *** */
-bool IsEQ(ArrayDin T1, ArrayDin T2){
-/* Mengirimkan true jika T1 sama dengan T2 yaitu jika Neff T1 = T2 dan semua elemennya sama */
-    int i;
-  if (Neff(T1) != Neff(T2)) {
-    return false;
-  }
-  else {
-    for (i=1; i<= Neff(T1); i++){
-      if (Elmt(T1, i) != Elmt(T2, i)) {
-        return false;
-      }
-    }
-    return true;
-  }
 
-}
-
-/* ********** SEARCHING ********** */
-/* ***  Perhatian : Tabel boleh kosong!! *** */
-ArrayIndex Search1(ArrayDin T, Building X){
-/* Search apakah ada elemen tabel T yang bernilai X */
-/* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
-/* Jika tidak ada, mengirimkan IdxUndef */
-/* Menghasilkan indeks tak terdefinisi (IdxUndef) jika tabel T kosong */
-/* Skema Searching yang digunakan bebas */
-    int i;
-  if (Neff(T) != 0){
-    for (i=1; i<= Neff(T); i++){
-        if (Elmt(T, i) == X){
-          return i;
-        }
-    }
-    return IdxUndef;
-  }
-  else {
-    return IdxUndef;
-  }
-
-}
-
-bool SearchB(ArrayDin T, Building X){
-/* Search apakah ada elemen tabel T yang bernilai X */
-/* Jika ada, menghasilkan true, jika tidak ada menghasilkan false */
-/* Skema searching yang digunakan bebas */
-    int i;
-  if (Neff(T) != 0){
-    for (i=1; i<= Neff(T); i++){
-        if (Elmt(T, i) == X){
-          return true;
-        }
-    }
-    return false;
-  }
-  else {
-    return false;
-  }
-
-}
-
-/* ********** NILAI EKSTREM ********** */
-void MaxMin(ArrayDin T, Building *Max, Building *Min){
-/* I.S. Tabel T tidak kosong */
-/* F.S. Max berisi nilai maksimum T;
-        Min berisi nilai minimum T */
-  *Max = Elmt(T,IdxMin);
-  *Min = Elmt(T,IdxMin);
-  int i;
-  for (i=1; i<= Neff(T); i++){
-    if (Elmt(T,i) >= (*Max)){
-      (*Max) = Elmt(T,i);
-    }
-    if (Elmt(T,i) <= (*Min)){
-      (*Min) = Elmt(T,i);
-    }
-  }
-}
 
 /* ********** OPERASI LAIN ********** */
 void CopyTab(ArrayDin Tin, ArrayDin *Tout){
@@ -237,18 +160,7 @@ void CopyTab(ArrayDin Tin, ArrayDin *Tout){
   }
 }
 
-int SumTab(ArrayDin T){
-/* Menghasilkan hasil penjumlahan semua elemen T */
-/* Jika T kosong menghasilkan 0 */
-  int sum,i;
-  sum = 0;
-  if (Neff(T) != 0){
-    for (i=1; i<=Neff(T); i++){
-      sum = sum + Elmt(T,i);
-    }
-  }
-  return sum;
-}
+
 
 int CountX(ArrayDin T, Building X){
 /* Menghasilkan berapa banyak kemunculan X di T */

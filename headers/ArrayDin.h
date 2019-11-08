@@ -97,28 +97,6 @@ ArrayDin PlusMinusTab(ArrayDin T1, ArrayDin T2, bool plus);
 /* Jika plus = true, mengirimkan  T1+T2, yaitu setiap elemen T1 dan T2 pada indeks yang sama dijumlahkan */
 /* Jika plus = false, mengirimkan T1-T2, yaitu setiap elemen T1 dikurangi elemen T2 pada indeks yang sama */
 
-/* ********** OPERATOR RELASIONAL ********** */
-/* *** Operasi pembandingan tabel : < =, > *** */
-bool IsEQ(ArrayDin T1, ArrayDin T2);
-/* Mengirimkan true jika T1 sama dengan T2 yaitu jika Neff T1 = T2 dan semua elemennya sama */
-
-/* ********** SEARCHING ********** */
-/* ***  Perhatian : Tabel boleh kosong!! *** */
-ArrayIndex Search1(ArrayDin T, Building X);
-/* Search apakah ada elemen tabel T yang bernilai X */
-/* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
-/* Jika tidak ada, mengirimkan IdxUndef */
-/* Menghasilkan indeks tak terdefinisi (IdxUndef) jika tabel T kosong */
-/* Skema Searching yang digunakan bebas */
-bool SearchB(ArrayDin T, Building X);
-/* Search apakah ada elemen tabel T yang bernilai X */
-/* Jika ada, menghasilkan true, jika tidak ada menghasilkan false */
-/* Skema searching yang digunakan bebas */
-
-void MaxMin(ArrayDin T, Building *Max, Building *Min);
-/* I.S. Tabel T tidak kosong */
-/* F.S. Max berisi nilai maksimum T;
-        Min berisi nilai minimum T */
 
 /* ********** OPERASI LAIN ********** */
 void CopyTab(ArrayDin Tin, ArrayDin *Tout);
