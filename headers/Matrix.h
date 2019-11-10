@@ -8,34 +8,43 @@ DEFINISI ADT MATRIX <Matrix>
 
 #include "bool.h"
 
+#define RowMin 1
+#define RowMax 20
+#define ColMin 1
+#define ColMax 30
+
 typedef void* MatrixVal_t;
 typedef int MatrixIndex;
 typedef struct {
-    MatrixVal_t** M;
-    int MMax, NMax, MEff, NEff;
+    MatrixVal_t Mem[RowMax+1][ColMax+1];
+    int RowEff;
+    int ColEff;
 } Matrix;
 
-#define MMax(m) (m).MMax
-#define NMax(m) (m).NMax
-#define MEff(m) (m).MEff
-#define NEff(m) (m).NEff
-#define M(m) (m).M
-#define MatrixElement(m, i, j) m.M[i][j]
+#define RowEff(m) (m).RowEff
+#define ColEff(m) (m).ColEff
+#define Mem(m) (m).Mem
+#define MElmt(m,i,j) m.Mem[i][j]
 
-void MatrixCreate(Matrix* m, int mMax, int nMax);
+void CreateMatrix(Matrix* M, int NRow, int NCol);
+/* Membentuk sebuah MATRIKS "kosong" yang siap diisi berukuran NRow x NCol di "ujung kiri" memori */
+/* I.S. NRow dan NCol adalah valid untuk memori matriks yang dibuat */
+/* F.S. Matriks M sesuai dengan definisi di atas terbentuk */
 
-void MatrixSetStaticSize(Matrix* m, int mNew, int nNew);
+MatrixIndex GetLastIdxRow (Matrix M);
+/* Mengirimkan indeks baris terbesar M */
 
-bool MatrixIsEmpty(Matrix m);
+MatrixIndex GetLastIdxCol (Matrix M);
+/* Mengirimkan indeks kolom terbesar M */
 
-bool MatrixIsFull(Matrix m);
+MatrixVal_t GetElmtDiagonal (MATRIKS M, indeks i);
+/* Mengirimkan elemen M(i,i) */
 
-bool MatrixIsSquare(Matrix m);
+bool IsMatrixSquare (MATRIKS M);
+/* Mengirimkan true jika M adalah matriks dg ukuran baris dan kolom sama */
 
-bool MatrixIsSimetrical(Matrix m);
-
-Matrix MatrixTranspose(Matrix m);
-
-void MatrixDealloc(Matrix* m);
+bool IsMatrixSymmetry (MATRIKS M);
+/* Mengirimkan true jika M adalah matriks simetri : IsMatrixSquare(M)
+   dan untuk setiap elemen M, M(i,j)=M(j,i) */
 
 #endif

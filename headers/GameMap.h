@@ -10,8 +10,10 @@ DEFINISI ADT GAMEMAP <GameMap>
 #include "pcolor.h"
 #include "Matrix.h"
 
-void PrintMap(Matrix m);
+void PrintMap();
 // Mencetak peta permainan ke layar
 // dengan spesifikasi border * di sisi peta
 // dan Tipe Bangunan dengan tanda kepemilikan
 // warna pemain
+
+#endif
