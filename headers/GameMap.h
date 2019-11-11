@@ -9,8 +9,9 @@ DEFINISI ADT GAMEMAP <GameMap>
 #include "bool.h"
 #include "pcolor.h"
 #include "Matrix.h"
+#include "ArrayDin.h"
 
-void PrintMap();
+void PrintMap(Matrix M, ArrayDin Arr);
 // Mencetak peta permainan ke layar
 // dengan spesifikasi border * di sisi peta
 // dan Tipe Bangunan dengan tanda kepemilikan

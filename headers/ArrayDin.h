@@ -143,5 +143,9 @@ void CompactTab(ArrayDin *T);
 /* I.S. Tabel tidak kosong */
 /* F.S. Ukuran MaxElem = Neff */
 
+Building SearchBuilding(ArrayDin T, int Row, int Col);
+/*  Mencari Building berdasarkan koordinat masukan (Row,Col) */
+/*  I.S. Building pasti ada di Array */
+/*  F.S. Memberikan hasil Building */
 
 #endif

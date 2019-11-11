@@ -28,6 +28,11 @@ MatrixVal_t GetElmtDiagonal (MATRIKS M, indeks i) {
     return MElmt(M,i,i);
 }
 
+void SetElmtMatrix(Matrix* M, int NRow, int NCol, int Val) {
+/*  Mengubah nilai elemen ke (NRow,NCol) pada matriks */
+    MElmt(*M,NRow,NCol) = Val;
+}
+
 bool IsMatrixSquare (MATRIKS M) {
 /* Mengirimkan true jika M adalah matriks dg ukuran baris dan kolom sama */
     return (GetLastIdxRow(M) == GetLastIdxCol(M));

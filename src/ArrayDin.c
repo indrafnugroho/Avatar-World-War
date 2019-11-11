@@ -221,3 +221,19 @@ void CompactTab(ArrayDin *T){
 /* F.S. Ukuran MaxElem = Neff */
     MaxElem(*T) = Neff(*T);
 }
+
+Building SearchBuilding(ArrayDin T, int Row, int Col) {
+/*  Mencari Building berdasarkan koordinat masukan (Row,Col) */
+/*  I.S. Building pasti ada di Array */
+/*  F.S. Memberikan hasil Building */
+    ArrayIndex i=1;
+    bool found=false;
+
+    while (i<=Neff(T) && !found) {
+        if (PointX(Koordinat(Elmt(T,i))) == Row && PointY(Koordinat(Elmt(T,i))) == Col) {
+            found = true;
+        }
+        else i++;
+    }
+    return Elmt(T,i);
+}

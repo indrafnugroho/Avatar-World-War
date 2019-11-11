@@ -13,7 +13,7 @@ DEFINISI ADT MATRIX <Matrix>
 #define ColMin 1
 #define ColMax 30
 
-typedef void* MatrixVal_t;
+typedef int MatrixVal_t;
 typedef int MatrixIndex;
 typedef struct {
     MatrixVal_t Mem[RowMax+1][ColMax+1];
@@ -39,6 +39,9 @@ MatrixIndex GetLastIdxCol (Matrix M);
 
 MatrixVal_t GetElmtDiagonal (MATRIKS M, indeks i);
 /* Mengirimkan elemen M(i,i) */
+
+void SetElmtMatrix(Matrix* M, int NRow, int NCol, int Val);
+/*  Mengubah nilai elemen ke (NRow,NCol) pada matriks */
 
 bool IsMatrixSquare (MATRIKS M);
 /* Mengirimkan true jika M adalah matriks dg ukuran baris dan kolom sama */

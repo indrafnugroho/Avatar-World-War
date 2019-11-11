@@ -12,6 +12,7 @@ DEFINISI ABSTRAKSI GAME
 
 typedef struct {
     Point Koordinat;
+    int Ownership; //0 tidak dimiliki siapapun, 1 dimiliki player 1, 2 dimiliki player 2
     char Type;
     int Pasukan;
     int Level;
@@ -23,6 +24,7 @@ typedef struct {
 
 /* Selektor */
 #define Koordinat(B) (B).Koordinat
+#define Ownership(B) (B).Ownership
 #define Type(B) (B).Type
 #define Pasukan(B) (B).Pasukan
 #define Level(B) (B).Level

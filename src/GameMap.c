@@ -5,17 +5,18 @@ IMPLEMENTASI ADT GAMEMAP <GameMap>
 
 #include "GameMap.h"
 
-void PrintMap(Matrix m) {
+void PrintMap(Matrix M, ArrayDin Arr) {
 // Mencetak peta permainan ke layar
 // dengan spesifikasi border * di sisi peta
 // dan Tipe Bangunan dengan tanda kepemilikan
 // warna pemain
     //Kamus Lokal
     int starrow, starcol, row, col;
+    Building BTemp;
 
     //Algoritma
-    starrow = MEff(m) + 2;
-    starcol = NEff(m) + 2;
+    starrow = RowEff(M) + 2;
+    starcol = ColEff(M) + 2;
 
     for (int i=1; i<=starrow; i++) {
         if (i==1 || i==starrow) {
@@ -23,10 +24,16 @@ void PrintMap(Matrix m) {
             printf("\n");
         }
         else {
-            row = i-2;
+            row = i-1;
             printf("*");
-            for (col=0; col<N; col++) {
-                //Butuh Building dulu
+            for (col=1; col<=ColEff(M); col++) {
+                if (MElmt(M,row,col) == 0) printf(" ");
+                else if (MElmt(M,row,col) == 1) {
+                    BTemp = SearchBuilding(T,row,col);
+                    if (Ownership(BTemp)==0) printf("%c", Type(BTemp));
+                    else if (Ownership(BTemp)==1) print_red(Type(BTemp));
+                    else if (Ownership(BTemp)==2) print_blue(Type(BTemp));
+                }
             }
             printf("*\n");
         }
