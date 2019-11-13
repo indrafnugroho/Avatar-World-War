@@ -323,3 +323,18 @@ ListElement* ListSearch(List l, ListVal_t x) {
         }
     }
 }
+
+List CopyList(List l) {
+    /* Menyalin List */
+    /* Kamus Lokal */
+    ListVal_t x;
+    ListElement* p;
+    List lout;
+    /* Algoritma */
+    ListCreate(&lout);
+    ListTraversal(p, ListFirstElement(l), ListElementVal(p) != Nil) {
+        ListAddLast(&lout, ListElementVal(p));
+    }
+    return lout;
+}
+

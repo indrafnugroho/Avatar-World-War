@@ -3,52 +3,39 @@
 #include <stdio.h>
 #include "bool.h"
 #include "List.h"
+#include "pcolor.h"
+#include "WordProcessor.h"
+#define GAMESTATE_MENU 0
+#define GAMESTATE_LOAD 1
+#define GAMESTATE_GAME 2
 
-void printlist(List l) {
-    ListElement* p;
-    if(!ListIsEmpty(l)) {
-        printf("<");
-        ListTraversal(p, ListFirstElement(l), p != Nil) {
-            printf("%d, ", (int) ListElementVal(p));
-        }
-        printf("> %d %d\n",  ListValueFirst(l), ListValueLast(l));
-    } else {
-        printf("List Kosong");
-    }
+int gameState = GAMESTATE_MENU;
+
+void DisplayMainMenu() {
+    set_print_color(BLUE);
+    set_print_color(BOLD);
+    printf("AVATAR\n");
+    reset_print_color();
+    set_print_color(RED);
+    set_print_color(UNDERLINE);
+    printf("World War\n");
+    reset_print_color();
+}
+
+void DisplayPrompt() {
+    set_print_color(BG_RED);
+    set_print_color(BOLD);
+    printf(" Command ");
+    reset_print_color();
 }
 
 int main() {
-    int i;
-    ListVal_t x;
-    List list;
-    ListElement* k;
-    ListCreate(&list);
-    for (i = 0; i < 10; i++) {
-        ListAddFirst(&list, i);
-        printlist(list);
-    }
-    for (i = 10; i < 20; i++) {
-        ListAddLast(&list, i);
-        printlist(list);
-    }
-    k = ListSearch(list, 13);
-    printf("[%d]", ListElementVal(k));
-    ListAddAfter(&list, 9000, k);
-    printlist(list);
-    printf("\n>>%d<<\n", ListSize(list));
-    k = ListSearch(list, 4);
-    printf("[%d]", ListElementVal(k));
-    ListDelAfter(&list, &x, k);
-    printlist(list);
-    for (i = 0; i < 8; i++) {
-        ListDelFirst(&list, &x);
-        printlist(list);
-        printf("%d", x);
-    }
-    for (i = 0; i < 12; i++) {
-        ListDelLast(&list, &x);
-        printlist(list);
-        printf("%d", x);
-    }
-    return 0;
+    Word w;
+    DisplayMainMenu();
+    DisplayPrompt();
+    ScanWord(&w); 
+    PrintWord(w);
+    ScanWord(&w); 
+    PrintWord(w);
+
 }

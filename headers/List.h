@@ -194,4 +194,7 @@ ListElement* ListSearch(List l, ListVal_t x);
     mengambelikan Nil jika tidak ditemukan.
     */
 
+List CopyList(List L);
+    /* Menyalin List */
+
 #endif

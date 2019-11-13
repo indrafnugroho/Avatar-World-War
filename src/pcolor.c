@@ -37,3 +37,15 @@ void print_cyan(char c) {
     printf("%s%c", MAGENTA, c);
     printf("%s", NORMAL);
 }
+
+void print_color(char c, char* color) {
+    printf("%s%c", color, c);
+    printf("%s", NORMAL);
+}
+void set_print_color(char* color) {
+    printf("%s", color);
+}
+
+void reset_print_color() {
+    printf("%s", NORMAL);
+}
