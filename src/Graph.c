@@ -5,20 +5,11 @@ Body ADT GRAPH <Graph>
 
 #include "IArray.h"
 #include "Matrix.h"
-#include "Graph.c"
+#include "Graph.h"
 #include "stdio.h"
 #include "stdlib.h"
 
 
-typedef IArrayVal_t GraphVal_t;
-typedef IArrayIndex GraphVertex;
-typedef struct {
-    IArray vert;
-    Matrix edge;
-} Graph;
-
-#define GraphVertexVal(g, v) IArrayElement(g.vert, v)
-#define GraphMaxElement(g) IArrayMaxElement(g.vert)
 
 void GraphCreate(Graph* g, int MaxEl){
     /*
@@ -51,7 +42,9 @@ bool GraphIsAdjacent(Graph g, GraphVertex v1, GraphVertex v2);
 
 void GraphRealloc(Graph* g, int MaxEl);
 
-void GraphDealloc(Graph* g);
+void GraphDealloc(Graph* g){
+    free(*g);
+}
 
 #endif
 
