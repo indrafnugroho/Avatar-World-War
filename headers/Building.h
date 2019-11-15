@@ -18,7 +18,7 @@ typedef struct {
     int Level;
     int A; // Nilai penambahan pasukan pada bangunan tiap awal giliran
     int M; // Jumlah maksimum pasukan yang bisa terdapat pada bangunan
-    int P; // Status pertahanan bangunan
+    bool Pb; // Status pertahanan bangunan
     int U; // Pasukan awal yang harus dikalahkan untuk menjadikan bangunan milik pemain
 } Building;
 
@@ -30,6 +30,7 @@ typedef struct {
 #define Level(B) (B).Level
 #define A(B) (B).A
 #define M(B) (B).M
+#define Pb(B) (B).Pb
 #define U(B) (B).U
 
 void InitializationBuilding (Building *B);

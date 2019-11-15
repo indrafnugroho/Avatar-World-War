@@ -112,9 +112,10 @@ void CheckSkill(Player* P, Player* PEnemy, GameState* GS) {
 
     /* Cek skill IR */
     isLevel4 = true;
-    i = 1 while (i <= NbOfBuildings(*P)) {
+    i = 1;
+    while (i <= NbOfBuildings(*P)) {
         if (Level(Elmt(Buildings(*P), i)) != 4) {
-            isLevel4 = false
+            isLevel4 = false;
         }
         i++;
     }
@@ -156,27 +157,28 @@ void ET(Player* P, Game* game) {
 void AU(Player* P) {
     /* Attack Up (ID: 4)*/
     /* Pertahanan bangunan musuh tidak akan mempengaruhi penyerangan */
+    AU
 }
 
 void CH(Player* P) {
     /* Critical Hit (ID: 5)*/
-    /* Jumlah pasukan pada bangunan yang melakukan serangan tepat 
+    /* Jumlah Troops pada bangunan yang melakukan serangan tepat 
     selanjutnya hanya berkurang ½ dari jumlah seharusnya */
 }
 
 void IR(Player* P) {
     /* Instant Reinforcement (ID: 6)*/
     /* Bangunan yang dimiliki memiliki level 4 */
-    /* Seluruh bangunan mendapatkan tambahan 5 pasukan */
+    /* Seluruh bangunan mendapatkan tambahan 5 Troops */
     int i;
 
     for (i = 1; i <= NbOfBuildings(*P); i++) {
-        Pasukan(Elmt(Buildings(*P), i)) += 5;
+        Troops(Elmt(Buildings(*P), i)) += 5;
     }
 }
 
 void BR(Player* P) {
     /* Barrage (ID: 7)*/
-    /* Jumlah pasukan pada seluruh bangunan musuh akan berkurang
-    sebanyak 10 pasukan */
+    /* Jumlah Troops pada seluruh bangunan musuh akan berkurang
+    sebanyak 10 Troops */
 }
