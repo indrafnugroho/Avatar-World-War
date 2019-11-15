@@ -9,15 +9,24 @@ DEFINISI ABSTRAKSI GAME
 #include "Building.h"
 #include "Skill.h"
 
+#define Nil 0
+
 typedef struct {
     ArrayDin Buildings;
     Skill S;
+    int CH;    // Critical Hit attribute
+    int SH;    // Shielded Building attribute (jumlah turn aktif)
+    bool AU;    // Attack Up attribute
+    bool ET;    // Extra Turn attribute
 } Player;
 
 /* Selektor */
 #define Buildings(P) (P).Buildings
 #define Skill(P) (P).S
-#define Nil 0
+#define CHs(P) (P).CH
+#define SHs(P) (P).SH
+#define AUs(P) (P).AU
+#define ETs(P) (P).ET
 
 void CreateNewPlayer(Player P);
 /*

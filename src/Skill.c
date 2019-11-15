@@ -1,6 +1,7 @@
 #include "Skill.h"
 #include "GameState.h"
 #include "Queue.h"
+#include "bool.h"
 
 void CreateSkillQueue(Player* P) {
     /* Define queue skill awal yang berisi IU */
@@ -22,7 +23,11 @@ void AddSkill(int SkillNum, Player* P) {
     6. Instant Reinforcement (IR)   :   Semua bangunan yang dimiliki memiliki level 4
     7. Barrage (BR)                 :   Lawan baru saja bertambah bangunannya 
                                         menjadi 10 bangunan */
-    QueueAdd(SkillQueue(Skill(*P)), &SkillNum);
+    if (ListSize(SkillQueue(Skill(*P))) <= 10) {
+        QueueAdd(SkillQueue(Skill(*P)), &SkillNum);
+    } else {
+        printf("Queue skill penuh\n");
+    }
 }
 
 void DisplaySkill(Player P) {
@@ -104,10 +109,12 @@ void CheckSkill(Player* P, Player* PEnemy, GameState* GS) {
     /* Kamus */
     int i;
     bool isLevel4;
+    int NbOfTower;
 
     /* Cek skill SH */
     if (RecentCom(*GS) == "ATTACK" && NbOfBuildings(*PEnemy) == 2) {
         AddSkill(2, PEnemy);  // Shield
+        printf("Enemy player gained SHIELD skill\n");
     }
 
     /* Cek skill IR */
@@ -120,9 +127,45 @@ void CheckSkill(Player* P, Player* PEnemy, GameState* GS) {
         i++;
     }
     if (isLevel4) {
-        AddSkill(6, P);
+        AddSkill(6, PEnemy);
+        printf("Enemy player gained INSTANT REINFORCEMENT skill\n");
     }
-    // Add more
+
+    /* Cek skill CH */
+    if (RecentCom(*GS) == "SKILL" && ETs(*P)) { /* Ada potensi bug */
+        AddSkill(5, PEnemy);
+        printf("Enemy player gained CRITICAL HIT skill\n");
+    }
+
+    /* Cek skill AU - Ambigu player ally atau enemy? */
+    if (RecentCom(*GS) == "ATTACK") {
+        NbOfTower = 0;
+        i = 1;
+        while (i <= NbOfBuildings(*P)) {
+            if (Type(Elmt(Buildings(*P), i)) == T) {
+                NbOfTower += 1;
+            }
+            i++;
+        }
+        if (NbOfTower == 3) {
+            AddSkill(4, P);
+            printf("Player gained ATTACK UP skill\n");
+        }
+    }
+
+    /* Cek skill BR */
+    if (RecentCom(*GS) == "ATTACK" && (NbOfBuildings(*PEnemy) == 10)) { /* Ada potensi bug */
+        AddSkill(7, P);
+        printf("Player gained BARRAGE skill\n");
+    }
+
+    /* Cek skill ET */
+    /*
+    if ( fort direbut lawan ) {
+        AddSkill(3, P)
+            printf("Player gained EXTRA TURN skill\n");
+    }
+    */
 }
 
 /****** IMPLEMENTASI EFEK SKILL ******/
@@ -132,41 +175,52 @@ void IU(Player* P) {
     /* Representasi Array */
     int i;
     for (i = GetFirstIdx(Buildings(*P)); i <= GetLastIdx(Buildings(*P)); i++) {
-        if (Level(Buildings(*P)[i]) < 4) {
-            Level(Buildings(*P)[i]) += 1;
+        if (Level(Elmt(Buildings(*P), i)) < 4) {
+            Level(Elmt(Buildings(*P), i)) += 1;
         }
     }
 }
 
-void SH(Player* P, GameState* GS) {
+void SH(Player* P) {
     /* Shield (ID: 2)*/
     /* Bangunan pemain sisa 2 setelah diserang lawan */
     /* Seluruh bangunan yang dimiliki oleh pemain akan memiliki 
     pertahanan selama 2 turn */
     /* Apabila skill ini digunakan 2 kali berturut-turut, 
     durasi tidak akan bertambah, namun menjadi nilai maksimum (2 turn) */
+    SHs(*P) = 2;
+    /* 
+        Logic: if(SHs(*P) || Ps(B)) 
+    */
 }
 
-void ET(Player* P, Game* game) {
+void ET(Player* P) {
     /* Extra Turn (ID: 3)*/
     /* Fort pemain direbut lawan */
     /* Pemain pada turn selanjutnya tetap pemain yang sama */
-    Next(Turn(*game)) = (*P);
+    ETs(*P) = true;
 }
 
 void AU(Player* P) {
     /* Attack Up (ID: 4)*/
     /* Pertahanan bangunan musuh tidak akan mempengaruhi penyerangan */
-    AU
+    AUs(*P) = true;
+    /* 
+        Logic: if(!AUs(*P) && Ps(B)) 
+    */
 }
 
 void CH(Player* P) {
     /* Critical Hit (ID: 5)*/
     /* Jumlah Troops pada bangunan yang melakukan serangan tepat 
     selanjutnya hanya berkurang ½ dari jumlah seharusnya */
+    CHs(*P) = 1;
+    /* 
+        Logic: Troops(Elmt(B,i)) -= ((float)1 - (float)CHs(*P)/2) * NAttack
+    */
 }
 
-void IR(Player* P) {
+void IR(Player* P) { /* to ally */
     /* Instant Reinforcement (ID: 6)*/
     /* Bangunan yang dimiliki memiliki level 4 */
     /* Seluruh bangunan mendapatkan tambahan 5 Troops */
@@ -177,8 +231,11 @@ void IR(Player* P) {
     }
 }
 
-void BR(Player* P) {
+void BR(Player* P) { /* to enemy */
     /* Barrage (ID: 7)*/
     /* Jumlah Troops pada seluruh bangunan musuh akan berkurang
     sebanyak 10 Troops */
+    for (int i = 1; i <= NbOfBuildings(*P); i++) {
+        Troops(Elmt(Buildings(*P), i)) -= 10;
+    }
 }
