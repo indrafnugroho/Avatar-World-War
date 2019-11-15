@@ -1,29 +1,49 @@
 #include "GameState.h"
 
 /******** GAME STATE ********/
-void CaptureFirstGameState(GameState* G) {
-    /* Mengakuisisi game state pertama setelah memulai turn */
+address CreateGameState(GameState* GS){
+    /* Membuat alokasi GameState */
+    address P;
+
+    P = (GameState*)malloc(sizeof(GameState));
+    if(P != Nil){
+        return P;
+    }
+    else{
+        return Nil;
+    }    
 }
 
-void CaptureGameState(GameState* G, Player* P) {
-    /* Mengakuisisi game state saat prosedur dijalankan */
+void DeleteGameState(GameState* GS){
+    /* Menghapus alokasi GameState */
+    free(*GS);
 }
+
+GameState CaptureGameState(Game GG, Word RC){
+    /* Mengakuisisi GameState saat prosedur dijalankan */
+    GameState GS;
+
+    CreateGameState(GS);
+    RecentCom(*GS) = RC;
+    ClonePlayer(GG->P1,&P1(GS));
+    ClonePlayer(GG->P2,&P2(GS));
+    StateBuildings(GS) = GG->Buildings;
+}
+
+
+void RevertGameState(GameState* GS, Game* GG);
+/* Mengembalikan GameState sebelumnya ke Game */
 
 /******** GAME STACK ********/
-void CreateGameStack(GameStack* GS) {
-    /* IS: Kondisi GameStack sembarang */
-    /* FS: Terbentuk GameStack kosong */
-}
+void PushStkGameState(GameState GS, Game* GG);
+/* Push GameState ke stack setiap command selesai dijalankan */
 
-bool GameStackIsEmpty(GameStack GS) {
-    /* Mengecek kondisi stack */
-}
+void PopStkGameStack(GameState *GS, Game* GG);
+/* Pop GameState terakhir yang disimpan di stack (Top) */
+/* IS: GS berisi GameState Terakhir */
 
-void PushGameState(GameStack* GS, GameState G) {
-    /* Push game state ke stack setiap command selesai dijalankan */
-}
+void FlushStkGameState(GameState* GS, Game* GG);
+/* Flush semua GameState dan dealokasi GameState setiap selesai turn */
 
-void PopGameState(GameStack* GS, GameState* G) {
-    /* Pop game state terakhir yang disimpan di stack (Top) */
-    /* IS: G berisi GameState Terakhir */
-}
+void InfoStkGameState(Game* GG);
+/* Memberi informasi isi stack GameState */

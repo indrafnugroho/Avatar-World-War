@@ -10,6 +10,7 @@ DEFINISI ADT Array Implisit <IArray>
 #include "Building.h"
 
 #define IndexUndef 0
+#define IdxMin 1
 #define ValUndef -999999
 
 //typedef Building Building;
@@ -109,19 +110,19 @@ int SumTab(ArrayDin T);
 /* Menghasilkan hasil penjumlahan semua elemen T */
 /* Jika T kosong menghasilkan 0 */
 
-int CountX(ArrayDin T, Building X);
+int CountX(ArrayDin T, Building* X);
 /* Menghasilkan berapa banyak kemunculan X di T */
 /* Jika T kosong menghasilkan 0 */
 
 
 /* ********** MENAMBAH DAN MENGHAPUS ELEMEN DI AKHIR ********** */
 /* *** Menambahkan elemen terakhir *** */
-void AddAsLastEl(ArrayDin *T, Building X);
+void AddAsLastEl(ArrayDin *T, Building* X);
 /* Proses: Menambahkan X sebagai elemen terakhir tabel */
 /* I.S. Tabel T boleh kosong, tetapi tidak penuh */
 /* F.S. X adalah elemen terakhir T yang baru */
 /* ********** MENGHAPUS ELEMEN ********** */
-void DelLastEl(ArrayDin *T, Building *X);
+void DelLastEl(ArrayDin *T, Building** X);
 /* Proses : Menghapus elemen terakhir tabel */
 /* I.S. Tabel tidak kosong */
 /* F.S. X adalah nilai elemen terakhir T sebelum penghapusan, */

@@ -39,7 +39,6 @@ void GameInit(Game* game) {
     PlayerCreate(game->P2, ListElementVal(ListElementNext(ListFirstElement(game->arrBuilding))));
     game->turn = game->P1;
     StackCreate(&(game->stkGameState));
-    
 }
 
 void GameTurn(Game* game) { 

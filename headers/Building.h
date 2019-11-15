@@ -9,6 +9,7 @@ DEFINISI ABSTRAKSI GAME
 #include "Player.h"
 #include "Point.h"
 #include "ArrayDin.h"
+#include "List.h"
 
 typedef struct {
     Point Koordinat;
@@ -21,6 +22,7 @@ typedef struct {
     bool Pb; // Status pertahanan bangunan
     int U; // Pasukan awal yang harus dikalahkan untuk menjadikan bangunan milik pemain
     bool AfterAttack //Bernilai True jika bangunan sdh digunakan utk menyerang, False jika belum
+    List Connect;    
 } Building;
 
 /* Selektor */
@@ -34,6 +36,7 @@ typedef struct {
 #define Pb(B) (B).Pb
 #define U(B) (B).U
 #define AfterAttack(B) (B).AfterAttack
+#define Connect(B) (B).Connect
 
 void InitializationBuilding (Building *B);
     /*
