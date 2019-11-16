@@ -4,15 +4,19 @@ IMPLEMENTASI ABSTRAKSI ARRAY DINAMIS
 */
 
 #include "ArrayDin.h"
-
+#include <stdlib.h>
 /* ********** KONSTRUKTOR ********** */
 /* Konstruktor : create tabel kosong  */
-void MakeEmpty(ArrayDin *T, int MaxElem){
+void MakeEmpty(ArrayDin *T, int MaxEl) {
 /* I.S. T sembarang, MaxElem > 0 */
 /* F.S. Terbentuk tabel T kosong dengan kapasitas MaxElem + 1 */
-    (TI(*T)) = (Building *) malloc (100 * sizeof(Building));
+    (TI(*T)) = (Building *) malloc (MaxEl* sizeof(Building));
     Neff(*T) = 0;
+<<<<<<< HEAD
     MaxElem(*T) = MaxElem;
+=======
+    MaxElem(*T) = MaxEl;
+>>>>>>> 54d54fc70b7b21a01ecbda630d1da7d18169f4e4
 }
 
 
@@ -43,23 +47,23 @@ int MaxElement(ArrayDin T){
 ArrayIndex GetFirstIdx(ArrayDin T){
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen T pertama */
-    return Elmt(T,1);
+    return 0;
 }
 ArrayIndex GetLastIdx(ArrayDin T){
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen T terakhir */
-    return (Elmt(T, Neff(T)));
+    Neff(T) - 1;
 }
 /* ********** Test Indeks yang valid ********** */
 bool IsIdxValid(ArrayDin T, ArrayIndex i){
 /* Mengirimkan true jika i adalah indeks yang valid utk ukuran tabel */
 /* yaitu antara indeks yang terdefinisi utk container*/
-    return((0<= i) && (i <= MaxElem(T)));
+    return((0<= i) && (i < MaxElem(T)));
 }
 bool IsIdxEff(ArrayDin T, ArrayIndex i){
 /* Mengirimkan true jika i adalah indeks yang terdefinisi utk tabel */
 /* yaitu antara FirstIdx(T)..LastIdx(T) */
-    return((IdxMin <= i) && (i <= Neff(T)));
+    return((0 <= i) && (i < Neff(T)));
 
 }
 /* ********** TEST KOSONG/PENUH ********** */
@@ -75,6 +79,7 @@ bool IsFull(ArrayDin T){
     return(Neff(T) == MaxElem(T));
 }
 
+<<<<<<< HEAD
 /* ********** BACA dan TULIS dengan INPUT/OUTPUT device ********** */
 /* *** Mendefinisikan isi tabel dari pembacaan *** */
 void BacaIsi(ArrayDin *T){
@@ -145,6 +150,8 @@ ArrayDin PlusMinusTab(ArrayDin T1, ArrayDin T2, bool plus){
 }
 
 
+=======
+>>>>>>> 54d54fc70b7b21a01ecbda630d1da7d18169f4e4
 
 
 /* ********** OPERASI LAIN ********** */
@@ -162,7 +169,7 @@ void CopyTab(ArrayDin Tin, ArrayDin *Tout){
 
 
 
-int CountX(ArrayDin T, Building X){
+int CountX(ArrayDin T, Building* X){
 /* Menghasilkan berapa banyak kemunculan X di T */
 /* Jika T kosong menghasilkan 0 */
     int i, count;
@@ -179,7 +186,7 @@ int CountX(ArrayDin T, Building X){
 
 /* ********** MENAMBAH DAN MENGHAPUS ELEMEN DI AKHIR ********** */
 /* *** Menambahkan elemen terakhir *** */
-void AddAsLastEl(ArrayDin *T, Building X){
+void AddAsLastEl(ArrayDin *T, Building* X){
 /* Proses: Menambahkan X sebagai elemen terakhir tabel */
 /* I.S. Tabel T boleh kosong, tetapi tidak penuh */
 /* F.S. X adalah elemen terakhir T yang baru */
@@ -187,7 +194,7 @@ void AddAsLastEl(ArrayDin *T, Building X){
   Elmt(*T, Neff(*T)) = X;
 }
 /* ********** MENGHAPUS ELEMEN ********** */
-void DelLastEl(ArrayDin *T, Building *X){
+void DelLastEl(ArrayDin *T, Building** X){
 /* Proses : Menghapus elemen terakhir tabel */
 /* I.S. Tabel tidak kosong */
 /* F.S. X adalah nilai elemen terakhir T sebelum penghapusan, */
@@ -201,18 +208,26 @@ void GrowTab(ArrayDin *T, int num){
 /* Proses : Menambahkan max element sebanyak num */
 /* I.S. Tabel sudah terdefinisi */
 /* F.S. Ukuran tabel bertambah sebanyak num */
+<<<<<<< HEAD
     TabInt temp;
 	MakeEmpty(&temp,MaxElem(*T));
 	CopyTab(*T,&temp);
 	MakeEmpty(T,MaxElem(*T)+num);
 	CopyTab(temp,T);
 	MaxElem(*T) += num;
+=======
+    (TI(*T)) = (Building**) realloc(TI(*T), (num + MaxElem(*T)) * sizeof(Building*));
+    MaxElem(*T) += num;
+>>>>>>> 54d54fc70b7b21a01ecbda630d1da7d18169f4e4
 }
 void ShrinkTab(ArrayDin *T, int num){
 /* Proses : Mengurangi max element sebanyak num */
 /* I.S. Tabel sudah terdefinisi, ukuran MaxElem > num, dan Neff < MaxElem - num. */
 /* F.S. Ukuran tabel berkurang sebanyak num. */
-     MaxElem(*T) -= num;
+    if (Neff(*T) < MaxElem(*T) - num ) { 
+        MaxElem(*T) -= num;
+        (TI(*T)) = (Building**) realloc(TI(*T), MaxElem(*T) * sizeof(Building*));
+    }
 }
 
 void CompactTab(ArrayDin *T){
@@ -230,10 +245,10 @@ Building SearchBuilding(ArrayDin T, int Row, int Col) {
     bool found=false;
 
     while (i<=Neff(T) && !found) {
-        if (PointX(Koordinat(Elmt(T,i))) == Row && PointY(Koordinat(Elmt(T,i))) == Col) {
+        if (PointX(Koordinat(*Elmt(T,i))) == Row && PointY(Koordinat(*Elmt(T,i))) == Col) {
             found = true;
         }
         else i++;
     }
-    return Elmt(T,i);
+    return *Elmt(T,i);
 }

@@ -7,17 +7,15 @@ DEFINISI ADT GRAPH <Graph>
 #define _GRAPH_H
 
 #include "ArrayDin.h"
-#include "Matrix.h"
+#include "List.h"
+
 
 typedef ArrayVal_t GraphVal_t;
 typedef ArrayIndex GraphVertex;
-typedef struct {
-    ArrayDin vert;
-    Matrix edge;
-} Graph;
+typedef ArrayDin Graph;
 
-#define GraphVertexVal(g, v) IArrayElement(g.vert, v)
-#define GraphMaxElement(g) IArrayMaxElement(g.vert)
+#define GraphVertexVal(g, v) Elmt(g, v)
+#define GraphMaxElement(g) MaxElem(g)
 
 void GraphCreate(Graph* g, int MaxEl);
     /*
@@ -27,12 +25,12 @@ void GraphCreate(Graph* g, int MaxEl);
         g merupakan graph terdefinisi yang kosong
     */
 
-void GraphIsEmpty(Graph g);
+bool GraphIsEmpty(Graph g);
     /*
     Menghasilkan true jika g kosong (g.vert kosong)
     */
 
-void GraphSize(Graph g);
+int  GraphSize(Graph g);
 
 void GraphAddVertex(Graph* g, GraphVertex* v, GraphVal_t x);
 

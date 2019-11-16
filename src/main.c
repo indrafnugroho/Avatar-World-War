@@ -11,14 +11,24 @@
 
 int gameState = GAMESTATE_MENU;
 
-void DisplayMainMenu() {
+void DisplayTitle() {
     set_print_color(BLUE);
     set_print_color(BOLD);
-    printf("AVATAR\n");
+    printf("      []                                   [][][][][]\n");
+    printf("     [][]                                  []       []\n");
+    printf("    []  [] []      [] [] [][][][][] []     []       []\n");
+    printf("   []    [] []    [] [][]    []    [][]    [][][][][]\n");
+    printf("  []      [] []  [] []  []   []   []  []   []     []\n");
+    printf(" []        [] [][] []    []  []  []    []  []      []\n");
+    printf("[]          [] [] []      [] [] []      [] []       []\n\n");
     reset_print_color();
     set_print_color(RED);
-    set_print_color(UNDERLINE);
-    printf("World War\n");
+    set_print_color(BOLD);
+    printf("            []          []  []          []\n");
+    printf("             []        []    []        []\n");
+    printf("              []  []  []      []  []  []\n");
+    printf("               [][][][]        [][][][]\n");
+    printf("                []  []          []  []\n\n");
     reset_print_color();
 }
 
@@ -27,15 +37,22 @@ void DisplayPrompt() {
     set_print_color(BOLD);
     printf(" Command ");
     reset_print_color();
+    printf(" ");
 }
 
 int main() {
     Word w;
-    DisplayMainMenu();
-    DisplayPrompt();
-    ScanWord(&w); 
-    PrintWord(w);
-    ScanWord(&w); 
-    PrintWord(w);
+    DisplayTitle();
+    while (gameState == GAMESTATE_MENU) {
+        DisplayPrompt();
+        ScanWord(&w);
+        if (WordEqualsString(w, "START") || WordEqualsString(w, "start")) {
+            printf("Game Starts!\n");
+            gameState = GAMESTATE_LOAD;
+        } else if (WordEqualsString(w, "QUIT") || WordEqualsString(w, "quit")) {
+            printf("Quitting, huh?\n");
+            gameState = -1;
+        }  
+    }
 
 }
