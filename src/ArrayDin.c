@@ -43,7 +43,7 @@ int MaxElement(ArrayDin T){
 ArrayIndex GetFirstIdx(ArrayDin T){
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen T pertama */
-    return 0;
+    return 1;
 }
 ArrayIndex GetLastIdx(ArrayDin T){
 /* Prekondisi : Tabel T tidak kosong */
@@ -59,7 +59,7 @@ bool IsIdxValid(ArrayDin T, ArrayIndex i){
 bool IsIdxEff(ArrayDin T, ArrayIndex i){
 /* Mengirimkan true jika i adalah indeks yang terdefinisi utk tabel */
 /* yaitu antara FirstIdx(T)..LastIdx(T) */
-    return((0 <= i) && (i < Neff(T)));
+    return((IdxMin <= i) && (i < Neff(T)));
 
 }
 /* ********** TEST KOSONG/PENUH ********** */
@@ -132,8 +132,12 @@ void GrowTab(ArrayDin *T, int num){
 /* Proses : Menambahkan max element sebanyak num */
 /* I.S. Tabel sudah terdefinisi */
 /* F.S. Ukuran tabel bertambah sebanyak num */
-    (TI(*T)) = (Building**) realloc(TI(*T), (num + MaxElem(*T)) * sizeof(Building*));
-    MaxElem(*T) += num;
+  ArrayDin temp;
+	MakeEmpty(&temp,MaxElem(*T));
+	CopyTab(*T,&temp);
+	MakeEmpty(T,MaxElem(*T)+num);
+	CopyTab(temp,T);
+	MaxElem(*T) += num;
 }
 void ShrinkTab(ArrayDin *T, int num){
 /* Proses : Mengurangi max element sebanyak num */
@@ -166,4 +170,22 @@ Building SearchBuilding(ArrayDin T, int Row, int Col) {
         else i++;
     }
     return *Elmt(T,i);
+}
+ArrayIndex Search1 (ArrayDin T, Building *X)
+/* Search apakah ada elemen tabel T yang bernilai X */
+/* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
+/* Jika tidak ada, mengirimkan IdxUndef */
+/* Menghasilkan indeks tak terdefinisi (IdxUndef) jika tabel T kosong */
+/* Memakai skema search TANPA boolean */
+{
+    int i = GetFirstIdx(T);
+    while ((i <= GetLastIdx(T)) && (Elmt(T, i) != X)) {
+        i ++;
+    }
+
+    if (i <= GetLastIdx(T)) {
+        return i;
+    } else {
+        return ValUndef;
+    }
 }

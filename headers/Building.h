@@ -6,7 +6,7 @@ DEFINISI ABSTRAKSI GAME
 #ifndef _BUILDING_H
 #define _BUILDING_H
 
-#include "Player.h"
+//#include "Player.h"
 #include "Point.h"
 #include "List.h"
 
@@ -20,6 +20,7 @@ typedef struct {
     int M; // Jumlah maksimum pasukan yang bisa terdapat pada bangunan
     bool Pb; // Status pertahanan bangunan
     int U; // Pasukan awal yang harus dikalahkan untuk menjadikan bangunan milik pemain
+    bool AfterAttack; //Bernilai True jika bangunan sdh digunakan utk menyerang, False jika belum
     List Connect;    
 } Building;
 
@@ -33,6 +34,7 @@ typedef struct {
 #define M(B) (B).M
 #define Pb(B) (B).Pb
 #define U(B) (B).U
+#define AfterAttack(B) (B).AfterAttack
 #define Connect(B) (B).Connect
 
 void InitializationBuilding (Building *B);
@@ -54,10 +56,11 @@ void AddPasukanNextTurn (Building *B);
 void LevelAdd (Building *B);
     /*
     I.S.
-        Level bangunan sembarang
+    Level bangunan kurang dari 4
     F.S.
-        - Level bangunan bertambah apabila jumlah pasukan pada bangunan >= M/2
-        - Jika level bangunan bertambah, jumlah pasukan pada bangunan berkurang sebanyak M/2
+    - Level bangunan bertambah apabila jumlah pasukan pada bangunan >= M/2
+    - Jika level bangunan bertambah, jumlah pasukan pada bangunan berkurang sebanyak M/2
+    Nilai A, M, dan Pb berubah sesuai Type Bangunan dan Level
     */
 
 #endif

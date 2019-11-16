@@ -15,7 +15,7 @@ DEFINISI ABSTRAKSI GAME
 #include "GameState.h"
 #include "Stack.h"
 #include "Command.h"
-#include "TokenProcessor.h"
+#include "WordProcessor.h"
 
 typedef struct {
     Player* P1;
@@ -25,7 +25,6 @@ typedef struct {
     Stack stkGameState;
     Graph grpBuildingAdjacency;
     GameMap map;
-    
 } Game;
 
 void GameLoadInitConfig(Game* game, const char* filename);

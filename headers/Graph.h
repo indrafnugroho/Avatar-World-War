@@ -32,7 +32,7 @@ bool GraphIsEmpty(Graph g);
 
 int  GraphSize(Graph g);
 
-void GraphAddVertex(Graph* g, GraphVertex* v, GraphVal_t x);
+void GraphAddVertex(Graph* g, GraphVal_t x);
 
 void GraphDelVertex(Graph* g, GraphVertex v, GraphVal_t* x);
 
@@ -42,7 +42,7 @@ void GraphDelEdge(Graph* g, GraphVertex v1, GraphVertex v2);
 
 GraphVertex GraphSearchVertex(Graph* g, GraphVal_t x);
 
-bool GraphIsAdjacent(Graph g, GraphVertex v1, GraphVertex v2);
+bool GraphIsAdjacent(Graph *g, GraphVertex v1, GraphVertex v2);
 
 void GraphRealloc(Graph* g, int MaxEl);
 

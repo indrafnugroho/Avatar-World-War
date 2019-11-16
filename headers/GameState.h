@@ -6,62 +6,50 @@
 #ifndef _GAMESTATE_H
 #define _GAMESTATE_H
 
-#define Nil 0
-#define MaxEl 100
-
-#include "Player.h"
-#include "Building.h"
-#include "Stack.h"
+#include "Game.h"
 #include "bool.h"
 
-/* Type Definition */
-typedef int infotype;
 typedef int address;
-typedef Stack GameStack;
-typedef GameState* ListElement;
 
-/* Recent command */
+/* Recent state */
 typedef struct {
-    char RecentCom[50];
+    Word RecentCom;
     Player P1;
     Player P2;
-    ArraydDin Buildings;
+    ArrayDin Buildings;
 } GameState;
 
-// typedef struct {
-//     GameState State[MaxEl+1];
-//     address Top;
-// } GameStack;
-
 /* Definisi akses dengan Selektor : Set dan Get */
-#define Top(GS) ListFirstElement(GS)
-#define StateTop(GS) ListValueFirst(GS)
-#define RecentCom(GS) ListValueFirst(GS).RecentCom
-#define G(GS) ListValueFirst(GS).G
+#define RecentCom(GS) (GS)->RecentCom
 #define P1(GS) (GS)->P1
 #define P2(GS) (GS)->P2
+#define StateBuildings(GS) (GS)->Buildings
 
 /******** GAME STATE ********/
-void CaptureFirstGameState(GameState* G);
-/* Mengakuisisi game state pertama setelah memulai turn */
+void CreateGameState(GameState* GS);
+/* Membuat alokasi GameState */
 
-void CaptureGameState(GameState* G, Player* P);
-/* Mengakuisisi game state saat prosedur dijalankan */
+void DeleteGameState(GameState* GS);
+/* Menghapus alokasi GameState */
 
+void CaptureGameState(GameState* GS, Game GG, Word RC);
+/* Mengakuisisi GameState saat prosedur dijalankan */
+
+void RevertGameState(GameState* GS, Game* GG);
+/* Mengembalikan GameState sebelumnya ke Game */
 
 /******** GAME STACK ********/
-void CreateGameStack(GameStack* GS);
-/* IS: Kondisi GameStack sembarang */
-/* FS: Terbentuk GameStack kosong */
+void PushStkGameState(GameState GS, Game* GG);
+/* Push GameState ke stack setiap command selesai dijalankan */
 
-bool GameStackIsEmpty(GameStack GS);
-/* Mengecek kondisi stack */
+void PopStkGameStack(GameState *GS, Game* GG);
+/* Pop GameState terakhir yang disimpan di stack (Top) */
+/* IS: GS berisi GameState Terakhir */
 
-void PushGameState(GameStack* GS, GameState G);
-/* Push game state ke stack setiap command selesai dijalankan */
+void FlushStkGameState(GameState* GS, Game* GG);
+/* Flush semua GameState dan dealokasi GameState setiap selesai turn */
 
-void PopGameState(GameStack* GS, GameState* G);
-/* Pop game state terakhir yang disimpan di stack (Top) */
-/* IS: G berisi GameState Terakhir */
+void InfoStkGameState(Game* GG);
+/* Memberi informasi isi stack GameState */
 
 #endif

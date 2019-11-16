@@ -1,4 +1,5 @@
 #include "Loader.h"
+#include "Building.h"
 #include "Graph.h"
 #include "ArrayDin.h"
 #include <stdio.h>

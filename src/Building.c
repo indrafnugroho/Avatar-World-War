@@ -5,7 +5,7 @@ IMPLEMENTASI ABSTRAKSI BUILDING
 
 #include "Building.h"
 //#include "Loader.h"
-
+#include <stdio.h>
 void InitializationBuilding (Building *B) 
 /*
 I.S.
@@ -69,17 +69,99 @@ F.S.
     }
 }
 
-void LevelAdd (Building *B)
+void LevelAdd (Building *B) {
 /*
 I.S.
-    Level bangunan sembarang
+    Level bangunan kurang dari 4
 F.S.
     - Level bangunan bertambah apabila jumlah pasukan pada bangunan >= M/2
     - Jika level bangunan bertambah, jumlah pasukan pada bangunan berkurang sebanyak M/2
+    Nilai A, M, dan Pb berubah sesuai Type Bangunan dan Level
 */
-{
     if(Troops(*B) >= M(*B)/2) {
         Level(*B)++;
         Troops(*B) -= M(*B)/2;
     } 
+    switch (Type(*B)) {
+    case 'C' :
+        switch (Level(*B)) {
+        case 2 :
+            A(*B) = 15;
+            M(*B) = 60;
+            Pb(*B) = false;
+            break;
+        case 3 :
+            A(*B) = 20;
+            M(*B) = 80;
+            Pb(*B) = false;
+            break;
+        case 4 :
+            A(*B) = 25;
+            M(*B) = 100;
+            Pb(*B) = false;
+            break;
+        }
+        printf("Level Castle-mu meningkat menjadi %d!\n", Level(*B));
+        break;
+    case 'T' :
+        switch (Level(*B)) {
+        case 2 :
+            A(*B) = 10;
+            M(*B) = 30;
+            Pb(*B) = true;
+            break;
+        case 3 :
+            A(*B) = 20;
+            M(*B) = 40;
+            Pb(*B) = true;
+            break;
+        case 4 :
+            A(*B) = 30;
+            M(*B) = 50;
+            Pb(*B) = true;
+            break;
+        }
+        printf("Level Tower-mu meningkat menjadi %d!\n", Level(*B));
+        break;
+    case 'F' :
+        switch (Level(*B)) {
+        case 2 :
+            A(*B) = 20;
+            M(*B) = 40;
+            Pb(*B) = false;
+            break;
+        case 3 :
+            A(*B) = 30;
+            M(*B) = 60;
+            Pb(*B) = true;
+            break;
+        case 4 :
+            A(*B) = 40;
+            M(*B) = 80;
+            Pb(*B) = true;
+            break;
+        }
+        printf("Level Fort-mu meningkat menjadi %d!\n", Level(*B));
+        break;
+    case 'V' :
+        switch (Level(*B)) {
+        case 2 :
+            A(*B) = 10;
+            M(*B) = 30;
+            Pb(*B) = false;
+            break;
+        case 3 :
+            A(*B) = 15;
+            M(*B) = 40;
+            Pb(*B) = false;
+            break;
+        case 4 :
+            A(*B) = 20;
+            M(*B) = 50;
+            Pb(*B) = false;
+            break;
+        }
+        printf("Level Village-mu meningkat menjadi %d!\n", Level(*B));
+        break;
+    }
 }
