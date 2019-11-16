@@ -11,19 +11,12 @@
 #include "bool.h"
 #include "stdio.h"
 
-#define MaxSkill 10
-typedef struct {
-    Queue SkillQueue;
-    int SkillCount;
-} Skill;
+typedef Queue SkillQueue;
 
-#define SkillQueue(S) (S).SkillQueue
-#define SkillCount(S) (S).SkillCount
-
-void CreateSkillQueue(Player* P);
+void CreateSkillQueue();
 /* Define queue skill awal yang berisi IU */
 
-void AddSkill(int SkillNum, Player* P);
+void AddSkill();
 /* Add skill by SkillNum to List Queue*/
 /* Skill List: 
     1. Instant Upgrade (IU)         :   Default skill awal
@@ -38,7 +31,7 @@ void AddSkill(int SkillNum, Player* P);
                                         menjadi 10 bangunan
 */
 
-void DisplaySkill(Player P);
+void DisplaySkill();
 /* Menampilkan skill yang tersedia pada terminal */
 
 void UseSkill(Player* P);
