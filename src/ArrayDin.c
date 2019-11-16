@@ -170,3 +170,21 @@ Building SearchBuilding(ArrayDin T, int Row, int Col) {
     }
     return *Elmt(T,i);
 }
+ArrayIndex Search1 (ArrayDin T, Building *X)
+/* Search apakah ada elemen tabel T yang bernilai X */
+/* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
+/* Jika tidak ada, mengirimkan IdxUndef */
+/* Menghasilkan indeks tak terdefinisi (IdxUndef) jika tabel T kosong */
+/* Memakai skema search TANPA boolean */
+{
+    int i = GetFirstIdx(T);
+    while ((i <= GetLastIdx(T)) && (Elmt(T, i) != X)) {
+        i ++;
+    }
+
+    if (i <= GetLastIdx(T)) {
+        return i;
+    } else {
+        return ValUndef;
+    }
+}
