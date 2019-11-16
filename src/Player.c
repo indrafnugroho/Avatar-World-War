@@ -61,7 +61,6 @@ void AddSkill(Player* P, int skill) {
     6. Instant Reinforcement (IR)   :   Semua bangunan yang dimiliki memiliki level 4
     7. Barrage (BR)                 :   Lawan baru saja bertambah bangunannya 
                                         menjadi 10 bangunan */
-    
     if (ListSize(Skills(*P)) <= 10) {
         QueueAdd(&Skills(*P), skill);
     } else {
