@@ -10,7 +10,7 @@ IMPLEMENTASI ABSTRAKSI ARRAY DINAMIS
 void MakeEmpty(ArrayDin *T, int MaxEl) {
 /* I.S. T sembarang, MaxElem > 0 */
 /* F.S. Terbentuk tabel T kosong dengan kapasitas MaxElem + 1 */
-    (TI(*T)) = (Building *) malloc (MaxEl* sizeof(Building));
+    (TI(*T)) = (Building **) malloc (MaxEl* sizeof(Building));
     Neff(*T) = 0;
     MaxElem(*T) = MaxEl;
 }
@@ -48,13 +48,13 @@ ArrayIndex GetFirstIdx(ArrayDin T){
 ArrayIndex GetLastIdx(ArrayDin T){
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen T terakhir */
-    Neff(T) - 1;
+    return Neff(T) - 1;
 }
 /* ********** Test Indeks yang valid ********** */
 bool IsIdxValid(ArrayDin T, ArrayIndex i){
 /* Mengirimkan true jika i adalah indeks yang valid utk ukuran tabel */
 /* yaitu antara indeks yang terdefinisi utk container*/
-    return((IdxMin<= i) && (i < MaxElem(T)));
+    return ((0<= i) && (i < MaxElem(T)));
 }
 bool IsIdxEff(ArrayDin T, ArrayIndex i){
 /* Mengirimkan true jika i adalah indeks yang terdefinisi utk tabel */
@@ -85,7 +85,7 @@ void CopyTab(ArrayDin Tin, ArrayDin *Tout){
     MakeEmpty(Tout, MaxElem(Tin));
   Neff(*Tout) = Neff(Tin);
   int i;
-  for (i=1; i<= Neff(Tin); i++){
+  for (i=0 ; i< Neff(Tin); i++){
     Elmt(*Tout, i) = Elmt(Tin,i);
   }
 }
@@ -98,7 +98,7 @@ int CountX(ArrayDin T, Building* X){
     int i, count;
   count = 0;
   if (Neff(T)!= 0) {
-    for (i=1; i<= Neff(T); i++){
+    for (i= 0; i< Neff(T); i++){
           if (Elmt(T, i) == X){
           count ++;
           }
@@ -114,7 +114,7 @@ void AddAsLastEl(ArrayDin *T, Building* X){
 /* I.S. Tabel T boleh kosong, tetapi tidak penuh */
 /* F.S. X adalah elemen terakhir T yang baru */
     Neff(*T) += 1;
-  Elmt(*T, Neff(*T)) = X;
+  Elmt(*T, Neff(*T) - 1) = X;
 }
 /* ********** MENGHAPUS ELEMEN ********** */
 void DelLastEl(ArrayDin *T, Building** X){
@@ -123,7 +123,8 @@ void DelLastEl(ArrayDin *T, Building** X){
 /* F.S. X adalah nilai elemen terakhir T sebelum penghapusan, */
 /*      Banyaknya elemen tabel berkurang satu */
 /*      Tabel T mungkin menjadi kosong */
-    Elmt(*T, Neff(*T)) = Elmt(*T, Neff(*T)) - *X;
+    *X = Elmt(*T, Neff(*T) - 1);
+    Elmt(*T, Neff(*T) - 1) = Nil;
   Neff (*T) -= 1;
 }
 /* ********* MENGUBAH UKURAN ARRAY ********* */

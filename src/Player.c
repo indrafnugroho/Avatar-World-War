@@ -139,7 +139,7 @@ void UseSkill(Player* P,Player* PEnemy) {
 
 
 /****** CEK SKILL ******/
-void CheckSkill(Player* P, Player* PEnemy, GameState* GS) {
+void CheckSkill(Player* P, Player* PEnemy) {
     /* Kamus */
     int i;
     bool isLevel4;
