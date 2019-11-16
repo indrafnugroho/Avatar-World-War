@@ -14,6 +14,7 @@ DEFINISI ADT Array Implisit <IArray>
 
 //typedef Building Building;
 typedef int ArrayIndex;
+typedef int ArrayVal_t;
 
 typedef struct {
     Building** TI;

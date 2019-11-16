@@ -9,8 +9,8 @@ DEFINISI ADT GRAPH <Graph>
 #include "ArrayDin.h"
 #include "Matrix.h"
 
-typedef IArrayVal_t GraphVal_t;
-typedef IArrayIndex GraphVertex;
+typedef ArrayVal_t GraphVal_t;
+typedef ArrayIndex GraphVertex;
 typedef struct {
     ArrayDin vert;
     Matrix edge;
