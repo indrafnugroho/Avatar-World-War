@@ -15,7 +15,7 @@ DEFINISI ABSTRAKSI GAME
 
 typedef struct {
     List Buildings;
-    Queue S;
+    Queue Skills;
     int CH;    // Critical Hit attribute
     int SH;    // Shielded Building attribute (jumlah turn aktif)
     bool AU;    // Attack Up attribute
@@ -24,7 +24,7 @@ typedef struct {
 
 /* Selektor */
 #define Buildings(P) (P).Buildings
-#define Skills(P) (P).S
+#define Skills(P) (P).Skills
 #define CHs(P) (P).CH
 #define SHs(P) (P).SH
 #define AUs(P) (P).AU
@@ -49,7 +49,8 @@ F.S.
     Pout memiliki seluruh skill dan building yang dimiliki Pin tanpa tambahan lain.
 */
 
-void AddSkill(Player *P, int skill);
+/****** OPERASI DASAR SKILL ******/
+void AddSkill(Player *P, int skillNum);
 /* Add skill by SkillNum to List Queue*/
 /* Skill List: 
     1. Instant Upgrade (IU)         :   Default skill awal
@@ -64,12 +65,16 @@ void AddSkill(Player *P, int skill);
                                         menjadi 10 bangunan
 */
 
-void DisplaySkill(Player PP);
+void DisplaySkill(Player P);
 /* Menampilkan skill yang tersedia pada terminal */
 
-void UseSkill(Player* P);
+void UseSkill(Player* P, Player* PEnemy);
 /* Menggunakan skill yang tersedia */
 
+/****** CEK SKILL ******/
+void CheckSkill(Player* P, Player* PEnemy, GameState* GS);
+/* Mengecek apakah suatu player mendapatkan skill ketika selesai melakukan command */
+/* Dijalankan setiap selesai melakukan command yang berpotensi mendapatkan skill */
 
 /****** IMPLEMENTASI EFEK SKILL ******/
 void IU(Player* P);  // ADT Reference to Player
@@ -89,12 +94,12 @@ void ET(Player* P);  // ADT Reference to Player
 
 void AU(Player* P);  // ADT Reference to Player **
 /* Attack Up */
-/* Pertahanan bangunan musuh tidak akan mempengaruhi penyerangan */
+/* Pertahanan bangunan musuh (termasuk shield) tidak akan mempengaruhi penyerangan */
 
 void CH(Player* P);  // ADT Reference to Player & Bangunan **
 /* Critical Hit */
-/* Jumlah pasukan pada bangunan yang melakukan serangan tepat 
-   selanjutnya hanya berkurang ½ dari jumlah seharusnya */
+/* Nilai serangan efektif sebanyak 2 kali pasukan */
+/* Menonaktifkan shield maupun pertahanan bangunan, seperti Attack Up */
 
 void IR(Player* P);  // ADT Reference to Player.Bangunan
 /* Instant Reinforcement */
@@ -104,6 +109,5 @@ void BR(Player* P);  // ADT Reference to Player
 /* Barrage */
 /* Jumlah pasukan pada seluruh bangunan musuh akan berkurang
    sebanyak 10 pasukan */
-
 
 #endif
