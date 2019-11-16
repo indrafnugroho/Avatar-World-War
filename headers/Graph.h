@@ -32,7 +32,7 @@ bool GraphIsEmpty(Graph g);
 
 int  GraphSize(Graph g);
 
-void GraphAddVertex(Graph* g, GraphVertex* v, GraphVal_t x);
+void GraphAddVertex(Graph* g, GraphVal_t x);
 
 void GraphDelVertex(Graph* g, GraphVertex v, GraphVal_t* x);
 
