@@ -18,7 +18,7 @@ void GraphCreate(Graph* g, int MaxEl){
     F.S.
         g merupakan graph terdefinisi yang kosong
     */
-    MakeEmpty(*g, int MaxEl);
+    MakeEmpty(&g, int MaxEl);
 }
 
 bool GraphIsEmpty(Graph g){

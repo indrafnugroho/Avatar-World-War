@@ -10,6 +10,7 @@ DEFINISI ADT Array Implisit <IArray>
 #include "Building.h"
 
 #define IndexUndef 0
+#define IdxMin 1
 #define ValUndef -999999
 
 //typedef Building Building;

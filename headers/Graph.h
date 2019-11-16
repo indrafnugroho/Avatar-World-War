@@ -42,7 +42,7 @@ void GraphAddEdge(Graph* g, GraphVertex v1, GraphVertex v2);
 
 void GraphDelEdge(Graph* g, GraphVertex v1, GraphVertex v2);
 
-GraphVertex GraphSearchVertex(Graph* g, GraphVal_t x)
+GraphVertex GraphSearchVertex(Graph* g, GraphVal_t x);
 
 bool GraphIsAdjacent(Graph g, GraphVertex v1, GraphVertex v2);
 

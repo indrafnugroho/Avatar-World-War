@@ -12,7 +12,7 @@ void MakeEmpty(ArrayDin *T, int MaxElem){
 /* F.S. Terbentuk tabel T kosong dengan kapasitas MaxElem + 1 */
     (TI(*T)) = (Building *) malloc (100 * sizeof(Building));
     Neff(*T) = 0;
-    MaxEl(*T) = MaxElem;
+    MaxElem(*T) = MaxElem;
 }
 
 
@@ -128,9 +128,9 @@ ArrayDin PlusMinusTab(ArrayDin T1, ArrayDin T2, bool plus){
 /* Prekondisi : T1 dan T2 memiliki Neff sama dan tidak kosong */
 /* Jika plus = true, mengirimkan  T1+T2, yaitu setiap elemen T1 dan T2 pada indeks yang sama dijumlahkan */
 /* Jika plus = false, mengirimkan T1-T2, yaitu setiap elemen T1 dikurangi elemen T2 pada indeks yang sama */
-    TabInt T3;
+  ArrayDin T3;
   int i;
-  MakeEmpty (&T3, MaxEl(T1));
+  MakeEmpty (&T3, MaxElem(T1));
   if (plus){
     for (i=1; i<= Neff(T1); i++){
       Elmt(T3,i) = Elmt(T1, i) + Elmt(T2, i);
@@ -152,7 +152,7 @@ void CopyTab(ArrayDin Tin, ArrayDin *Tout){
 /* I.S. Tin terdefinisi tidak kosong, Tout sembarang */
 /* F.S. Tout berisi salinan dari Tin (identik, Neff dan MaxElem sama) */
 /* Proses : Menyalin isi Tin ke Tout */
-    MakeEmpty(Tout, MaxEl(Tin));
+    MakeEmpty(Tout, MaxElem(Tin));
   Neff(*Tout) = Neff(Tin);
   int i;
   for (i=1; i<= Neff(Tin); i++){
@@ -204,9 +204,9 @@ void GrowTab(ArrayDin *T, int num){
     TabInt temp;
 	MakeEmpty(&temp,MaxElem(*T));
 	CopyTab(*T,&temp);
-	MakeEmpty(T,MaxEl(*T)+num);
+	MakeEmpty(T,MaxElem(*T)+num);
 	CopyTab(temp,T);
-	MaxEl(*T) += num;
+	MaxElem(*T) += num;
 }
 void ShrinkTab(ArrayDin *T, int num){
 /* Proses : Mengurangi max element sebanyak num */
