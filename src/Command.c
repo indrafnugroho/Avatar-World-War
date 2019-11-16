@@ -55,7 +55,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, GameState* GS) {
     int InpBSelf;
     if (ScanInt(&InpBSelf)) {
         i=1;
-        ListTraversal(PT, ListFirstElement(Building(*PTurn)), PT != Nil && i != InpBSelf) i++;
+        ListTraversal(PT, ListFirstElement(Buildings(*PTurn)), PT != Nil && i != InpBSelf) i++;
 
         printf("Daftar bangunan yang dapat diserang:\n");
         /*
@@ -66,7 +66,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, GameState* GS) {
         int InpBEnemy;
         if (ScanInt(&InpBEnemy)) {
             i=1;
-            ListTraversal(PE, ListFirstElement(Building(*PEnemy)), PE != Nil && i != InpBEnemy) i++;
+            ListTraversal(PE, ListFirstElement(Buildings(*PEnemy)), PE != Nil && i != InpBEnemy) i++;
 
             printf("Jumlah pasukan: ");
             int InpTroopsNum;
@@ -114,7 +114,7 @@ void LevelUpCommand(Player* PSelf, GameState* GS) {
     int InpBNUm;
     if (ScanInt(&InpBNUm)) {
         i=1;
-        ListTraversal(P, ListFirstElement(Building(*PSelf)), P != Nil && i != InpBNUm) i++;
+        ListTraversal(P, ListFirstElement(Buildings(*PSelf)), P != Nil && i != InpBNUm) i++;
 
         if (Level(P)<4) {
             if (Troops(P) >= M(P)/2) {
@@ -158,31 +158,116 @@ void EndTurnCommand(Player* PTurn, Player* PEnemy, GameState* GS) {}
 void SaveCommand(Player* PTurn, Player* PEnemy, GameState* GS) {}
 /*  Melakukan mekanisme Save_File, yaitu menyimpan state permainan yang sedang berlangsung*/
 
-void MoveCommand(Player* PTurn, Player* PEnemy, GameState* GS) {
+void MoveCommand(Player* PSelf, GameState* GS) {
 /*  Melakukan mekanisme Move, yaitu memindahkan pasukan dari suatu bangunan ke bangunan lain milik
     pemain yang terhubung dengan bangunan tersebut. MOVE hanya dapat dilakukan
     sekali untuk tiap bangunan pada tiap gilirannya. */
+    ListElement* P, B;
+    int i=1;
 
     printf("Daftar bangunan:\n");
-    /*
-    List of Player's Building(s)
-    */
+    ListTraversal (P, ListFirstElement(Buildings(*PSelf)), P != Nil) {
+        printf("%d. ", i);
+        if (Type(P) == 'C') {
+            printf("Castle (%d,%d) %d lv. %d\n", Koordinat(P).X, Koordinat(P).Y, Troops(P), Level(P));
+        }
+        else if (Type(P) == 'T') {
+            printf("Tower (%d,%d) %d lv. %d\n", Koordinat(P).X, Koordinat(P).Y, Troops(P), Level(P));
+        }
+        else if (Type(P) == 'F') {
+            printf("Fort (%d,%d) %d lv. %d\n", Koordinat(P).X, Koordinat(P).Y, Troops(P), Level(P));
+        }
+        else if (Type(P) == 'V') {
+            printf("Village (%d,%d) %d lv. %d\n", Koordinat(P).X, Koordinat(P).Y, Troops(P), Level(P));
+        }
+        i++;
+    }
 
     printf("Pilih bangunan: ");
-    //Word Processing
+    int InpB;
+    if (ScanInt(&InpB)) {
+        if (InpB <= i-1) {
+            int j=1;
+            ListTraversal(P, ListFirstElement(Buildings(*PSelf)), P != Nil && j != InpB) j++;
 
-    printf("Daftar bangunan terdekat:\n");
-    /*
-    List of Player's Connected Building
-    */
+            if (!AfterMove(P)) {
+                printf("Daftar bangunan terdekat:\n");
+                j=1;
+                ListTraversal(B, ListFirstElement(Connect(P)), B!=Nil) {
+                    printf("%d. ", j);
+                    switch(Type(B)) {
+                    case 'C' :
+                        printf("Castle (%d,%d) %d lv. %d\n", Koordinat(B).X, Koordinat(B).Y, Troops(B), Level(B));
+                        break;
+                    case 'T' :
+                        printf("Tower (%d,%d) %d lv. %d\n", Koordinat(B).X, Koordinat(B).Y, Troops(B), Level(B));
+                        break;
+                    case'F' :
+                        printf("Fort (%d,%d) %d lv. %d\n", Koordinat(B).X, Koordinat(B).Y, Troops(B), Level(B));
+                        break;
+                    case 'V'
+                        printf("Village (%d,%d) %d lv. %d\n", Koordinat(B).X, Koordinat(B).Y, Troops(B), Level(B));
+                        break;
+                    }
+                    j++;
+                }
 
-    printf("Bangunan yang akan menerima: ");
-    //Word Processing
+                printf("Bangunan yang akan menerima: ");
+                int InpBRcv;
+                if (ScanInt(&InpBRcv)) {
+                    if (InpBRcv <= ListSize(Connect(P))) {
+                        j=1;
+                        ListTraversal(B, ListFirstElement(Connect(P)), B != Nil && j != InpBRcv) j++;
 
-    printf("Jumlah pasukan: ");
-    //Word Processing
-
-    /* Result */
+                        printf("Jumlah pasukan: ");
+                        int InpTroops;
+                        if (ScanInt(&InpTroops)) {
+                            if (InpTroops <= Troops(B)) {
+                                Troops(P) -= InpTroops;
+                                Troops(B) += InpTroops;
+                                printf("%d pasukan dari ", InpTroops);
+                                switch (Type(P)) {
+                                case 'C' :
+                                    printf("Castle (%d,%d) ", Koordinat(P).X, Koordinat(P).Y);
+                                    break;
+                                case 'T' :
+                                    printf("Tower (%d,%d) ", Koordinat(P).X, Koordinat(P).Y);
+                                    break;
+                                case 'F' :
+                                    printf("Fort (%d,%d) ", Koordinat(P).X, Koordinat(P).Y);
+                                    break;
+                                case 'V' :
+                                    printf("Village (%d,%d) ", Koordinat(P).X, Koordinat(P).Y);
+                                    break;
+                                }
+                                printf("telah berpindah ke ");
+                                switch (Type(B)) {
+                                case 'C' :
+                                    printf("Castle (%d,%d)\n", Koordinat(B).X, Koordinat(B).Y);
+                                    break;
+                                case 'T' :
+                                    printf("Tower (%d,%d)\n", Koordinat(B).X, Koordinat(B).Y);
+                                    break;
+                                case 'F' :
+                                    printf("Fort (%d,%d)\n", Koordinat(B).X, Koordinat(B).Y);
+                                    break;
+                                case 'V' :
+                                    printf("Village (%d,%d)\n", Koordinat(B).X, Koordinat(B).Y);
+                                    break;
+                                }
+                                AfterMove(P) = true;
+                            }
+                            else printf("Jumlah pasukan Bangunan Anda kurang\n");
+                        }
+                        else printf("Input yang Anda masukkan salah\n");
+                    }
+                    else printf("Input yang Anda masukkan salah\n");
+                }
+                else printf("Input yang Anda masukkan salah\n");
+            }
+        }
+        else printf("Input yang Anda masukkan salah\n");
+    }
 }
 
 void ExitCommand(Player* PTurn, Player* PEnemy, GameState* GS) {}

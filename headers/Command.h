@@ -42,7 +42,7 @@ void EndTurnCommand(Player* P1, Player* P2, GameState* GS);
 void SaveCommand(Player* P1, Player* P2, GameState* GS);
 /* Melakukan mekanisme Save_File, yaitu menyimpan state permainan yang sedang berlangsung*/
 
-void MoveCommand(Player* P1, Player* P2, GameState* GS);
+void MoveCommand(Player* PSelf, GameState* GS);
 /* Melakukan mekanisme Move, yaitu memindahkan pasukan dari suatu bangunan ke bangunan lain milik
    pemain yang terhubung dengan bangunan tersebut. MOVE hanya dapat dilakukan
    sekali untuk tiap bangunan pada tiap gilirannya. */
