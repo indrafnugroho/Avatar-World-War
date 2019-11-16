@@ -188,3 +188,22 @@ ArrayIndex Search1 (ArrayDin T, Building *X)
         return ValUndef;
     }
 }
+
+void DelEli (ArrayDin * T, ArrayIndex i, Building ** X)
+/* Menghapus elemen ke-i tabel tanpa mengganggu kontiguitas */
+/* I.S. Tabel tidak kosong, i adalah indeks efektif yang valid */
+/* F.S. X adalah nilai elemen ke-i T sebelum penghapusan */
+/*      Banyaknya elemen tabel berkurang satu */
+/*      Tabel T mungkin menjadi kosong */
+/* Proses : Geser elemen ke-i+1 s.d. elemen terakhir */
+/*          Kurangi elemen efektif tabel */
+{
+    *X = Elmt(*T, i);
+
+    int j;
+    for (j = i; j <= (GetLastIdx(*T) - 1); j++) {
+        Elmt(*T, j) = Elmt(*T, (j + 1));
+    }
+
+    Neff(*T) -= 1;
+}

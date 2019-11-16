@@ -157,4 +157,6 @@ ArrayIndex Search1 (ArrayDin T, Building *X);
 /* Menghasilkan indeks tak terdefinisi (IdxUndef) jika tabel T kosong */
 /* Memakai skema search TANPA boolean */
 
+
+
 #endif
