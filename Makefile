@@ -8,8 +8,8 @@ INCDIR = headers
 INCPATH = -I$(INCDIR)
 TEMPDIR = .tmp
 
-DEPS = bool List Stack Queue  pcolor CharProcessor WordProcessor Building Loader ArrayDin Graph
-SOURCES = main List Stack Queue  pcolor CharProcessor WordProcessor Building Loader ArrayDin Graph
+DEPS = bool Art List Stack Queue  pcolor CharProcessor WordProcessor Building Loader ArrayDin Graph
+SOURCES = main Art List Stack Queue  pcolor CharProcessor WordProcessor Building Loader ArrayDin Graph
 
 HEADERS = $(patsubst %,$(INCDIR)/%.h,$(DEPS))
 OBJS =  $(patsubst %,$(TEMPDIR)/%.o,$(SOURCES))
