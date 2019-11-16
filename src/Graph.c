@@ -37,14 +37,14 @@ void GraphAddEdge(Graph* g, GraphVertex v1, GraphVertex v2) {
     /* Kamus */
      
     /* Algoritma */
-    ListAddFirst(&Connect(*GraphVertexVal(*g, v1)), GraphVertexVal(*g, v2));
+    ListAddFirst(&Connect(*(Building*)GraphVertexVal(*g, v1)), GraphVertexVal(*g, v2));
     ListAddFirst(&Connect(*GraphVertexVal(*g, v2)), GraphVertexVal(*g, v1));
 }
 
 void GraphDelEdge(Graph* g, GraphVertex v1, GraphVertex v2){
     bool success;
-    ListDelVal(Connect(*GraphVertexVal(*g,v1)), GraphVertexVal(*g, v2), success);
-    ListDelVal(Connect(*GraphVertexVal(*g,v2)), GraphVertexVal(*g, v1), success);
+    ListDelVal(&Connect(*GraphVertexVal(*g,v1)), GraphVertexVal(*g, v2), success);
+    ListDelVal(&Connect(*GraphVertexVal(*g,v2)), GraphVertexVal(*g, v1), success);
 }
 
 bool GraphIsAdjacent(Graph *g, GraphVertex v1, GraphVertex v2){
@@ -67,7 +67,8 @@ void GraphAddVertex(Graph* g, GraphVal_t x){
 }
 
 void GraphDelVertex(Graph* g, GraphVertex v, GraphVal_t* x){
-    GraphVertexVal(*g, v) = GraphVertexVal(*g, v) - *x;
+    //GraphVertexVal(*g, v) = GraphVertexVal(*g, v) - *x;
+    //GraphVertexVal(*g, v) = ValUndef
     Neff(*g) = Neff(*g) - 1;
     
 }
@@ -77,5 +78,6 @@ GraphVertex GraphSearchVertex(Graph* g, GraphVal_t x){
 }
 
 void GraphRealloc(Graph* g, int MaxEl){
-    
+    TI(*g) = realloc (TI(*g), MaxEl * sizeof(Building*));
+    GraphMaxElement(*g) = MaxEl;
 }

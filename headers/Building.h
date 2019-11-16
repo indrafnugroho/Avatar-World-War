@@ -21,7 +21,7 @@ typedef struct {
     int M; // Jumlah maksimum pasukan yang bisa terdapat pada bangunan
     bool Pb; // Status pertahanan bangunan
     int U; // Pasukan awal yang harus dikalahkan untuk menjadikan bangunan milik pemain
-    bool AfterAttack //Bernilai True jika bangunan sdh digunakan utk menyerang, False jika belum
+    bool AfterAttack; //Bernilai True jika bangunan sdh digunakan utk menyerang, False jika belum
     List Connect;    
 } Building;
 
