@@ -4,10 +4,14 @@
 #include "Command.h"
 #include <stdio.h>
 
-void InputCommand() {
+void InputCommand(Game* GG) {
 /*  Melakukan input Command menggunakan Word Processor */
-    
+
+    Word input;   
     printf("ENTER COMMAND: ");
+    ScanWord(&input);
+
+    (*GG).Buildings
     /* 
     Word Processing
     */
