@@ -3,7 +3,7 @@ Graph.c
 Body ADT GRAPH <Graph>
 */
 
-#include "IArray.h"
+#include "ArrayDin.h"
 #include "Matrix.h"
 #include "Graph.h"
 #include "stdio.h"
@@ -18,14 +18,15 @@ void GraphCreate(Graph* g, int MaxEl){
     F.S.
         g merupakan graph terdefinisi yang kosong
     */
-
+    MakeEmpty(*g, int MaxEl);
 }
 
-void GraphIsEmpty(Graph g);
+bool GraphIsEmpty(Graph g){
     /*
     Menghasilkan true jika g kosong (g.vert kosong)
     */
-
+    
+}
 void GraphSize(Graph g);
 
 void GraphAddVertex(Graph* g, GraphVertex* v, GraphVal_t x);
@@ -45,6 +46,4 @@ void GraphRealloc(Graph* g, int MaxEl);
 void GraphDealloc(Graph* g){
     free(*g);
 }
-
-#endif
 
