@@ -13,11 +13,11 @@ typedef struct {
     Point Koordinat;
     int Ownership; //0 tidak dimiliki siapapun, 1 dimiliki player 1, 2 dimiliki player 2
     char Type;
-    int Pasukan;
+    int Troops;
     int Level;
     int A; // Nilai penambahan pasukan pada bangunan tiap awal giliran
     int M; // Jumlah maksimum pasukan yang bisa terdapat pada bangunan
-    int P; // Status pertahanan bangunan
+    bool Pb; // Status pertahanan bangunan
     int U; // Pasukan awal yang harus dikalahkan untuk menjadikan bangunan milik pemain
 } Building;
 
@@ -25,10 +25,11 @@ typedef struct {
 #define Koordinat(B) (B).Koordinat
 #define Ownership(B) (B).Ownership
 #define Type(B) (B).Type
-#define Pasukan(B) (B).Pasukan
+#define Troops(B) (B).Troops
 #define Level(B) (B).Level
 #define A(B) (B).A
 #define M(B) (B).M
+#define Pb(B) (B).Pb
 #define U(B) (B).U
 
 void InitializationBuilding (Building *B);

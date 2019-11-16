@@ -34,18 +34,23 @@ void AddSkill();
 void DisplaySkill();
 /* Menampilkan skill yang tersedia pada terminal */
 
-void UseSkill(Player* P);
+void UseSkill(Player* P, Player* PEnemy);
 /* Menggunakan skill yang tersedia */
 
 bool SkillIsEmpty(Player P);
 /* Mengecek apakah skill sudah habis */
+
+/****** CEK SKILL ******/
+void CheckSkill(Player* P, Player* PEnemy, GameState* GS);
+/* Mengecek apakah suatu player mendapatkan skill ketika selesai melakukan command */
+/* Dijalankan setiap selesai melakukan command yang berpotensi mendapatkan skill */
 
 /****** IMPLEMENTASI EFEK SKILL ******/
 void IU(Player* P);  // ADT Reference to Player
 /* Instant Upgrade */
 /* Seluruh bangunan yang dimiliki pemain akan naik 1 level */
 
-void SH(Player* P, GameState* GS);  // ADT Reference to Player
+void SH(Player* P);  // ADT Reference to Player
 /* Shield */
 /* Seluruh bangunan yang dimiliki oleh pemain akan memiliki 
    pertahanan selama 2 turn */

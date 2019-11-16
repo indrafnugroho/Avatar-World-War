@@ -23,8 +23,9 @@ typedef GameState* ListElement;
 /* Recent command */
 typedef struct {
     char RecentCom[50];
-    Player P1x,P2x;
-    /* .... another state? */
+    Player P1;
+    Player P2;
+    ArraydDin Buildings;
 } GameState;
 
 // typedef struct {
@@ -36,6 +37,7 @@ typedef struct {
 #define Top(GS) ListFirstElement(GS)
 #define StateTop(GS) ListValueFirst(GS)
 #define RecentCom(GS) ListValueFirst(GS).RecentCom
+#define G(GS) ListValueFirst(GS).G
 #define P1(GS) (GS)->P1
 #define P2(GS) (GS)->P2
 

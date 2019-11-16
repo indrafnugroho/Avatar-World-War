@@ -9,18 +9,26 @@ DEFINISI ABSTRAKSI GAME
 #include "Building.h"
 #include "List.h"
 #include "Queue.h"
+#include "bool.h"
+
+#define Nil 0
 
 typedef struct {
     List Buildings;
     Queue S;
-    bool IUActive, SHActive, ETActive, AUActive, CHActive, IRActive, BRActive ;
-    int ShieldCount;
+    int CH;    // Critical Hit attribute
+    int SH;    // Shielded Building attribute (jumlah turn aktif)
+    bool AU;    // Attack Up attribute
+    bool ET;    // Extra Turn attribute
 } Player;
 
 /* Selektor */
 #define Buildings(P) (P).Buildings
 #define Skills(P) (P).S
-#define ShieldCount(P) (P).ShieldCount
+#define CHs(P) (P).CH
+#define SHs(P) (P).SH
+#define AUs(P) (P).AU
+#define ETs(P) (P).ET
 
 void CreateNewPlayer(Player *P);
 /*

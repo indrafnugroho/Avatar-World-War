@@ -25,7 +25,8 @@ typedef struct {
     Stack stkGameState;
     Graph grpBuildingAdjacency;
     GameMap map;
-}
+    
+} Game;
 
 void GameLoadInitConfig(Game* game, const char* filename);
     /*
