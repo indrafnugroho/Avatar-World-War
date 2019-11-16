@@ -25,7 +25,7 @@ bool GraphIsEmpty(Graph g){
     /*
     Menghasilkan true jika g kosong (g.vert kosong)
     */
-    IsEmpty(g); 
+    return IsEmpty(g); 
 }
 int GraphSize(Graph g) {
     return Neff(g);
@@ -40,9 +40,20 @@ void GraphAddEdge(Graph* g, GraphVertex v1, GraphVertex v2) {
     ListAddFirst(&Connect(*GraphVertexVal(*g, v2)), GraphVertexVal(*g, v1));
 }
 
-bool GraphIsAdjacent(Graph g, GraphVertex v1, GraphVertex v2);
+void GraphDelEdge(Graph* g, GraphVertex v1, GraphVertex v2){}
+
+bool GraphIsAdjacent(Graph g, GraphVertex v1, GraphVertex v2){}
 
 void GraphDealloc(Graph* g){
     free(TI(*g));
 }
 
+void GraphAddVertex(Graph* g, GraphVertex* v, GraphVal_t x){}
+
+void GraphDelVertex(Graph* g, GraphVertex v, GraphVal_t* x){}
+
+GraphVertex GraphSearchVertex(Graph* g, GraphVal_t x){}
+
+void GraphRealloc(Graph* g, int MaxEl){}
+
+void GraphDealloc(Graph* g){}
