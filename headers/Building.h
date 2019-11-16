@@ -8,6 +8,7 @@ DEFINISI ABSTRAKSI GAME
 
 #include "Player.h"
 #include "Point.h"
+#include "List.h"
 
 typedef struct {
     Point Koordinat;
@@ -19,6 +20,7 @@ typedef struct {
     int M; // Jumlah maksimum pasukan yang bisa terdapat pada bangunan
     bool Pb; // Status pertahanan bangunan
     int U; // Pasukan awal yang harus dikalahkan untuk menjadikan bangunan milik pemain
+    List Connect;    
 } Building;
 
 /* Selektor */
@@ -31,6 +33,7 @@ typedef struct {
 #define M(B) (B).M
 #define Pb(B) (B).Pb
 #define U(B) (B).U
+#define Connect(B) (B).Connect
 
 void InitializationBuilding (Building *B);
     /*
