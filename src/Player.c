@@ -102,7 +102,7 @@ void DisplaySkill(Player P) {
     }
 }
 
-void UseSkill(Player* P) {
+void UseSkill(Player* P,Player* PEnemy) {
     /* Menggunakan skill yang tersedia */
     int SkillID;
 
@@ -130,7 +130,7 @@ void UseSkill(Player* P) {
             IR(P);
             break;
         case 7:
-            BR(P);
+            BR(PEnemy);
             break;
         default:
             printf("Invalid Skill\n");
@@ -208,14 +208,12 @@ void IU(Player* P) {
     /* Instant Upgrade (ID: 1)*/
     /* Seluruh bangunan yang dimiliki pemain akan naik 1 level */
     /* Representasi Array */
-    int i;
     ListElement* p;
     ListTraversal (p, ListFirstElement(Buildings(*P)), p != Nil) {
         if (Level(*(Building*)ListElementVal(p)) < 4) {
             Level(*(Building*)ListElementVal(p)) += 1;
         }
     }
-   
 }
 
 void SH(Player* P) {
@@ -261,10 +259,9 @@ void IR(Player* P) { /* to ally */
     /* Instant Reinforcement (ID: 6)*/
     /* Bangunan yang dimiliki memiliki level 4 */
     /* Seluruh bangunan mendapatkan tambahan 5 Troops */
-    int i;
-
-    for (i = 1; i <= NbOfBuildings(*P); i++) {
-        Troops(Elmt(Buildings(*P), i)) += 5;
+    ListElement* p;
+    ListTraversal (p, ListFirstElement(Buildings(*P)), p != Nil) {
+        Troops(*(Building*)ListElementVal(p)) += 5;
     }
 }
 
@@ -272,7 +269,7 @@ void BR(Player* P) { /* to enemy */
     /* Barrage (ID: 7)*/
     /* Jumlah Troops pada seluruh bangunan musuh akan berkurang
     sebanyak 10 Troops */
-    for (int i = 1; i <= NbOfBuildings(*P); i++) {
-        Troops(Elmt(Buildings(*P), i)) -= 10;
+    ListTraversal (p, ListFirstElement(Buildings(*P)), p != Nil) {
+        Troops(*(Building*)ListElementVal(p)) -= 10;
     }
 }
