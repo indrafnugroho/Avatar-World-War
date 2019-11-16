@@ -14,42 +14,42 @@ typedef int address;
 /* Recent state */
 typedef struct {
     Word RecentCom;
-    Player P1;
-    Player P2;
+    Player P1s;
+    Player P2s;
     ArrayDin Buildings;
 } GameState;
 
 /* Definisi akses dengan Selektor : Set dan Get */
-#define RecentCom(GS) (GS)->RecentCom
-#define P1(GS) (GS)->P1
-#define P2(GS) (GS)->P2
-#define StateBuildings(GS) (GS)->Buildings
+#define RecentCom(GS) (GS).RecentCom
+#define P1s(GS) (GS).P1s
+#define P2s(GS) (GS).P2s
+#define StateBuildings(GS) (GS).Buildings
 
 /******** GAME STATE ********/
-void CreateGameState(GameState* GS);
+GameState* CreateGameState(Player* P1x, Player* P2x, ArrayDin BuildingsState, GameState* GS);
 /* Membuat alokasi GameState */
 
 void DeleteGameState(GameState* GS);
 /* Menghapus alokasi GameState */
 
-void CaptureGameState(GameState* GS, Game GG, Word RC);
+void CaptureGameState(Player P1x, Player P2x, ArrayDin BuildingsState, Stack GameStack, Word RC);
 /* Mengakuisisi GameState saat prosedur dijalankan */
 
-void RevertGameState(GameState* GS, Game* GG);
+void RevertGameState(GameState* GS, Player* P1x, Player* P2x, ArrayDin BuildingsState, Stack* GameStack);
 /* Mengembalikan GameState sebelumnya ke Game */
 
 /******** GAME STACK ********/
-void PushStkGameState(GameState GS, Game* GG);
+void PushStkGameState(GameState GS, Stack* GameStack);
 /* Push GameState ke stack setiap command selesai dijalankan */
 
-void PopStkGameStack(GameState *GS, Game* GG);
+void PopStkGameStack(GameState* GS, Player* P1x, Player* P2x, ArrayDin BuildingsState, Stack* GameStack);
 /* Pop GameState terakhir yang disimpan di stack (Top) */
 /* IS: GS berisi GameState Terakhir */
 
-void FlushStkGameState(GameState* GS, Game* GG);
+void FlushStkGameState(Stack* GameStack);
 /* Flush semua GameState dan dealokasi GameState setiap selesai turn */
 
-void InfoStkGameState(Game* GG);
+void InfoStkGameState(Player* P1x, Player* P2x, ArrayDin BuildingsState, Stack* GameStack);
 /* Memberi informasi isi stack GameState */
 
 #endif

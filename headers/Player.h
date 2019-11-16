@@ -72,7 +72,7 @@ void UseSkill(Player* P, Player* PEnemy);
 /* Menggunakan skill yang tersedia */
 
 /****** CEK SKILL ******/
-void CheckSkill(Player* P, Player* PEnemy, GameState* GS);
+void CheckSkill(Player* P, Player* PEnemy);
 /* Mengecek apakah suatu player mendapatkan skill ketika selesai melakukan command */
 /* Dijalankan setiap selesai melakukan command yang berpotensi mendapatkan skill */
 

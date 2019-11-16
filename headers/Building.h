@@ -8,7 +8,6 @@ DEFINISI ABSTRAKSI GAME
 
 #include "Player.h"
 #include "Point.h"
-#include "ArrayDin.h"
 #include "List.h"
 
 typedef struct {
