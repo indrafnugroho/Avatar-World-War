@@ -1,5 +1,8 @@
 #include "Loader.h"
-
+#include "Graph.h"
+#include "ArrayDin.h"
+#include <stdio.h>
+#include <stdlib.h>
 void ReadConfigFile(char* path)
 /*
 I.S.
@@ -10,10 +13,10 @@ F.S.
 {
     /* KAMUS LOKAL */
     Word CWord,TEMPWORD;
-    int i,N,M,NbOfB;
+    int i,j,N,M,NbOfB;
     int temp;
     char to;
-    ArrayDin *ArrayOfBuildings;
+    ArrayDin *ArrayOfBuildings = (ArrayDin*) malloc(sizeof(ArrayDin));
     Building *B;
 
     /* ALGORITMA */
@@ -22,17 +25,21 @@ F.S.
         ReadWord(&CWord);
         if(WordToInt(CWord,&temp)){
             N = temp;
+            printf("N: %d\n", N);
         }
         ReadWord(&CWord);
         if(WordToInt(CWord,&temp)){
             M = temp;
+            printf("M: %d\n", M);
         }
         ReadWord(&CWord);
         if(WordToInt(CWord,&temp)){
             NbOfB = temp;
+            printf("Num of buildings: %d\n", NbOfB);
         }
-        MakeEmpty(ArrayOfBuildings,B);
-        for(i = 1; i <= MaxElement(*ArrayOfBuildings); i++) {
+        MakeEmpty(ArrayOfBuildings,NbOfB);
+        for(i = 0; i < NbOfB; i++) {
+            B = (Building*) malloc(sizeof(Building));
             ReadWord(&CWord);
             Type(*B) = CC;
             ReadWord(&CWord);
@@ -44,6 +51,17 @@ F.S.
                 PointY(Koordinat(*B)) = temp;
             }
             AddAsLastEl(ArrayOfBuildings,B);
+            printf("Building #%d: %c(%d, %d)\t", i + 1,Type(*B), PointX(Koordinat(*B)), PointY(Koordinat(*B)));
+        }
+        for (i = 0; i < NbOfB; i++) {
+            for (j = 0; j < NbOfB; j++) {
+                ReadWord(&CWord);
+                if (WordToInt(CWord, &temp)) {
+                    if(temp == 1) {
+                        printf("Connected: #%d -> #%d\t", i + 1, j + 1);
+                    }
+                }
+            }
         }
     }
 }

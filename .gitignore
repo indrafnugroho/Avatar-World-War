@@ -9,3 +9,4 @@ baca.txt
 .vscode/c_cpp_properties.json
 pseudo.txt
 .vscode/settings.json
+*.swp

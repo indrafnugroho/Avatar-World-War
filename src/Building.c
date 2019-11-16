@@ -64,8 +64,8 @@ F.S.
     /* KAMUS LOKAL */
 
     /* ALGORITMA */
-    if(Pasukan(*B) + A(*B) <= M(*B)) {
-        Pasukan(*B) += A(*B);
+    if(Troops(*B) + A(*B) <= M(*B)) {
+        Troops(*B) += A(*B);
     }
 }
 
@@ -78,8 +78,8 @@ F.S.
     - Jika level bangunan bertambah, jumlah pasukan pada bangunan berkurang sebanyak M/2
 */
 {
-    if(Pasukan(*B) >= M(*B)/2) {
+    if(Troops(*B) >= M(*B)/2) {
         Level(*B)++;
-        Pasukan(*B) -= M(*B)/2;
+        Troops(*B) -= M(*B)/2;
     } 
 }

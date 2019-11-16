@@ -43,7 +43,7 @@ void InitializationBuilding (Building *B);
         Parameter-parameter pada building terisi, sesuai jenis Building
     */
 
-void AddPasukanNextTurn (Building B);
+void AddPasukanNextTurn (Building *B);
     /*
     I.S.
         Jumlah pasukan pada building sembarang
