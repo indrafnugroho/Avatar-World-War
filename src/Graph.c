@@ -42,11 +42,19 @@ void GraphAddEdge(Graph* g, GraphVertex v1, GraphVertex v2) {
 }
 
 void GraphDelEdge(Graph* g, GraphVertex v1, GraphVertex v2){
-    
+    bool success;
+    ListDelVal(connect(*GraphVertexVal(*g,v1)), GraphVertexVal(*g, v2), success);
+    ListDelVal(connect(*GraphVertexVal(*g,v2)), GraphVertexVal(*g, v1), success);
 }
 
 bool GraphIsAdjacent(Graph g, GraphVertex v1, GraphVertex v2){
-
+    bool found = true;
+    if (((ListSearch(connect(GraphVertexVal(g,v1)), GraphVertexVal(g,v2))) == 0) || ((ListSearch(connect(GraphVertexVal(g,v1)), GraphVertexVal(g,v2))) == 1){
+        return false;
+    }
+    else {
+        return true;
+    }
 }
 
 void GraphDealloc(Graph* g){
@@ -55,11 +63,11 @@ void GraphDealloc(Graph* g){
 
 void GraphAddVertex(Graph* g, GraphVal_t x){
   
-    AddAsLastEl(*g, x);
+    AddAsLastEl(g, x);
 }
 
-void GraphDelVertex(Graph* g, GraphVal_t* x){
-    GraphVertexVal(*g, *v) = GraphVertexVal(*g, *v) - *x;
+void GraphDelVertex(Graph* g, GraphVertex v, GraphVal_t* x){
+    GraphVertexVal(*g, v) = GraphVertexVal(*g, v) - *x;
     
 }
 
