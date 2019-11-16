@@ -15,7 +15,7 @@ DEFINISI ADT Array Implisit <IArray>
 
 //typedef Building Building;
 typedef int ArrayIndex;
-typedef int ArrayVal_t;
+typedef Building* ArrayVal_t;
 
 typedef struct {
     Building** TI;
@@ -149,5 +149,14 @@ Building SearchBuilding(ArrayDin T, int Row, int Col);
 /*  Mencari Building berdasarkan koordinat masukan (Row,Col) */
 /*  I.S. Building pasti ada di Array */
 /*  F.S. Memberikan hasil Building */
+
+ArrayIndex Search1 (ArrayDin T, Building *X);
+/* Search apakah ada elemen tabel T yang bernilai X */
+/* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
+/* Jika tidak ada, mengirimkan IdxUndef */
+/* Menghasilkan indeks tak terdefinisi (IdxUndef) jika tabel T kosong */
+/* Memakai skema search TANPA boolean */
+
+void DelEli (ArrayDin * T, ArrayIndex i, Building ** X);
 
 #endif

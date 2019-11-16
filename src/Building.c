@@ -5,7 +5,7 @@ IMPLEMENTASI ABSTRAKSI BUILDING
 
 #include "Building.h"
 //#include "Loader.h"
-
+#include <stdio.h>
 void InitializationBuilding (Building *B) 
 /*
 I.S.
@@ -64,12 +64,12 @@ F.S.
     /* KAMUS LOKAL */
 
     /* ALGORITMA */
-    if(Pasukan(*B) + A(*B) <= M(*B)) {
-        Pasukan(*B) += A(*B);
+    if(Troops(*B) + A(*B) <= M(*B)) {
+        Troops(*B) += A(*B);
     }
 }
 
-void LevelAdd (Building *B)
+void LevelAdd (Building *B) {
 /*
 I.S.
     Level bangunan kurang dari 4
@@ -78,9 +78,10 @@ F.S.
     - Jika level bangunan bertambah, jumlah pasukan pada bangunan berkurang sebanyak M/2
     Nilai A, M, dan Pb berubah sesuai Type Bangunan dan Level
 */
-{
-    Troops(*B) -= M(*B)/2;
-    Level(*B)++;
+    if(Troops(*B) >= M(*B)/2) {
+        Level(*B)++;
+        Troops(*B) -= M(*B)/2;
+    } 
     switch (Type(*B)) {
     case 'C' :
         switch (Level(*B)) {
