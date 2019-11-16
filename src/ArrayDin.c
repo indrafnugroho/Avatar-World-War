@@ -12,11 +12,7 @@ void MakeEmpty(ArrayDin *T, int MaxEl) {
 /* F.S. Terbentuk tabel T kosong dengan kapasitas MaxElem + 1 */
     (TI(*T)) = (Building *) malloc (MaxEl* sizeof(Building));
     Neff(*T) = 0;
-<<<<<<< HEAD
-    MaxElem(*T) = MaxElem;
-=======
     MaxElem(*T) = MaxEl;
->>>>>>> 54d54fc70b7b21a01ecbda630d1da7d18169f4e4
 }
 
 
@@ -47,7 +43,7 @@ int MaxElement(ArrayDin T){
 ArrayIndex GetFirstIdx(ArrayDin T){
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen T pertama */
-    return 0;
+    return 1;
 }
 ArrayIndex GetLastIdx(ArrayDin T){
 /* Prekondisi : Tabel T tidak kosong */
@@ -58,12 +54,12 @@ ArrayIndex GetLastIdx(ArrayDin T){
 bool IsIdxValid(ArrayDin T, ArrayIndex i){
 /* Mengirimkan true jika i adalah indeks yang valid utk ukuran tabel */
 /* yaitu antara indeks yang terdefinisi utk container*/
-    return((0<= i) && (i < MaxElem(T)));
+    return((IdxMin<= i) && (i < MaxElem(T)));
 }
 bool IsIdxEff(ArrayDin T, ArrayIndex i){
 /* Mengirimkan true jika i adalah indeks yang terdefinisi utk tabel */
 /* yaitu antara FirstIdx(T)..LastIdx(T) */
-    return((0 <= i) && (i < Neff(T)));
+    return((IdxMin <= i) && (i < Neff(T)));
 
 }
 /* ********** TEST KOSONG/PENUH ********** */
@@ -79,79 +75,6 @@ bool IsFull(ArrayDin T){
     return(Neff(T) == MaxElem(T));
 }
 
-<<<<<<< HEAD
-/* ********** BACA dan TULIS dengan INPUT/OUTPUT device ********** */
-/* *** Mendefinisikan isi tabel dari pembacaan *** */
-void BacaIsi(ArrayDin *T){
-/* I.S. T sembarang dan sudah dialokasikan sebelumnya */
-/* F.S. Tabel T terdefinisi */
-/* Proses : membaca banyaknya elemen T dan mengisi nilainya */
-/* 1. Baca banyaknya elemen diakhiri enter, misalnya N */
-/*    Pembacaan diulangi sampai didapat N yang benar yaitu 0 <= N <= MaxElemement(T) */
-/*    Jika N tidak valid, tidak diberikan pesan kesalahan */
-/* 2. Jika 0 < N <= MaxElemement(T); Lakukan N kali: Baca elemen mulai dari indeks
-      IdxMin satu per satu diakhiri enter */
-/*    Jika N = 0; hanya terbentuk T kosong */
-    int N,i;
-  do {
-    scanf("%d", &N);
-  }  while (!IsIdxValid(*T, N));
-  if (N==0){
-    Neff(*T)=0;
-  }
-  else {
-    for (i=1; i<= N; i++){
-      scanf("%d", &Elmt(*T,i));
-    }
-    Neff(*T) = N;
-  }
-}
-
-void TulisIsiTab(ArrayDin T){
-/* Proses : Menuliskan isi tabel dengan traversal, tabel ditulis di antara kurung siku;
-   antara dua elemen dipisahkan dengan separator "koma", tanpa tambahan karakter di depan,
-   di tengah, atau di belakang, termasuk spasi dan enter */
-/* I.S. T boleh kosong */
-/* F.S. Jika T tidak kosong: [e1,e2,...,en] */
-/* Contoh : jika ada tiga elemen bernilai 1, 20, 30 akan dicetak: [1,20,30] */
-/* Jika tabel kosong : menulis [] */
-    int i;
-  printf("[");
-  if (Neff(T) != 0){
-    for (i=1; i< Neff(T); i++){
-      printf("%d", Elmt(T,i));
-      printf(",");
-    }
-    printf("%d]", Elmt(T, Neff(T)));
-  }
-  printf("]");
-}
-
-/* ********** OPERATOR ARITMATIKA ********** */
-/* *** Aritmatika tabel : Penjumlahan, pengurangan, perkalian, ... *** */
-ArrayDin PlusMinusTab(ArrayDin T1, ArrayDin T2, bool plus){
-/* Prekondisi : T1 dan T2 memiliki Neff sama dan tidak kosong */
-/* Jika plus = true, mengirimkan  T1+T2, yaitu setiap elemen T1 dan T2 pada indeks yang sama dijumlahkan */
-/* Jika plus = false, mengirimkan T1-T2, yaitu setiap elemen T1 dikurangi elemen T2 pada indeks yang sama */
-  ArrayDin T3;
-  int i;
-  MakeEmpty (&T3, MaxElem(T1));
-  if (plus){
-    for (i=1; i<= Neff(T1); i++){
-      Elmt(T3,i) = Elmt(T1, i) + Elmt(T2, i);
-    }
-  }
-  else {
-    for (i=1; i<= Neff(T1); i++){
-      Elmt(T3,i) = Elmt(T1, i) - Elmt(T2, i);
-    }
-  }
-  return T3;
-}
-
-
-=======
->>>>>>> 54d54fc70b7b21a01ecbda630d1da7d18169f4e4
 
 
 /* ********** OPERASI LAIN ********** */
@@ -208,17 +131,12 @@ void GrowTab(ArrayDin *T, int num){
 /* Proses : Menambahkan max element sebanyak num */
 /* I.S. Tabel sudah terdefinisi */
 /* F.S. Ukuran tabel bertambah sebanyak num */
-<<<<<<< HEAD
-    TabInt temp;
+  ArrayDin temp;
 	MakeEmpty(&temp,MaxElem(*T));
 	CopyTab(*T,&temp);
 	MakeEmpty(T,MaxElem(*T)+num);
 	CopyTab(temp,T);
 	MaxElem(*T) += num;
-=======
-    (TI(*T)) = (Building**) realloc(TI(*T), (num + MaxElem(*T)) * sizeof(Building*));
-    MaxElem(*T) += num;
->>>>>>> 54d54fc70b7b21a01ecbda630d1da7d18169f4e4
 }
 void ShrinkTab(ArrayDin *T, int num){
 /* Proses : Mengurangi max element sebanyak num */
