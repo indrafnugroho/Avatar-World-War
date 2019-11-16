@@ -3,22 +3,13 @@ Graph.c
 Body ADT GRAPH <Graph>
 */
 
-#include "IArray.h"
+#include "ArrayDin.h"
 #include "Matrix.h"
-#include "Graph.c"
+#include "Graph.h"
 #include "stdio.h"
 #include "stdlib.h"
 
 
-typedef IArrayVal_t GraphVal_t;
-typedef IArrayIndex GraphVertex;
-typedef struct {
-    IArray vert;
-    Matrix edge;
-} Graph;
-
-#define GraphVertexVal(g, v) IArrayElement(g.vert, v)
-#define GraphMaxElement(g) IArrayMaxElement(g.vert)
 
 void GraphCreate(Graph* g, int MaxEl){
     /*
@@ -27,14 +18,15 @@ void GraphCreate(Graph* g, int MaxEl){
     F.S.
         g merupakan graph terdefinisi yang kosong
     */
-
+    MakeEmpty(*g, int MaxEl);
 }
 
-void GraphIsEmpty(Graph g);
+bool GraphIsEmpty(Graph g){
     /*
     Menghasilkan true jika g kosong (g.vert kosong)
     */
-
+    
+}
 void GraphSize(Graph g);
 
 void GraphAddVertex(Graph* g, GraphVertex* v, GraphVal_t x);
@@ -51,7 +43,7 @@ bool GraphIsAdjacent(Graph g, GraphVertex v1, GraphVertex v2);
 
 void GraphRealloc(Graph* g, int MaxEl);
 
-void GraphDealloc(Graph* g);
-
-#endif
+void GraphDealloc(Graph* g){
+    free(*g);
+}
 

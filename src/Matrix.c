@@ -5,7 +5,7 @@ IMPLEMENTASI ADT MATRIX <Matrix>
 
 #include "Matrix.h"
 
-vvoid CreateMatrix(Matrix* M, int NRow, int NCol) {
+void CreateMatrix(Matrix* M, int NRow, int NCol) {
 /* Membentuk sebuah MATRIKS "kosong" yang siap diisi berukuran NRow x NCol di "ujung kiri" memori */
 /* I.S. NRow dan NCol adalah valid untuk memori matriks yang dibuat */
 /* F.S. Matriks M sesuai dengan definisi di atas terbentuk */

@@ -13,13 +13,17 @@ DEFINISI ADT MATRIX <Matrix>
 #define ColMin 1
 #define ColMax 30
 
-typedef int MatrixVal_t;
 typedef int MatrixIndex;
 typedef struct {
-    MatrixVal_t Mem[RowMax+1][ColMax+1];
+    BChar Mem[RowMax+1][ColMax+1];
     int RowEff;
     int ColEff;
 } Matrix;
+
+typedef struct {
+    char Color;
+    char BType;
+} BChar;
 
 #define RowEff(m) (m).RowEff
 #define ColEff(m) (m).ColEff

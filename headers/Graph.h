@@ -6,13 +6,13 @@ DEFINISI ADT GRAPH <Graph>
 #ifndef _GRAPH_H
 #define _GRAPH_H
 
-#include "IArray.h"
+#include "ArrayDin.h"
 #include "Matrix.h"
 
-typedef IArrayVal_t GraphVal_t;
-typedef IArrayIndex GraphVertex;
+typedef ArrayVal_t GraphVal_t;
+typedef ArrayIndex GraphVertex;
 typedef struct {
-    IArray vert;
+    ArrayDin vert;
     Matrix edge;
 } Graph;
 
