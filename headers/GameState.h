@@ -16,7 +16,7 @@ typedef struct {
     Word RecentCom;
     Player P1;
     Player P2;
-    ArrayDin Buil&dings;
+    ArrayDin Buildings;
 } GameState;
 
 /* Definisi akses dengan Selektor : Set dan Get */
