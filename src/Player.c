@@ -16,7 +16,7 @@ F.S.
 {
     QueueCreate(&Skills(*P));
     ListCreate(&Buildings(*P));
-    QueueAdd(&Skills(*P), 1);
+    QueueAdd(&Skills(*P), (int*)1);
     CHs(*P) = 0;
     SHs(*P) = 0;
     AUs(*P) = false;
@@ -62,7 +62,7 @@ void AddSkill(Player* P, int skill) {
     7. Barrage (BR)                 :   Lawan baru saja bertambah bangunannya 
                                         menjadi 10 bangunan */
     if (ListSize(Skills(*P)) <= 10) {
-        QueueAdd(&Skills(*P), skill);
+        QueueAdd(&Skills(*P), (int*)skill);
     } else {
         printf("Queue skill penuh\n");
     }
