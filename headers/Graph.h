@@ -6,18 +6,16 @@ DEFINISI ADT GRAPH <Graph>
 #ifndef _GRAPH_H
 #define _GRAPH_H
 
-#include "ArrayDin.h"
 #include "List.h"
 
 
-typedef ArrayVal_t GraphVal_t;
-typedef ArrayIndex GraphVertex;
-typedef ArrayDin Graph;
+typedef ListElement* GraphVertex;
+typedef List Graph;
 
-#define GraphVertexVal(g, v) Elmt(g, v)
-#define GraphMaxElement(g) MaxElem(g)
+#define GraphVertexFirst(g) ListElementFirst(g)
+#define GraphVertexAdj(p) (*(List*)ListElementVal(p))
 
-void GraphCreate(Graph* g, int MaxEl);
+void GraphCreate(Graph* g);
     /*
     I.S.
         g sembarang
@@ -31,21 +29,57 @@ bool GraphIsEmpty(Graph g);
     */
 
 int  GraphSize(Graph g);
-
-void GraphAddVertex(Graph* g, GraphVal_t x);
-
-void GraphDelVertex(Graph* g, GraphVertex v, GraphVal_t* x);
+    /*
+    Mengembalikan banyak vertex pada g
+    */
+void GraphAddVertex(Graph* g, List* x);
+    /*
+    I.S.
+        x adalah pointer to list (sebagai adjacency list, g terdefinisi
+    F.S.
+        x menjadi niali vertex dari 
+    */
 
 void GraphAddEdge(Graph* g, GraphVertex v1, GraphVertex v2);
+    /*
+    I.S.
+        v1 dan v2 adalah vertex dari g
+    F.S.
+        v1 dan v2 terhubung
+    */
 
 void GraphDelEdge(Graph* g, GraphVertex v1, GraphVertex v2);
+    /*
+    I.S.
+        v1 dan v2 adalah vertex dari g dan terhubung edge
+    F.S.
+        edge yang menghubungkan v1 dan v2 dihapus
+    */
 
-GraphVertex GraphSearchVertex(Graph* g, GraphVal_t x);
+bool GraphIsAdjacent(Graph g, GraphVertex v1, GraphVertex v2);
+    /* Mengembalikan true jika v1 dan v2 terhubung edge */
 
-bool GraphIsAdjacent(Graph *g, GraphVertex v1, GraphVertex v2);
+GraphVertex GraphGetVertexFromIdx(Graph g, int idx);
+    /* Mengembalikan vertex indeks ke-idx pada g */
 
-void GraphRealloc(Graph* g, int MaxEl);
+void GraphAddEdgeIdx(Graph* g, int i1, int i2);
+    /*
+    I.S.
+        v1 dan v2 adalah vertex indeks ke i1 dan i2 dari g
+    F.S.
+        v1 dan v2 terhubung
+    */
 
-void GraphDealloc(Graph* g);
+void GraphDelEdgeIdx(Graph* g, int i1, int i2);
+    /*
+    I.S.
+        v1 dan v2 adalah vertex indeks ke i1 dan i2 dari g
+    F.S.
+        v1 dan v2 terhubung
+    */
+
+bool GraphIsAdjacentIdx(Graph g, int i1, int i2);
+    /* Mengembalikan true jika verteks indeks ke i1 dan i2 terhubung edge */
+
 
 #endif

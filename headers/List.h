@@ -197,4 +197,8 @@ ListElement* ListSearch(List l, ListVal_t x);
 List CopyList(List L);
     /* Menyalin List */
 
+ListElement* ListIdx(List L, int idx);
+    /* Menngembalikan pointer ke ListElement pada urutan ke-idx pada list L */
+    /* Prekondisi: 0 =< idx < ListSize(L) */
+
 #endif

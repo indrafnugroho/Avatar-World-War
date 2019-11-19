@@ -3,15 +3,9 @@ Graph.c
 Body ADT GRAPH <Graph>
 */
 
-#include "ArrayDin.h"
 #include "Graph.h"
-#include "List.h"
-#include <stdio.h>
-#include <stdlib.h>
 
-
-
-void GraphCreate(Graph* g, int MaxEl) {
+void GraphCreate(Graph* g) {
      
     /*
     I.S.
@@ -19,65 +13,69 @@ void GraphCreate(Graph* g, int MaxEl) {
     F.S.
         g merupakan graph terdefinisi yang kosong
     */
-    MakeEmpty(g, MaxEl);
+    ListCreate(g);
 }
 
 bool GraphIsEmpty(Graph g){
     /*
     Menghasilkan true jika g kosong (g.vert kosong)
     */
-    return IsEmpty(g); 
+    return ListIsEmpty(g); 
 }
 int GraphSize(Graph g) {
-    return Neff(g);
+    return ListSize(g);
 }
 
 
-void GraphAddEdge(Graph* g, GraphVertex v1, GraphVertex v2) {
-    /* Kamus */
-     
+void GraphAddEdge(Graph* g, GraphVertex v1, GraphVertex v2) { 
     /* Algoritma */
-    ListAddFirst(&Connect(*(Building*)GraphVertexVal(*g, v1)), GraphVertexVal(*g, v2));
-    ListAddFirst(&Connect(*GraphVertexVal(*g, v2)), GraphVertexVal(*g, v1));
+    ListAddFirst(&GraphVertexAdj(v1), v2);
+    ListAddFirst(&GraphVertexAdj(v2), v1);
+    //ListAddFirst(&Connect(*(Building*)GraphVertexVal(*g, v1)), GraphVertexVal(*g, v2));
+    //ListAddFirst(&Connect(*GraphVertexVal(*g, v2)), GraphVertexVal(*g, v1));
+}
+
+void GraphAddEdgeIdx(Graph* g, int i1, int i2) {
+    GraphAddEdge(g, GraphGetVertexFromIdx(*g, i1), GraphGetVertexFromIdx(*g, i2));
 }
 
 void GraphDelEdge(Graph* g, GraphVertex v1, GraphVertex v2){
     bool success;
-    ListDelVal(&Connect(*GraphVertexVal(*g,v1)), GraphVertexVal(*g, v2), success);
-    ListDelVal(&Connect(*GraphVertexVal(*g,v2)), GraphVertexVal(*g, v1), success);
+    ListDelVal(&GraphVertexAdj(v1), v2, success);
+    ListDelVal(&GraphVertexAdj(v2), v1, success);
+    //ListDelVal(&Connect(*GraphVertexVal(*g,v1)), GraphVertexVal(*g, v2), success);
+    //ListDelVal(&Connect(*GraphVertexVal(*g,v2)), GraphVertexVal(*g, v1), success);
 }
 
-bool GraphIsAdjacent(Graph *g, GraphVertex v1, GraphVertex v2){
+void GraphDelEdgeIdx(Graph* g, int i1, int i2) {
+    GraphDelEdge(g, GraphGetVertexFromIdx(*g, i1), GraphGetVertexFromIdx(*g, i2));
+}
+
+bool GraphIsAdjacent(Graph g, GraphVertex v1, GraphVertex v2){
     bool found = true;
+    return ListSearch(GraphVertexAdj(v1), v2) != Nil;
+    /*
     if (((ListSearch(Connect(*GraphVertexVal(*g,v1)), GraphVertexVal(*g,v2))) == 0) || ((ListSearch(Connect(*GraphVertexVal(*g,v1)), GraphVertexVal(*g,v2))) == 1)){
         return false;
     }
     else {
         return true;
-    }
+    }*/
 }
 
-void GraphDealloc(Graph* g){
-    free(TI(*g));
+bool GraphIsAdjacentIdx(Graph g, int i1, int i2) {
+    return GraphIsAdjacent(g, GraphGetVertexFromIdx(g, i1), GraphGetVertexFromIdx(g, i2));
 }
 
-void GraphAddVertex(Graph* g, GraphVal_t x){
-  
-    AddAsLastEl(g, x);
+
+void GraphAddVertex(Graph* g, List* x){  
+    ListAddLast(g, x);
 }
 
-void GraphDelVertex(Graph* g, GraphVertex v, GraphVal_t* x){
-    //GraphVertexVal(*g, v) = GraphVertexVal(*g, v) - *x;
-    //GraphVertexVal(*g, v) = ValUndef
-    Neff(*g) = Neff(*g) - 1;
-    
+GraphVertex GraphGetVertexFromIdx(Graph g, int idx) {
+    return ListIdx(g, idx);
 }
 
-GraphVertex GraphSearchVertex(Graph* g, GraphVal_t x){
-    return Search1(*g, x);
-}
 
-void GraphRealloc(Graph* g, int MaxEl){
-    TI(*g) = realloc (TI(*g), MaxEl * sizeof(Building*));
-    GraphMaxElement(*g) = MaxEl;
-}
+
+

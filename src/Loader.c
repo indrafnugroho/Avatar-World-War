@@ -23,6 +23,7 @@ F.S.
     /* ALGORITMA */
     CreateEmpty(&CWord);
     if (ReadStart(path)) {
+        /* Membaca Ukuran Map */
         ReadWord(&CWord);
         if(WordToInt(CWord,&temp)){
             N = temp;
@@ -33,11 +34,13 @@ F.S.
             M = temp;
             printf("M: %d\n", M);
         }
+        /* Membaca banyak building */
         ReadWord(&CWord);
         if(WordToInt(CWord,&temp)){
             NbOfB = temp;
             printf("Num of buildings: %d\n", NbOfB);
         }
+        /* Membaca Building */
         MakeEmpty(ArrayOfBuildings,NbOfB);
         for(i = 0; i < NbOfB; i++) {
             B = (Building*) malloc(sizeof(Building));
@@ -52,8 +55,9 @@ F.S.
                 PointY(Koordinat(*B)) = temp;
             }
             AddAsLastEl(ArrayOfBuildings,B);
-            printf("Building #%d: %c(%d, %d)\t", i + 1,Type(*B), PointX(Koordinat(*B)), PointY(Koordinat(*B)));
+            printf("Building #%d: %c(%d, %d)\n", i + 1,Type(*B), PointX(Koordinat(*B)), PointY(Koordinat(*B)));
         }
+        /* Membaca keterhubungan building */
         for (i = 0; i < NbOfB; i++) {
             for (j = 0; j < NbOfB; j++) {
                 ReadWord(&CWord);
@@ -63,6 +67,7 @@ F.S.
                     }
                 }
             }
+            printf("\n");
         }
     }
 }

@@ -18,6 +18,7 @@ int main() {
     while (gameState == GAMESTATE_MENU) {
         DisplayTitle();
         DisplayMainMenu();
+        DisplayWarning();
         DisplayPrompt("MENU");
         ScanWord(&w);
         if (WordEqualsString(w, "START") || WordEqualsString(w, "start")) {
@@ -30,8 +31,7 @@ int main() {
             printf("Quitting, huh?\n");
             gameState = -1;
         } else {
-            DisplayPrompt("!");
-            printf("Invalid Command\n");
+            AddWarning("Invalid Command");
         }
     }
 

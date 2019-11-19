@@ -1,11 +1,27 @@
 #include "Art.h"
 #include <stdio.h>
 #include "pcolor.h"
+#include "bool.h"
+#include <string.h>
 
+bool warn = false;
+char warnmsg[50];
 void clrscr() {
     printf("\e[1;1H\e[2J"); 
 }
 
+void AddWarning(const char* w) {
+    warn = true;
+    strcpy(warnmsg, w);    
+}
+
+void DisplayWarning() {
+    if (warn) {
+        DisplayPrompt("!");
+        printf("%s\n", warnmsg);
+        warn = false;
+    }
+}
 void DisplayTitle() {
     clrscr();
     set_print_color(BLUE);

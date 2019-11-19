@@ -338,3 +338,18 @@ List CopyList(List l) {
     return lout;
 }
 
+
+ListElement* ListIdx(List l, int idx) {
+    /* Mengembalikan pointer ke ListElement pada urutan ke-idx pada list L */
+    /* Kamus Lokal */
+    int i;
+    ListElement* p;
+    /* Algoritma */
+    i = 0;
+    ListTraversal(p, ListFirstElement(l), i < idx) {
+        i++;
+    }
+    return p;
+}
+
+

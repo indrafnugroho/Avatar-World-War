@@ -3,6 +3,10 @@
 
 void clrscr();
 
+void AddWarning(const char* w);
+
+void DisplayWarning();
+
 void DisplayTitle();
 
 void DisplayMainMenu();
