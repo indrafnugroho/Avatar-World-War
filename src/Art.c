@@ -75,3 +75,19 @@ void DisplayPrompt(const char* info) {
     printf(" ");
 }
 
+void DisplayPrompt2(int p, const char* info) {
+    if (p == 1) {
+        set_print_color(BG_BLUE);
+        set_print_color(BLACK);
+    } else {
+        set_print_color(BG_RED);
+        set_print_color(WHITE); 
+    }
+    set_print_color(BOLD);
+    printf(" %s ", info);
+    reset_print_color();
+    printf(" ");
+}
+
+
+

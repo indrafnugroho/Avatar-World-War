@@ -20,25 +20,29 @@ int main() {
     ArrayDin b;
     Graph g;
     Game game;
-    while (gameState == GAMESTATE_MENU) {
-        DisplayTitle();
-        DisplayMainMenu();
-        DisplayWarning();
-        DisplayPrompt("MENU");
-        ScanWord(&w);
-        if (WordEqualsString(w, "START") || WordEqualsString(w, "start")) {
-            printf("Game Starts!\n");
-            set_print_color(BOLD);
-            //ReadConfigFile("config.txt", &b, &g, &map);
-            GameLoadInitConfig(&game, "config.txt");
-            GameInit(&game);
-            gameState = GAMESTATE_LOAD;
-            reset_print_color();
-        } else if (WordEqualsString(w, "QUIT") || WordEqualsString(w, "quit")) {
-            printf("Quitting, huh?\n");
-            gameState = -1;
-        } else {
-            AddWarning("Invalid Command");
+    while (gameState >= 0) {
+        if (gameState == GAMESTATE_MENU) {
+            DisplayTitle();
+            DisplayMainMenu();
+            DisplayWarning();
+            DisplayPrompt("MENU");
+            ScanWord(&w);
+            if (WordEqualsString(w, "START") || WordEqualsString(w, "start")) {
+                printf("Game Starts!\n");
+                set_print_color(BOLD);
+                //ReadConfigFile("config.txt", &b, &g, &map);
+                GameLoadInitConfig(&game, "config.txt");
+                GameInit(&game);
+                gameState = GAMESTATE_GAME;
+                reset_print_color();
+            } else if (WordEqualsString(w, "QUIT") || WordEqualsString(w, "quit")) {
+                printf("Quitting, huh?\n");
+                gameState = -1;
+            } else {
+                AddWarning("Invalid Command");
+            }
+        } else if (gameState == GAMESTATE_GAME) {
+            GameTurn(&game);
         }
     }
 

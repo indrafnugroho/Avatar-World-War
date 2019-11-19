@@ -5,6 +5,7 @@ IMPLEMENTASI ABSTRAKSI GAME
 
 #include "Game.h"
 #include "Loader.h"
+#include "Art.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "pcolor.h"
@@ -40,7 +41,6 @@ void GameInit(Game* game) {
     ListAddLast(&Buildings(game->P2), Elmt(game->Buildings, 1));
     game->turn = &(game->P1);
     StackCreate(&(game->stkGameState));
-    PrintMap(game->map, game->P1, game->P2);
 }
 
 void GameTurn(Game* game) { 
@@ -53,6 +53,12 @@ void GameTurn(Game* game) {
     */
     /* Algoritma */
     // Minta variabel Next turn buat skill Extra Turn
+    GameLoop(game);
+    if (game->turn == &(game->P1)) {
+        game->turn = &(game->P2);
+    } else {
+        game->turn = &(game->P1);
+    } 
 }
 
 void GameLoop(Game* game) {
@@ -63,6 +69,14 @@ void GameLoop(Game* game) {
         Satu turn pemain dijalankan.
     */
     /* Algoritma */
+    Word w;
+    PrintMap(game->map, game->P1, game->P2);
+    if (game->turn == &(game->P1)) {
+        DisplayPrompt2(1, "COMMAND");
+    } else {
+        DisplayPrompt2(2, "COMMAND");
+    }
+    ScanWord(&w);
 }
 
 void GameFinish(Game* game) {

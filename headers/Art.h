@@ -13,7 +13,8 @@ void DisplayTitleMini();
 
 void DisplayMainMenu();
 
-void DisplayPrompt();
+void DisplayPrompt(const char* info);
 
+void DisplayPrompt2(int p, const char* info);
 
 #endif

@@ -46,7 +46,8 @@ void PrintMap(GameMap Maps, Player P1, Player P2) {
         if (i==1 || i==RowStar) {
             printf("  ");
             set_print_color(BG_WHITE);
-            for (int j=1; j<=ColStar; j++) printf(" ");
+            for (int j=1; j<=ColStar; j++) printf("  ");
+            printf(" ");
             reset_print_color();
             printf("\n");
         }
@@ -54,12 +55,13 @@ void PrintMap(GameMap Maps, Player P1, Player P2) {
             printf("  ");
             set_print_color(BG_WHITE);
             Row = i-1;
-            printf(" ");
+            printf("  ");
             set_print_color(BG_BLACK);
             set_print_color(WHITE);
             set_print_color(BOLD);
+            printf(" ");
             for (Col=1; Col<=ColEff(Maps); Col++) {
-                if (MElmt(Maps,Row,Col) == Nil) printf(" ");
+                if (MElmt(Maps,Row,Col) == Nil) printf("  ");
                 else {
                     if (ListSearch(Buildings(P1), MElmt(Maps,Row,Col)) != Nil)
                         set_print_color(BLUE);
@@ -67,13 +69,14 @@ void PrintMap(GameMap Maps, Player P1, Player P2) {
                         set_print_color(RED);
                     else
                         set_print_color(WHITE); 
-                    printf("%c", Type(*MElmt(Maps,Row,Col)));
+                    printf("%c ", Type(*MElmt(Maps,Row,Col)));
                 }
             }
             set_print_color(BG_WHITE);
-            printf(" ");
+            printf("  ");
             reset_print_color();
             printf("\n");
         }
     }
+    printf("\n");
 }
