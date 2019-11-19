@@ -95,17 +95,19 @@ void LevelUpCommand(Player* PSelf, GameState* GS) {
     printf("Daftar bangunan:\n");
     ListTraversal (P, ListFirstElement(Buildings(*PSelf)), P != Nil) {
         printf("%d. ", i);
-        if (Type(P) == 'C') {
+        switch(Type(P)) {
+        case 'C' :
             printf("Castle (%d,%d) %d lv. %d\n", Koordinat(P).X, Koordinat(P).Y, Troops(P), Level(P));
-        }
-        else if (Type(P) == 'T') {
+            break;
+        case 'T' :
             printf("Tower (%d,%d) %d lv. %d\n", Koordinat(P).X, Koordinat(P).Y, Troops(P), Level(P));
-        }
-        else if (Type(P) == 'F') {
+            break;
+        case 'F' :
             printf("Fort (%d,%d) %d lv. %d\n", Koordinat(P).X, Koordinat(P).Y, Troops(P), Level(P));
-        }
-        else if (Type(P) == 'V') {
+            break;
+        case 'V' :
             printf("Village (%d,%d) %d lv. %d\n", Koordinat(P).X, Koordinat(P).Y, Troops(P), Level(P));
+            break;
         }
         i++;
     }
@@ -113,34 +115,34 @@ void LevelUpCommand(Player* PSelf, GameState* GS) {
     printf("Bangunan yang akan di level up: ");
     int InpBNUm;
     if (ScanInt(&InpBNUm)) {
-        i=1;
-        ListTraversal(P, ListFirstElement(Buildings(*PSelf)), P != Nil && i != InpBNUm) i++;
+        if (InpBNUm <= ListSize(Buildings(*PSelf))) {
+            i=1;
+            ListTraversal(P, ListFirstElement(Buildings(*PSelf)), P != Nil && i != InpBNUm) i++;
 
-        if (Level(P)<4) {
-            if (Troops(P) >= M(P)/2) {
-                LevelAdd(&P);
-            }
-            else {
-                switch (Type(P)) {
-                case 'C' :
-                    printf("Jumlah pasukan Castle kurang untuk level up\n");
-                    break;
-                case 'T' :
-                    printf("Jumlah pasukan Tower kurang untuk level up\n");
-                    break;
-                case 'F' :
-                    printf("Jumlah pasukan Fort kurang untuk level up\n");
-                    break;
-                case 'V' :
-                    printf("Jumlah pasukan Village kurang untuk level up\n");
-                    break;
+            if (Level(P)<4) {
+                if (Troops(P) >= M(P)/2) LevelAdd(&P);
+                else {
+                    switch (Type(P)) {
+                    case 'C' :
+                        printf("Jumlah pasukan Castle kurang untuk level up\n");
+                        break;
+                    case 'T' :
+                        printf("Jumlah pasukan Tower kurang untuk level up\n");
+                        break;
+                    case 'F' :
+                        printf("Jumlah pasukan Fort kurang untuk level up\n");
+                        break;
+                    case 'V' :
+                        printf("Jumlah pasukan Village kurang untuk level up\n");
+                        break;
+                    }
                 }
             }
+            else printf("Level Bangunan Anda sudah maksimum\n");
         }
-        else printf("Level Bangunan Anda sudah maksimum\n");
+        else printf("Input yang Anda masukkan salah\n");
     }
-
-
+    else printf("Input yang Anda masukkan salah\n");
 }
 
 void SkillCommand(Player* PTurn, Player* PEnemy, GameState* GS) {}
@@ -186,7 +188,7 @@ void MoveCommand(Player* PSelf, GameState* GS) {
     printf("Pilih bangunan: ");
     int InpB;
     if (ScanInt(&InpB)) {
-        if (InpB <= i-1) {
+        if (InpB <= ListSize(Buildings(*PSelf))) {
             int j=1;
             ListTraversal(P, ListFirstElement(Buildings(*PSelf)), P != Nil && j != InpB) j++;
 
@@ -265,9 +267,11 @@ void MoveCommand(Player* PSelf, GameState* GS) {
                 }
                 else printf("Input yang Anda masukkan salah\n");
             }
+            else printf("Bangunan yang Anda pilih sudah melakukan MOVE sebelumnya\n");
         }
         else printf("Input yang Anda masukkan salah\n");
     }
+    else printf("Input yang Anda masukkan salah\n");
 }
 
 void ExitCommand(Player* PTurn, Player* PEnemy, GameState* GS) {}
