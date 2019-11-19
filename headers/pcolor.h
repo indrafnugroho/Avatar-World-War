@@ -27,6 +27,8 @@ We only provide 8 colors. Feel free to modify/add colors if you want to.
 #define BG_MAGENTA "\x1B[45m"
 #define CYAN "\x1B[36m"
 #define BG_CYAN "\x1B[46m"
+#define WHITE "\x1B[37m"
+#define BG_WHITE "\x1B[47m"
 #define BOLD "\x1B[1m"
 #define UNDERLINE "\x1B[4m"
 void print_red(char c);

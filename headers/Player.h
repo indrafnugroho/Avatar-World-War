@@ -10,6 +10,7 @@ DEFINISI ABSTRAKSI GAME
 #include "List.h"
 #include "Queue.h"
 #include "bool.h"
+#include "WordProcessor.h"
 //#include "GameState.h"
 
 #define Nil 0
@@ -73,7 +74,7 @@ void UseSkill(Player* P, Player* PEnemy);
 /* Menggunakan skill yang tersedia */
 
 /****** CEK SKILL ******/
-void CheckSkill(Player* P, Player* PEnemy);
+void CheckSkill(Player* P, Player* PEnemyi, Word LastCommand);
 /* Mengecek apakah suatu player mendapatkan skill ketika selesai melakukan command */
 /* Dijalankan setiap selesai melakukan command yang berpotensi mendapatkan skill */
 

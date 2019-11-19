@@ -16,10 +16,10 @@ DEFINISI ABSTRAKSI GAME
 #include "Stack.h"
 #include "Command.h"
 #include "WordProcessor.h"
-
+#include "Graph.h"
 typedef struct {
-    Player* P1;
-    Player* P2;
+    Player P1;
+    Player P2;
     Player* turn;
     ArrayDin Buildings;
     Stack stkGameState;
@@ -27,7 +27,7 @@ typedef struct {
     GameMap map;
 } Game;
 
-void GameLoadInitConfig(Game* game, const char* filename);
+void GameLoadInitConfig(Game* game, char* filename);
     /*
     I.S.
         isi map dan arrBuilding pada game sebarang

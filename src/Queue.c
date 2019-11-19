@@ -19,7 +19,7 @@ bool QueueIsEmpty(Queue q) {
     return ListIsEmpty(q);
 }
 
-void QueuePush(Queue* q, QueueVal_t x) {
+void QueueAdd(Queue* q, QueueVal_t x) {
     /*
     I.S.
         q terdefinisi, boleh kosong.
@@ -30,7 +30,7 @@ void QueuePush(Queue* q, QueueVal_t x) {
     ListAddLast(q, x);
 }
 
-void QueuePop(Queue* q, QueueVal_t* x) {
+void QueueDel(Queue* q, QueueVal_t* x) {
     /*
     I.S.
         q tidak kosong

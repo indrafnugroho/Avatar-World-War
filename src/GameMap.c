@@ -4,6 +4,7 @@ IMPLEMENTASI ADT GAMEMAP <GameMap>
 */
 
 #include "GameMap.h"
+#include "Art.h"
 #include <stdio.h>
 
 void CreateEmptyMap(GameMap* Maps, int NRow, int NCol) {
@@ -38,24 +39,41 @@ void PrintMap(GameMap Maps, Player P1, Player P2) {
 
     RowStar = RowEff(Maps) + 2;
     ColStar = ColEff(Maps) + 2;
-
+    DisplayTitleMini();
+    DisplayPrompt("GAME MAP");
+    printf("\n\n");
     for (int i=1; i<=RowStar; i++) {
         if (i==1 || i==RowStar) {
-            for (int j=1; j<=ColStar; j++) printf("*");
+            printf("  ");
+            set_print_color(BG_WHITE);
+            for (int j=1; j<=ColStar; j++) printf(" ");
+            reset_print_color();
             printf("\n");
         }
         else {
+            printf("  ");
+            set_print_color(BG_WHITE);
             Row = i-1;
-            printf("*");
+            printf(" ");
+            set_print_color(BG_BLACK);
+            set_print_color(WHITE);
+            set_print_color(BOLD);
             for (Col=1; Col<=ColEff(Maps); Col++) {
                 if (MElmt(Maps,Row,Col) == Nil) printf(" ");
                 else {
-                   /* if (ListSearch(Buildings(P1), MElmt(Maps,Row,Col)) != Nil) print_yellow(Type(*MElmt(Maps,Row,Col)));
-                    else if (ListSearch(Buildings(P2), MElmt(Maps,Row,Col)) != Nil) print_red(Type(*MElmt(Maps,Row,Col)));
-                    else*/ printf("%c", Type(*MElmt(Maps,Row,Col)));
+                    if (ListSearch(Buildings(P1), MElmt(Maps,Row,Col)) != Nil)
+                        set_print_color(BLUE);
+                    else if (ListSearch(Buildings(P2), MElmt(Maps,Row,Col)) != Nil) 
+                        set_print_color(RED);
+                    else
+                        set_print_color(WHITE); 
+                    printf("%c", Type(*MElmt(Maps,Row,Col)));
                 }
             }
-            printf("*\n");
+            set_print_color(BG_WHITE);
+            printf(" ");
+            reset_print_color();
+            printf("\n");
         }
     }
 }

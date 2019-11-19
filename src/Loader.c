@@ -54,6 +54,7 @@ F.S.
             if(WordToInt(CWord,&temp)){
                 PointY(Koordinat(*B)) = temp;
             }
+            InitializationBuilding(B);
             AddAsLastEl(buildings, B);
             Adj = (List*) malloc(sizeof(List));
             ListCreate(Adj);
@@ -74,5 +75,5 @@ F.S.
         }
     }
     SetMap(map, *buildings);
-    PrintMap(*map, P1, P2);
+    //PrintMap(*map, P1, P2);
 }

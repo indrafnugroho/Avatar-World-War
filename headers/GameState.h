@@ -6,8 +6,10 @@
 #ifndef _GAMESTATE_H
 #define _GAMESTATE_H
 
-#include "Game.h"
+//#include "Game.h"
 #include "bool.h"
+#include "Stack.h"
+#include "WordProcessor.h"
 
 typedef int address;
 

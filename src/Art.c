@@ -35,12 +35,28 @@ void DisplayTitle() {
     printf("   []        [] [][] []    []  []  []    []  []      []\n");
     printf("  []          [] [] []      [] [] []      [] []       []\n\n");
     set_print_color(RED);
+    printf("   [] [] []      []==[]==[]        []         \\_\\_/_|__\\ \n");
+    printf("  =[]=[]=[]=     []==[]==[]    ====[]====     |_|_| |    \n");
+    printf("   [] []=[]      []==[]==[]       [][]        |_|_|  |/  \n");
+    printf("   []            __======__      []  []       __|__  |   \n");
+    printf("   []=======      //    []     []      []       |  _/|_/ \n\n");
+    /*;
     printf("              []          []  []          []\n");
     printf("               []        []    []        []\n");
     printf("  [][][][][][]  []  []  []      []  []  []  [][][][][][]\n");
     printf("                 [][][][] RGMAVO [][][][]\n");
     printf("                  []  []          []  []\n\n");
+    */
     reset_print_color();
+}
+
+void DisplayTitleMini() {
+    clrscr();
+    set_print_color(BLUE);
+    set_print_color(BOLD);
+    printf("\n  AᴠᴀᴛᴀR ");
+    set_print_color(RED);
+    printf("世界大戦\n\n");
 }
 void DisplayMainMenu() {
     set_print_color(YELLOW);

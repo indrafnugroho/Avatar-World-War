@@ -1,15 +1,15 @@
 CC = gcc
 DEL_FILE = rm -f
 COPY_FILE = cp -f
-CFLAGS = -lm -Wno-pointer-to-int-cast -Wno-format -Wno-int-conversion
+CFLAGS = -lm -Wno-pointer-to-int-cast -Wno-format -Wno-int-conversion -Wno-incompatible-pointer-types
 
 SRCDIR = src
 INCDIR = headers
 INCPATH = -I$(INCDIR)
 TEMPDIR = .tmp
 
-DEPS = bool Art List Stack Queue  pcolor CharProcessor WordProcessor Building Loader ArrayDin Graph GameMap
-SOURCES = main Art List Stack Queue  pcolor CharProcessor WordProcessor Building Loader ArrayDin Graph GameMap
+DEPS = bool Art List Stack Queue  pcolor CharProcessor WordProcessor Building Loader ArrayDin Graph GameMap Player Game
+SOURCES = main Art List Stack Queue  pcolor CharProcessor WordProcessor Building Loader ArrayDin Graph GameMap Player Game
 
 HEADERS = $(patsubst %,$(INCDIR)/%.h,$(DEPS))
 OBJS =  $(patsubst %,$(TEMPDIR)/%.o,$(SOURCES))

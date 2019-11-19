@@ -62,7 +62,7 @@ void AddSkill(Player* P, int skill) {
     7. Barrage (BR)                 :   Lawan baru saja bertambah bangunannya 
                                         menjadi 10 bangunan */
     if (ListSize(Skills(*P)) <= 10) {
-        QueueAdd(&Skills(*P), (int*)skill);
+        QueueAdd(&Skills(*P), skill);
     } else {
         printf("Queue skill penuh\n");
     }
@@ -106,6 +106,7 @@ void UseSkill(Player* P,Player* PEnemy) {
     int SkillID;
 
     if (!QueueIsEmpty(Skills(*P))) {
+
         QueueDel(&Skills(*P), &SkillID);
     }
 
@@ -139,15 +140,15 @@ void UseSkill(Player* P,Player* PEnemy) {
 
 
 /****** CEK SKILL ******/
-void CheckSkill(Player* P, Player* PEnemy) {
+void CheckSkill(Player* P, Player* PEnemy, Word LastCommand) {
     /* Kamus */
     int i;
     bool isLevel4;
     int NbOfTower;
 
     /* Cek skill SH */
-    if (RecentCom(*GS) == "ATTACK" && NbOfBuildings(*PEnemy) == 2) {
-        AddSkill(2, PEnemy);  // Shield
+    if (WordEqualsString(LastCommand, "ATTACK") && NbOfBuildings(*PEnemy) == 2) {
+        AddSkill(PEnemy, 2);  // Shield
         printf("Enemy player gained SHIELD skill\n");
     }
 
@@ -155,41 +156,41 @@ void CheckSkill(Player* P, Player* PEnemy) {
     isLevel4 = true;
     i = 1;
     while (i <= NbOfBuildings(*P)) {
-        if (Level(Elmt(Buildings(*P), i)) != 4) {
+        if (Level(*(Building*)(ListElementVal(ListIdx(Buildings(*P), i)))) != 4) {
             isLevel4 = false;
         }
         i++;
     }
     if (isLevel4) {
-        AddSkill(6, PEnemy);
+        AddSkill(PEnemy, 6);
         printf("Enemy player gained INSTANT REINFORCEMENT skill\n");
     }
 
     /* Cek skill CH */
-    if (RecentCom(*GS) == "SKILL" && ETs(*P)) { /* Ada potensi bug */
-        AddSkill(5, PEnemy);
+    if (WordEqualsString(LastCommand, "SKILL") && ETs(*P)) { /* Ada potensi bug */
+        AddSkill(PEnemy, 5);
         printf("Enemy player gained CRITICAL HIT skill\n");
     }
 
     /* Cek skill AU - Ambigu player ally atau enemy? */
-    if (RecentCom(*GS) == "ATTACK") {
+    if (WordEqualsString(LastCommand, "ATTACK")) {
         NbOfTower = 0;
         i = 1;
         while (i <= NbOfBuildings(*P)) {
-            if (Type(Elmt(Buildings(*P), i)) == T) {
+            if (Type(*(Building*)(ListElementVal(ListIdx(Buildings(*P), i)))) == 'T') {
                 NbOfTower += 1;
             }
             i++;
         }
         if (NbOfTower == 3) {
-            AddSkill(4, P);
+            AddSkill(P, 4);
             printf("Player gained ATTACK UP skill\n");
         }
     }
 
     /* Cek skill BR */
-    if (RecentCom(*GS) == "ATTACK" && (NbOfBuildings(*PEnemy) == 10)) { /* Ada potensi bug */
-        AddSkill(7, P);
+    if (WordEqualsString(LastCommand, "ATTACK") && (NbOfBuildings(*PEnemy) == 10)) { /* Ada potensi bug */
+        AddSkill(P, 7);
         printf("Player gained BARRAGE skill\n");
     }
 
@@ -268,6 +269,7 @@ void BR(Player* P) { /* to enemy */
     /* Barrage (ID: 7)*/
     /* Jumlah Troops pada seluruh bangunan musuh akan berkurang
     sebanyak 10 Troops */
+    ListElement* p;
     ListTraversal (p, ListFirstElement(Buildings(*P)), p != Nil) {
         Troops(*(Building*)ListElementVal(p)) -= 10;
     }

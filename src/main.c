@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include "bool.h"
+#include "Game.h"
 #include "List.h"
 #include "Loader.h"
 #include "WordProcessor.h"
@@ -18,6 +19,7 @@ int main() {
     GameMap map;
     ArrayDin b;
     Graph g;
+    Game game;
     while (gameState == GAMESTATE_MENU) {
         DisplayTitle();
         DisplayMainMenu();
@@ -27,7 +29,9 @@ int main() {
         if (WordEqualsString(w, "START") || WordEqualsString(w, "start")) {
             printf("Game Starts!\n");
             set_print_color(BOLD);
-            ReadConfigFile("config.txt", &b, &g, &map);
+            //ReadConfigFile("config.txt", &b, &g, &map);
+            GameLoadInitConfig(&game, "config.txt");
+            GameInit(&game);
             gameState = GAMESTATE_LOAD;
             reset_print_color();
         } else if (WordEqualsString(w, "QUIT") || WordEqualsString(w, "quit")) {

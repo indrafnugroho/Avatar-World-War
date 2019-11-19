@@ -9,6 +9,8 @@ void DisplayWarning();
 
 void DisplayTitle();
 
+void DisplayTitleMini();
+
 void DisplayMainMenu();
 
 void DisplayPrompt();

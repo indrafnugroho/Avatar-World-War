@@ -4,10 +4,12 @@ IMPLEMENTASI ABSTRAKSI GAME
 */
 
 #include "Game.h"
+#include "Loader.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include "pcolor.h"
 
-void GameLoadInitConfig(Game* game, const char* filename) {
+void GameLoadInitConfig(Game* game, char* filename) {
     /*
     I.S.
         isi map dan arrBuilding pada game sebarang
@@ -16,8 +18,7 @@ void GameLoadInitConfig(Game* game, const char* filename) {
 	didefinisikan di file "filename"
     */
     /* Algoritma */
-    LoadConfig(&(game->arrBuilding), &(game->grpBuildingAdjacency));
-    GenerateMap();
+    ReadConfigFile(filename, &(game->Buildings), &(game->grpBuildingAdjacency), &(game->map));
 }
 
 void GameInit(Game* game) {
@@ -33,12 +34,13 @@ void GameInit(Game* game) {
     /* Kamus Lokal */
 
     /* Algoritma */
-    game->P1 = (Player*) malloc(sizeof(Player));
-    game->P2 = (Player*) malloc(sizeof(Player));
-    PlayerCreate(game->P1, ListElementVal(ListFirstElement(game->arrBuilding)));
-    PlayerCreate(game->P2, ListElementVal(ListElementNext(ListFirstElement(game->arrBuilding))));
-    game->turn = game->P1;
+    CreateNewPlayer(&(game->P1));
+    ListAddLast(&Buildings(game->P1), Elmt(game->Buildings, 0));
+    CreateNewPlayer(&(game->P2));
+    ListAddLast(&Buildings(game->P2), Elmt(game->Buildings, 1));
+    game->turn = &(game->P1);
     StackCreate(&(game->stkGameState));
+    PrintMap(game->map, game->P1, game->P2);
 }
 
 void GameTurn(Game* game) { 
