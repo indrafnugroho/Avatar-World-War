@@ -38,7 +38,7 @@ void DisplayTitle() {
     printf("              []          []  []          []\n");
     printf("               []        []    []        []\n");
     printf("  [][][][][][]  []  []  []      []  []  []  [][][][][][]\n");
-    printf("                 [][][][]        [][][][]\n");
+    printf("                 [][][][] RGMAVO [][][][]\n");
     printf("                  []  []          []  []\n\n");
     reset_print_color();
 }

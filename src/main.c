@@ -15,6 +15,9 @@ int gameState = GAMESTATE_MENU;
 
 int main() {
     Word w;
+    GameMap map;
+    ArrayDin b;
+    Graph g;
     while (gameState == GAMESTATE_MENU) {
         DisplayTitle();
         DisplayMainMenu();
@@ -24,7 +27,7 @@ int main() {
         if (WordEqualsString(w, "START") || WordEqualsString(w, "start")) {
             printf("Game Starts!\n");
             set_print_color(BOLD);
-            ReadConfigFile("config.txt");
+            ReadConfigFile("config.txt", &b, &g, &map);
             gameState = GAMESTATE_LOAD;
             reset_print_color();
         } else if (WordEqualsString(w, "QUIT") || WordEqualsString(w, "quit")) {

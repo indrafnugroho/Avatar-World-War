@@ -1,10 +1,8 @@
 #include "Loader.h"
-#include "Building.h"
-#include "Graph.h"
-#include "ArrayDin.h"
 #include <stdio.h>
 #include <stdlib.h>
-void ReadConfigFile(char* path)
+
+void ReadConfigFile(char* path, ArrayDin* buildings, Graph* connect, GameMap* map)
 /*
 I.S.
     Terdapat file eksternal berisi konfigurasi awal permainan.
@@ -17,9 +15,9 @@ F.S.
     int i,j,N,M,NbOfB;
     int temp;
     char to;
-    ArrayDin *ArrayOfBuildings = (ArrayDin*) malloc(sizeof(ArrayDin));
     Building *B;
-
+    List* Adj;
+    Player P1, P2;
     /* ALGORITMA */
     CreateEmpty(&CWord);
     if (ReadStart(path)) {
@@ -34,6 +32,7 @@ F.S.
             M = temp;
             printf("M: %d\n", M);
         }
+        CreateEmptyMap(map, N, M);
         /* Membaca banyak building */
         ReadWord(&CWord);
         if(WordToInt(CWord,&temp)){
@@ -41,11 +40,12 @@ F.S.
             printf("Num of buildings: %d\n", NbOfB);
         }
         /* Membaca Building */
-        MakeEmpty(ArrayOfBuildings,NbOfB);
+        MakeEmpty(buildings ,NbOfB);
+        GraphCreate(connect); 
         for(i = 0; i < NbOfB; i++) {
             B = (Building*) malloc(sizeof(Building));
             ReadWord(&CWord);
-            Type(*B) = CC;
+            Type(*B) = CWord.Tab[0];
             ReadWord(&CWord);
             if(WordToInt(CWord,&temp)){
                 PointX(Koordinat(*B)) = temp;
@@ -54,7 +54,10 @@ F.S.
             if(WordToInt(CWord,&temp)){
                 PointY(Koordinat(*B)) = temp;
             }
-            AddAsLastEl(ArrayOfBuildings,B);
+            AddAsLastEl(buildings, B);
+            Adj = (List*) malloc(sizeof(List));
+            ListCreate(Adj);
+            GraphAddVertex(connect, Adj);
             printf("Building #%d: %c(%d, %d)\n", i + 1,Type(*B), PointX(Koordinat(*B)), PointY(Koordinat(*B)));
         }
         /* Membaca keterhubungan building */
@@ -70,4 +73,6 @@ F.S.
             printf("\n");
         }
     }
+    SetMap(map, *buildings);
+    PrintMap(*map, P1, P2);
 }

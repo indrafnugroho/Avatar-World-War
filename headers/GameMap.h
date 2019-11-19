@@ -9,7 +9,7 @@ DEFINISI ADT GAMEMAP <GameMap>
 #include "bool.h"
 #include "pcolor.h"
 #include "Player.h"
-
+#include "ArrayDin.h"
 #define RowMin 1
 #define RowMax 20
 #define ColMin 1

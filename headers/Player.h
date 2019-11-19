@@ -10,7 +10,7 @@ DEFINISI ABSTRAKSI GAME
 #include "List.h"
 #include "Queue.h"
 #include "bool.h"
-#include "GameState.h"
+//#include "GameState.h"
 
 #define Nil 0
 

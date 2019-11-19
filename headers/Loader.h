@@ -8,8 +8,11 @@ DEFINISI ADT MESIN KATA <Loader>
 
 #include "WordProcessor.h"
 #include "Building.h"
+#include "ArrayDin.h"
+#include "Graph.h"
+#include "GameMap.h"
 
-void ReadConfigFile(char* path);
+void ReadConfigFile(char* path, ArrayDin* buildings, Graph* connect, GameMap* map);
 /*
 I.S.
     Terdapat file eksternal berisi konfigurasi awal permainan.
