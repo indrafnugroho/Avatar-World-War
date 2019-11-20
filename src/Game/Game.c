@@ -70,12 +70,20 @@ void GameLoop(Game* game) {
     */
     /* Algoritma */
     Word w;
+    int pn;
     PrintMap(game->map, game->P1, game->P2);
     if (game->turn == &(game->P1)) {
-        DisplayPrompt2(1, "COMMAND");
+        pn = 1;
     } else {
-        DisplayPrompt2(2, "COMMAND");
+        pn = 2;
     }
+    DisplayPrompt2(pn, "SKILL");
+    if (!StackIsEmpty(game->turn->Skills)) {
+        DisplaySkill(*(game->turn));
+    } else {
+        printf("No Available Skills\n");
+    }
+    DisplayPrompt2(pn, "COMMAND");
     ScanWord(&w);
 }
 
