@@ -12,9 +12,9 @@ void InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState,
 
     Word input;   
     bool loop;
-    printf("ENTER COMMAND: ");
     loop = true;
     while(loop) {
+        DisplayPrompt2("COMMAND");
         ScanWord(&input);
         if (WordEqualsString(input, "ATTACK")) {
             AttackCommand(PTurn,PEnemy,*Bldgs,Connect);
@@ -57,14 +57,14 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
     ListElement* El, *El2;
     Building* B, *BT, *CB, *BE;
     int i=1;
-    bool Success;
 
-    printf("Daftar bangunan:\n");
+    DisplayPrompt("OWNED BUILDINGS");
+    printf("\n\n");
     ListTraversal (El, ListFirstElement(Buildings(*PTurn)), El != Nil) {
         B = ListElementVal(El);
 
-        printf("%p ", El);
-        printf("%d. ", i);
+        //printf("%p ", El);
+        printf("  %d. ", i);
         switch (Type(*B)) {
         case 'C' :
             printf("Castle (%d,%d) %d lv. %d\n", Koordinat(*B).x, Koordinat(*B).y, Troops(*B), Level(*B));
@@ -79,25 +79,27 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
             printf("Village (%d,%d) %d lv. %d\n", Koordinat(*B).x, Koordinat(*B).y, Troops(*B), Level(*B));
             break;
         }
+        printf("\n");
         i++;
     }
 
-    printf("Bangunan yang digunakan untuk menyerang: ");
+    DisplayPrompt2("BUILDING TO USE");
     int InpBSelf;
     if (ScanInt(&InpBSelf)) {
         i=1;
         ListTraversal(El, ListFirstElement(Buildings(*PTurn)), El != Nil && i != InpBSelf) i++;
-        printf("%p ", El);
+        //printf("%p ", El);
         BT = ListElementVal(El);
         if (!AfterAttack(*BT)) {
             if (!ListIsEmpty(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT))))) {
-                printf("Daftar bangunan yang dapat diserang:\n");
+                DisplayPrompt("NEAREST NEUTRAL AND ENEMY BUILDINGS");
+                printf("\n\n");
                 i=1;
                 ListTraversal(El2, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT)))), El2 != Nil) {
-                    printf("%p ", El2);
+                    //printf("%p ", El2);
                     CB = Elmt(Bldgs, GraphGetVertexIdx(Connect, ListElementVal(El2)));
 
-                    printf("%d. ", i);
+                    printf("  %d. ", i);
                     switch (Type(*CB)) {  
                     case 'C' :
                         printf("Castle (%d,%d) %d lv. %d\n", Koordinat(*CB).x, Koordinat(*CB).y, Troops(*CB), Level(*CB));
@@ -114,7 +116,8 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                     }
                     i++;
                 }
-                printf("Bangunan yang diserang: ");
+                printf("\n");
+                DisplayPrompt2("BUILDING TO ATTACK");
                 int InpBEnemy;
                 if (ScanInt(&InpBEnemy)) {
                     if (InpBEnemy <= ListSize(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT))))) {
@@ -122,7 +125,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                         ListTraversal(El, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT)))), El != Nil && i != InpBEnemy) i++;
                     
                         BE = Elmt(Bldgs, GraphGetVertexIdx(Connect, ListElementVal(El)));
-                        printf("Jumlah pasukan: ");
+                        DisplayPrompt2("NUMBER OF TROOPS");
                         int InpTroopsNum;
                         if (ScanInt(&InpTroopsNum)) {
                             if (InpTroopsNum <= Troops(*BT)) {

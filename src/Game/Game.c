@@ -88,14 +88,13 @@ void GameLoop(Game* game) {
         SetPlayerPrompt(2);
         enemy = &GameP1(*game);
     }
-    printf("\n\n");
     DisplayPrompt2("SKILL");
     if (!StackIsEmpty(Skills(*GamePTurn(*game)))) {
         DisplaySkill(*GamePTurn(*game));
     } else {
         printf("No Available Skills\n");
     }
-    DisplayPrompt2("COMMAND");
+    //DisplayPrompt2("COMMAND");
     InputCommand(GamePTurn(*game), enemy, &GameBuildings(*game), &GameStateStack(*game), GameBAdj(*game));
     //ScanWord(&w);
 }
