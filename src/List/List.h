@@ -170,7 +170,7 @@ void ListDelAfter(List* l, ListVal_t* x, ListElement* prec);
         Jika suksesor adalah last(l), last(l) = prec
     */
 
-void ListDelVal(List* l, ListVal_t x, bool success);
+void ListDelVal(List* l, ListVal_t x);
     /*
     I.S.
         l tidak kosong.

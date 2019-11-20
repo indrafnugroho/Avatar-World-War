@@ -41,8 +41,8 @@ void GraphAddEdgeIdx(Graph* g, int i1, int i2) {
 
 void GraphDelEdge(Graph* g, GraphVertex v1, GraphVertex v2){
     bool success;
-    ListDelVal(&GraphVertexAdj(v1), v2, success);
-    ListDelVal(&GraphVertexAdj(v2), v1, success);
+    ListDelVal(&GraphVertexAdj(v1), v2);
+    ListDelVal(&GraphVertexAdj(v2), v1);
     //ListDelVal(&Connect(*GraphVertexVal(*g,v1)), GraphVertexVal(*g, v2), success);
     //ListDelVal(&Connect(*GraphVertexVal(*g,v2)), GraphVertexVal(*g, v1), success);
 }
