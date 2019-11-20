@@ -8,10 +8,10 @@
 #include "WordProcessor/WordProcessor.h"
 #include "Player/Player.h"
 
-void InputCommand(Player* PTurn, Player* PEnemy);
+void InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState, Graph Connect);
 /* Melakukan input Command menggunakan Word Processor */
 
-void AttackCommand(Player* PTurn, Player* PEnemy);
+void AttackCommand(Player* PTurn, Player* PEnemy, Graph Connect);
 /* Melakukan mekanisme attack apabila user menginput command Attack,
    yaitu mencetak daftar bangunan yang dimiliki user,
    opsi untuk menyerang dengan bangunan apa,
@@ -30,7 +30,7 @@ void SkillCommand(Player* PTurn, Player* PEnemy);
 /* Melakukan mekanisme Skill apabila user menginput command Skill,
    yang disesuaikan dengan efek Skill masing-masing */
 
-void UndoCommand(Player* PTurn, Player* PEnemy);
+void UndoCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState);
 /* Melakukan mekanisme Undo apabila user menginput command Undo.
    User hanya dapat melakukan UNDO hingga command sesudah END_TURN / SKILL. 
    Artinya, setelah command END_TURN / SKILL, pemain tidak dapat melakukan UNDO lagi */
@@ -41,7 +41,7 @@ void EndTurnCommand(Player* PTurn, Player* PEnemy);
 void SaveCommand(Player* PTurn, Player* PEnemy);
 /* Melakukan mekanisme Save_File, yaitu menyimpan state permainan yang sedang berlangsung*/
 
-void MoveCommand(Player* PSelf);
+void MoveCommand(Player* PSelf, Graph Connect);
 /* Melakukan mekanisme Move, yaitu memindahkan pasukan dari suatu bangunan ke bangunan lain milik
    pemain yang terhubung dengan bangunan tersebut. MOVE hanya dapat dilakukan
    sekali untuk tiap bangunan pada tiap gilirannya. */
