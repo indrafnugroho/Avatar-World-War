@@ -31,7 +31,7 @@ void DeleteGameState(GameState* GS){
     free(GS);
 }
 
-void CaptureGameState(Player P1x, Player P2x, ArrayDin BuildingsState, Stack GameStack, Word RC){
+void CaptureGameState(Player P1x, Player P2x, ArrayDin BuildingsState, Stack* GameStack, Word RC){
     /* Mengakuisisi GameState saat prosedur dijalankan */
     GameState GS;
 
@@ -39,7 +39,7 @@ void CaptureGameState(Player P1x, Player P2x, ArrayDin BuildingsState, Stack Gam
     ClonePlayer(P1x,&P1s(GS));
     ClonePlayer(P2x,&P2s(GS));
     CopyTab(BuildingsState,&StateBuildings(GS));
-    PushStkGameState(GS,&GameStack);
+    PushStkGameState(GS,GameStack);
 }
 
 void RevertGameState(GameState* GS, Player* P1x, Player* P2x, ArrayDin BuildingsState, Stack* GameStack){

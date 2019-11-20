@@ -1,7 +1,9 @@
 /* Command.c
    Implementasi Command.h */
 
+#include "bool/bool.h"
 #include "Command.h"
+#include "Art/Art.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -9,35 +11,39 @@ void InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState,
 /*  Melakukan input Command menggunakan Word Processor */
 
     Word input;   
+    bool loop;
     printf("ENTER COMMAND: ");
-    ScanWord(&input);
-
-    if (WordEqualsString(input, "ATTACK")) {
-        AttackCommand(PTurn,PEnemy,*Bldgs,Connect);
-        CheckSkill(PTurn,PEnemy,input);
-        CaptureGameState(*PTurn,*PEnemy,*Bldgs,*GState,input);
+    loop = true;
+    while(loop) {
+        ScanWord(&input);
+        if (WordEqualsString(input, "ATTACK")) {
+            AttackCommand(PTurn,PEnemy,*Bldgs,Connect);
+            //CheckSkill(PTurn,PEnemy,input);
+            //CaptureGameState(*PTurn,*PEnemy,*Bldgs,GState,input);
+        }
+        else if (WordEqualsString(input, "LEVEL_UP")) {
+            LevelUpCommand(PTurn);
+            //CaptureGameState(*PTurn,*PEnemy,*Bldgs,GState,input);
+        }
+        else if (WordEqualsString(input, "SKILL")) {
+            SkillCommand(PTurn,PEnemy);
+            CheckSkill(PTurn,PEnemy,input);
+            //CaptureGameState(*PTurn,*PEnemy,*Bldgs,GState,input);
+        }
+        else if (WordEqualsString(input, "UNDO")) UndoCommand(PTurn,PEnemy,Bldgs,GState);
+        else if (WordEqualsString(input, "END_TURN")) {
+            EndTurnCommand(PTurn,PEnemy);
+            //CaptureGameState(*PTurn,*PEnemy,*Bldgs,GState,input);
+            loop = false;
+        }
+        else if (WordEqualsString(input, "SAVE")) SaveCommand(PTurn,PEnemy);
+        else if (WordEqualsString(input, "MOVE")) {
+            MoveCommand(PTurn,*Bldgs,Connect);
+            ///CaptureGameState(*PTurn,*PEnemy,*Bldgs,GState,input);
+        }
+        else if (WordEqualsString(input, "EXIT")) ExitCommand();
+        else printf("Command yang Anda masukkan salah!\n");
     }
-    else if (WordEqualsString(input, "LEVEL_UP")) {
-        LevelUpCommand(PTurn);
-        CaptureGameState(*PTurn,*PEnemy,*Bldgs,*GState,input);
-    }
-    else if (WordEqualsString(input, "SKILL")) {
-        SkillCommand(PTurn,PEnemy);
-        CheckSkill(PTurn,PEnemy,input);
-        CaptureGameState(*PTurn,*PEnemy,*Bldgs,*GState,input);
-    }
-    else if (WordEqualsString(input, "UNDO")) UndoCommand(PTurn,PEnemy,Bldgs,GState);
-    else if (WordEqualsString(input, "END_TURN")) {
-        EndTurnCommand(PTurn,PEnemy);
-        CaptureGameState(*PTurn,*PEnemy,*Bldgs,*GState,input);
-    }
-    else if (WordEqualsString(input, "SAVE")) SaveCommand(PTurn,PEnemy);
-    else if (WordEqualsString(input, "MOVE")) {
-        MoveCommand(PTurn,*Bldgs,Connect);
-        CaptureGameState(*PTurn,*PEnemy,*Bldgs,*GState,input);
-    }
-    else if (WordEqualsString(input, "EXIT")) ExitCommand();
-    else printf("Command yang Anda masukkan salah!\n");
 }
 
 void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect) {
@@ -48,7 +54,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
     opsi bangunan apa yang akan diserang,
     jumlah pasukan yang digunakan untuk menyerang,
     dan hasil akhir penyerangan. */
-    ListElement* El;
+    ListElement* El, *El2;
     Building* B, *BT, *CB, *BE;
     int i=1;
     bool Success;
@@ -57,6 +63,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
     ListTraversal (El, ListFirstElement(Buildings(*PTurn)), El != Nil) {
         B = ListElementVal(El);
 
+        printf("%p ", El);
         printf("%d. ", i);
         switch (Type(*B)) {
         case 'C' :
@@ -80,14 +87,15 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
     if (ScanInt(&InpBSelf)) {
         i=1;
         ListTraversal(El, ListFirstElement(Buildings(*PTurn)), El != Nil && i != InpBSelf) i++;
+        printf("%p ", El);
         BT = ListElementVal(El);
-
         if (!AfterAttack(*BT)) {
             if (!ListIsEmpty(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT))))) {
                 printf("Daftar bangunan yang dapat diserang:\n");
                 i=1;
-                ListTraversal(El, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT)))), El != Nil) {
-                    CB = ListElementVal(El);
+                ListTraversal(El2, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT)))), El2 != Nil) {
+                    printf("%p ", El2);
+                    CB = Elmt(Bldgs, GraphGetVertexIdx(Connect, ListElementVal(El2)));
 
                     printf("%d. ", i);
                     switch (Type(*CB)) {  
@@ -113,14 +121,14 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                         i=1;
                         ListTraversal(El, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT)))), El != Nil && i != InpBEnemy) i++;
                     
-                        BE = ListElementVal(El);
+                        BE = Elmt(Bldgs, GraphGetVertexIdx(Connect, ListElementVal(El)));
                         printf("Jumlah pasukan: ");
                         int InpTroopsNum;
                         if (ScanInt(&InpTroopsNum)) {
                             if (InpTroopsNum <= Troops(*BT)) {
                                 //Cek apakah bangunan yang diserang milik lawan
                                 int j=1;
-                                ListTraversal(El, ListFirstElement(Buildings(*PEnemy)), ListElementVal(El) != BE && El != Nil) j++;                            
+                                ListTraversal(El, ListFirstElement(Buildings(*PEnemy)), ListElementVal(El) != BE && ListElementNext(El) != Nil) j++;                            
                             
                                 //Bangunan yang diserang milik lawan
                                 if (ListElementVal(El) == BE) {
@@ -196,6 +204,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                                 printf("Bangunan gagal direbut\n");
                                             }
                                             else {
+                                                printf("test");
                                                 Troops(*BE) = InpTroopsNum - U(*BE);
                                                 Troops(*BT) -= InpTroopsNum;
                                                 AfterAttack(*BT) = true;

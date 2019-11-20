@@ -4,8 +4,10 @@
 #include "bool/bool.h"
 #include <string.h>
 
+int _Art_p = 1;
 bool warn = false;
 char warnmsg[50];
+
 void clrscr() {
     printf("\e[1;1H\e[2J"); 
 }
@@ -72,8 +74,12 @@ void DisplayPrompt(const char* info) {
     printf(" ");
 }
 
-void DisplayPrompt2(int p, const char* info) {
-    if (p == 1) {
+void SetPlayerPrompt(int p) {
+    _Art_p = p;
+}
+
+void DisplayPrompt2(const char* info) {
+    if (_Art_p == 1) {
         set_print_color(BG_BLUE);
         set_print_color(BLACK);
     } else {

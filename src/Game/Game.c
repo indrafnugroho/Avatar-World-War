@@ -9,6 +9,7 @@ IMPLEMENTASI ABSTRAKSI GAME
 #include <stdio.h>
 #include <stdlib.h>
 #include "pcolor/pcolor.h"
+#include "Command/Command.h"
 
 void GameLoadInitConfig(Game* game, char* filename) {
     /*
@@ -35,11 +36,11 @@ void GameInit(Game* game) {
     /* Kamus Lokal */
 
     /* Algoritma */
-    CreateNewPlayer(&(game->P1));
-    ListAddLast(&Buildings(game->P1), Elmt(game->Buildings, 0));
-    CreateNewPlayer(&(game->P2));
-    ListAddLast(&Buildings(game->P2), Elmt(game->Buildings, 1));
-    game->turn = &(game->P1);
+    CreateNewPlayer(&GameP1(*game));
+    ListAddLast(&Buildings(GameP1(*game)), Elmt(GameBuildings(*game), 0));
+    CreateNewPlayer(&GameP2(*game));
+    ListAddLast(&Buildings(GameP2(*game)), Elmt(GameBuildings(*game), 1));
+    GamePTurn(*game) = &GameP1(*game);
     StackCreate(&(game->stkGameState));
 }
 
@@ -54,10 +55,10 @@ void GameTurn(Game* game) {
     /* Algoritma */
     // Minta variabel Next turn buat skill Extra Turn
     GameLoop(game);
-    if (game->turn == &(game->P1)) {
-        game->turn = &(game->P2);
+    if (GamePTurn(*game) == &GameP1(*game)) {
+        GamePTurn(*game) = &GameP2(*game);
     } else {
-        game->turn = &(game->P1);
+        GamePTurn(*game) = &GameP1(*game);
     } 
 }
 
@@ -71,22 +72,32 @@ void GameLoop(Game* game) {
     /* Algoritma */
     Word w;
     int pn;
-    PrintMap(game->map, game->P1, game->P2);
-    if (game->turn == &(game->P1)) {
-        pn = 1;
+    Player* enemy;
+    PrintMap(game->map, GameP1(*game), GameP2(*game));
+    set_print_color(BLUE);
+    set_print_color(BOLD);
+    printf("  PLAYER1    %d ", ListSize(Buildings(GameP1(*game))));
+    set_print_color(WHITE);
+    printf("|");
+    set_print_color(RED);
+    printf(" %d    PLAYER2\n\n", ListSize(Buildings(GameP2(*game))));
+    if (GamePTurn(*game) == &GameP1(*game)) {
+        SetPlayerPrompt(1);
+        enemy = &GameP2(*game);
     } else {
-        pn = 2;
+        SetPlayerPrompt(2);
+        enemy = &GameP1(*game);
     }
-    DisplayPrompt2(pn, "BUILDINGS");
     printf("\n\n");
-    DisplayPrompt2(pn, "SKILL");
-    if (!StackIsEmpty(game->turn->Skills)) {
-        DisplaySkill(*(game->turn));
+    DisplayPrompt2("SKILL");
+    if (!StackIsEmpty(Skills(*GamePTurn(*game)))) {
+        DisplaySkill(*GamePTurn(*game));
     } else {
         printf("No Available Skills\n");
     }
-    DisplayPrompt2(pn, "COMMAND");
-    ScanWord(&w);
+    DisplayPrompt2("COMMAND");
+    InputCommand(GamePTurn(*game), enemy, &GameBuildings(*game), &GameStateStack(*game), GameBAdj(*game));
+    //ScanWord(&w);
 }
 
 void GameFinish(Game* game) {

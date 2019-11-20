@@ -27,6 +27,14 @@ typedef struct {
     GameMap map;
 } Game;
 
+#define GameP1(g) (g).P1
+#define GameP2(g) (g).P2
+#define GamePTurn(g) (g).turn
+#define GameBuildings(g) (g).Buildings
+#define GameStateStack(g) (g).stkGameState
+#define GameBAdj(g) (g).grpBuildingAdjacency
+#define GameMatrixMap(g) (g).map
+
 void GameLoadInitConfig(Game* game, char* filename);
     /*
     I.S.

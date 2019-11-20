@@ -17,6 +17,7 @@ F.S.
     /* KAMUS LOKAL */
 
     /* ALGORITMA */
+    Level(*B) = 1;
     switch (Type(*B)) {
     case 'C':
         // ke bawah masih salah
@@ -51,7 +52,7 @@ F.S.
         else A(*B) = 20;
         break;
     }
-
+    Troops(*B) = U(*B);
 }
 void AddPasukanNextTurn (Building *B)
 /*

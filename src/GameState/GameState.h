@@ -36,7 +36,7 @@ GameState* CreateGameState(Player* P1x, Player* P2x, ArrayDin BuildingsState, Ga
 void DeleteGameState(GameState* GS);
 /* Menghapus alokasi GameState */
 
-void CaptureGameState(Player P1x, Player P2x, ArrayDin BuildingsState, Stack GameStack, Word RC);
+void CaptureGameState(Player P1x, Player P2x, ArrayDin BuildingsState, Stack* GameStack, Word RC);
 /* Mengakuisisi GameState saat prosedur dijalankan */
 
 void RevertGameState(GameState* GS, Player* P1x, Player* P2x, ArrayDin BuildingsState, Stack* GameStack);

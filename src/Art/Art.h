@@ -15,6 +15,8 @@ void DisplayMainMenu();
 
 void DisplayPrompt(const char* info);
 
-void DisplayPrompt2(int p, const char* info);
+void SetPlayerPrompt(int p);
+
+void DisplayPrompt2(const char* info);
 
 #endif

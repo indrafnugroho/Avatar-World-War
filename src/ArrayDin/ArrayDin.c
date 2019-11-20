@@ -43,7 +43,7 @@ int MaxElement(ArrayDin T){
 ArrayIndex GetFirstIdx(ArrayDin T){
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen T pertama */
-    return 1;
+    return 0;
 }
 ArrayIndex GetLastIdx(ArrayDin T){
 /* Prekondisi : Tabel T tidak kosong */

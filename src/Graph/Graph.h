@@ -62,6 +62,9 @@ bool GraphIsAdjacent(Graph g, GraphVertex v1, GraphVertex v2);
 GraphVertex GraphGetVertexFromIdx(Graph g, int idx);
     /* Mengembalikan vertex indeks ke-idx pada g */
 
+int GraphGetVertexIdx(Graph g, GraphVertex v);
+    /* Mengembalikan indeks vertex pada g */
+
 void GraphAddEdgeIdx(Graph* g, int i1, int i2);
     /*
     I.S.

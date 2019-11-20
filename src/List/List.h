@@ -201,4 +201,8 @@ ListElement* ListIdx(List L, int idx);
     /* Menngembalikan pointer ke ListElement pada urutan ke-idx pada list L */
     /* Prekondisi: 0 =< idx < ListSize(L) */
 
+int ListGetIdx(List L, ListElement* p);
+    /* Mengembalikan indeks p pada l */
+    /* Prekondisi: p ada di l */
+
 #endif

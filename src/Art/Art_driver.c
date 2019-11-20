@@ -6,9 +6,11 @@ int main() {
     DisplayTitle();
     DisplayPrompt("TEST");
     printf("\n");
-    DisplayPrompt2(1, "PLAYER 1"); 
+    SetPlayerPrompt(1);
+    DisplayPrompt2("PLAYER 1"); 
     printf("\n");
-    DisplayPrompt2(2, "PLAYER 2");
+    SetPlayerPrompt(2);
+    DisplayPrompt2("PLAYER 2");
     printf("\n");
     AddWarning("Warning!");
     DisplayWarning(); 

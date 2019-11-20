@@ -67,6 +67,7 @@ F.S.
                 ReadWord(&CWord);
                 if (WordToInt(CWord, &temp)) {
                     if(temp == 1) {
+                        GraphAddEdgeIdx(connect, i, j);
                         printf("Connected: #%d -> #%d\t", i + 1, j + 1);
                     }
                 }

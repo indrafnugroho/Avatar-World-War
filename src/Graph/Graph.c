@@ -30,7 +30,7 @@ int GraphSize(Graph g) {
 void GraphAddEdge(Graph* g, GraphVertex v1, GraphVertex v2) { 
     /* Algoritma */
     ListAddFirst(&GraphVertexAdj(v1), v2);
-    ListAddFirst(&GraphVertexAdj(v2), v1);
+    //ListAddFirst(&GraphVertexAdj(v2), v1);
     //ListAddFirst(&Connect(*(Building*)GraphVertexVal(*g, v1)), GraphVertexVal(*g, v2));
     //ListAddFirst(&Connect(*GraphVertexVal(*g, v2)), GraphVertexVal(*g, v1));
 }
@@ -42,7 +42,7 @@ void GraphAddEdgeIdx(Graph* g, int i1, int i2) {
 void GraphDelEdge(Graph* g, GraphVertex v1, GraphVertex v2){
     bool success;
     ListDelVal(&GraphVertexAdj(v1), v2);
-    ListDelVal(&GraphVertexAdj(v2), v1);
+    //ListDelVal(&GraphVertexAdj(v2), v1);
     //ListDelVal(&Connect(*GraphVertexVal(*g,v1)), GraphVertexVal(*g, v2), success);
     //ListDelVal(&Connect(*GraphVertexVal(*g,v2)), GraphVertexVal(*g, v1), success);
 }
@@ -74,6 +74,11 @@ void GraphAddVertex(Graph* g, List* x){
 
 GraphVertex GraphGetVertexFromIdx(Graph g, int idx) {
     return ListIdx(g, idx);
+}
+
+int GraphGetVertexIdx(Graph g, GraphVertex v) {
+    /* Mengembalikan indeks vertex pada g */
+    return ListGetIdx(g, v);
 }
 
 

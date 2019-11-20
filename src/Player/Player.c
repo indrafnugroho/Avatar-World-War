@@ -103,14 +103,14 @@ void DisplaySkill(Player P) {
 
 void UseSkill(Player* P,Player* PEnemy) {
     /* Menggunakan skill yang tersedia */
-    int SkillID;
+    QueueVal_t SkillID;
 
     if (!QueueIsEmpty(Skills(*P))) {
 
         QueueDel(&Skills(*P), &SkillID);
     }
 
-    switch (SkillID) {
+    switch ((int) SkillID) {
         case 1:
             IU(P);
             break;

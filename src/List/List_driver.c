@@ -36,6 +36,9 @@ int main() {
     printf("\nDelete 7\n");
     ListDelVal(&l1, 7);
     PrintList(l1);
+    printf("\nCopy List\n");
+    l2 = CopyList(l1);
+    PrintList(l2);
     printf("\nDelete Value after 11\n");
     ListDelAfter(&l1, &x, ListSearch(l1, 11));
     PrintList(l1);

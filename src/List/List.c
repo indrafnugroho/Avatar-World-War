@@ -332,7 +332,7 @@ List CopyList(List l) {
     List lout;
     /* Algoritma */
     ListCreate(&lout);
-    ListTraversal(p, ListFirstElement(l), ListElementVal(p) != Nil) {
+    ListTraversal(p, ListFirstElement(l), p != Nil) {
         ListAddLast(&lout, ListElementVal(p));
     }
     return lout;
@@ -351,5 +351,20 @@ ListElement* ListIdx(List l, int idx) {
     }
     return p;
 }
+
+int ListGetIdx(List l, ListElement* p) {
+    /* Mengembalikan indeks p pada l */
+    /* Prekondisi: p ada di l */
+    /* Kamus Lokal */
+    int i;
+    ListElement* psearch;
+    /* Algoritma */
+    i = 0;
+    ListTraversal (psearch, ListFirstElement(l), psearch != p) {
+        i++;
+    }
+    return i;
+}
+
 
 
