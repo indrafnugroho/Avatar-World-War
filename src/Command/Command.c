@@ -36,7 +36,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy) {
     printf("Daftar bangunan:\n");
     ListTraversal (B, ListFirstElement(Buildings(*PTurn)), B != Nil) {
         printf("%d. ", i);
-        switch (Type(B)) {
+        switch (Type(*(Building*)ListElementVal(B))) {
         case 'C' :
             printf("Castle (%d,%d) %d lv. %d\n", Koordinat(B).X, Koordinat(B).Y, Troops(B), Level(B));
             break;
