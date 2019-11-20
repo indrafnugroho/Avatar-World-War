@@ -9,26 +9,32 @@ TEMPDIR = .tmp
 
 DEPS = bool Art List Stack Queue  pcolor CharProcessor WordProcessor Building Loader ArrayDin Graph GameMap Player Game
 SOURCES = Art List Stack Queue  pcolor CharProcessor WordProcessor Building Loader ArrayDin Graph GameMap Player Game
-DRIV = List_driver
+DRIV = List_driver Queue_driver Stack_driver
 HEADERS = $(patsubst %,$(INCDIR)/*/%.h,$(DEPS))
 OBJS =  $(patsubst %,$(TEMPDIR)/%.o,$(SOURCES))
 INCPATH = -I$(INCDIR)
 
 all: wrgmavow
 
-drivers: List_driver
+drivers: $(DRIV)
 
 temp:
 	test -d $(TEMPDIR) || mkdir $(TEMPDIR)
 
 $(TEMPDIR)/main.o: temp
-	$(CC) -c -O1 -o $(TEMPDIR)/main.o $(SRCDIR)/main.c $(INCPATH) $(CFLAGS)
+	$(CC) -c -o $(TEMPDIR)/main.o $(SRCDIR)/main.c $(INCPATH) $(CFLAGS)
 
 List_driver: $(TEMPDIR)/List_driver.o $(TEMPDIR)/List.o
 	$(CC) -o $@ $^ $(INCPATH) $(CFLAGS)
 
+Queue_driver: $(TEMPDIR)/Queue_driver.o $(TEMPDIR)/Queue.o $(TEMPDIR)/List.o
+	$(CC) -o $@ $^ $(INCPATH) $(CFLAGS)
+
+Stack_driver: $(TEMPDIR)/Stack_driver.o $(TEMPDIR)/Stack.o $(TEMPDIR)/List.o
+	$(CC) -o $@ $^ $(INCPATH) $(CFLAGS)
+
 $(TEMPDIR)/%.o: $(SRCDIR)/*/%.c $(HEADERS) temp
-	$(CC) -c -O1 -o $@ $< $(INCPATH) $(CFLAGS)
+	$(CC) -c -O2 -o $@ $< $(INCPATH) $(CFLAGS)
 
 wrgmavow: $(TEMPDIR)/main.o $(OBJS)
 	$(CC) -o $@ $^ $(INCPATH) $(CFLAGS)

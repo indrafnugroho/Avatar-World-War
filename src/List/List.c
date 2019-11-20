@@ -263,7 +263,7 @@ void ListDelAfter(List* l, ListVal_t* x, ListElement* prec) {
     free(p);
 }
 
-void ListDelVal(List* l, ListVal_t x, bool success) {
+void ListDelVal(List* l, ListVal_t x) {
     /*
     I.S.
         l tidak kosong.
