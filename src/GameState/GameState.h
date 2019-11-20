@@ -10,6 +10,8 @@
 #include "bool/bool.h"
 #include "Stack/Stack.h"
 #include "WordProcessor/WordProcessor.h"
+#include "Player/Player.h"
+#include "ArrayDin/ArrayDin.h"
 
 typedef int address;
 
@@ -44,7 +46,7 @@ void RevertGameState(GameState* GS, Player* P1x, Player* P2x, ArrayDin Buildings
 void PushStkGameState(GameState GS, Stack* GameStack);
 /* Push GameState ke stack setiap command selesai dijalankan */
 
-void PopStkGameStack(GameState* GS, Player* P1x, Player* P2x, ArrayDin BuildingsState, Stack* GameStack);
+void PopStkGameStack(Player* P1x, Player* P2x, ArrayDin BuildingsState, Stack* GameStack);
 /* Pop GameState terakhir yang disimpan di stack (Top) */
 /* IS: GS berisi GameState Terakhir */
 

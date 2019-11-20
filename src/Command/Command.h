@@ -5,13 +5,16 @@
 #define _COMMAND_H
 
 #include "bool/bool.h"
+#include "ArrayDin/ArrayDin.h"
 #include "WordProcessor/WordProcessor.h"
 #include "Player/Player.h"
-
+#include "Graph/Graph.h"
+#include "Stack/Stack.h"
+#include "GameState/GameState.h"
 void InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState, Graph Connect);
 /* Melakukan input Command menggunakan Word Processor */
 
-void AttackCommand(Player* PTurn, Player* PEnemy, Graph Connect);
+void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect);
 /* Melakukan mekanisme attack apabila user menginput command Attack,
    yaitu mencetak daftar bangunan yang dimiliki user,
    opsi untuk menyerang dengan bangunan apa,
@@ -41,7 +44,7 @@ void EndTurnCommand(Player* PTurn, Player* PEnemy);
 void SaveCommand(Player* PTurn, Player* PEnemy);
 /* Melakukan mekanisme Save_File, yaitu menyimpan state permainan yang sedang berlangsung*/
 
-void MoveCommand(Player* PSelf, Graph Connect);
+void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect);
 /* Melakukan mekanisme Move, yaitu memindahkan pasukan dari suatu bangunan ke bangunan lain milik
    pemain yang terhubung dengan bangunan tersebut. MOVE hanya dapat dilakukan
    sekali untuk tiap bangunan pada tiap gilirannya. */

@@ -28,7 +28,7 @@ GameState* CreateGameState(Player* P1x, Player* P2x, ArrayDin BuildingsState, Ga
 
 void DeleteGameState(GameState* GS){
     /* Menghapus alokasi GameState */
-    free(&GS);
+    free(GS);
 }
 
 void CaptureGameState(Player P1x, Player P2x, ArrayDin BuildingsState, Stack GameStack, Word RC){
@@ -44,7 +44,7 @@ void CaptureGameState(Player P1x, Player P2x, ArrayDin BuildingsState, Stack Gam
 
 void RevertGameState(GameState* GS, Player* P1x, Player* P2x, ArrayDin BuildingsState, Stack* GameStack){
     /* Mengembalikan GameState sebelumnya ke Game */
-    PopStkGameStack(GS,P1x,P2x,BuildingsState,GameStack);
+    PopStkGameStack(P1x,P2x,BuildingsState,GameStack);
     ClonePlayer(P1s(*GS),P1x);
     ClonePlayer(P2s(*GS),P2x);
     CopyTab(StateBuildings(*GS),&BuildingsState);
@@ -56,9 +56,10 @@ void PushStkGameState(GameState GS, Stack* GameStack){
     StackPush(GameStack,CreateGameState(&P1s(GS),&P2s(GS),StateBuildings(GS),&GS));
 }
 
-void PopStkGameStack(GameState* GS, Player* P1x, Player* P2x, ArrayDin BuildingsState, Stack* GameStack){
+void PopStkGameStack(Player* P1x, Player* P2x, ArrayDin BuildingsState, Stack* GameStack){
     /* Pop GameState terakhir yang disimpan di stack (Top) */
     /* IS: GS berisi GameState Terakhir */
+    GameState* GS;
     StackPop(GameStack,&GS);
     (*P1x) = P1s(*GS);
     (*P2x) = P2s(*GS);
@@ -67,13 +68,13 @@ void PopStkGameStack(GameState* GS, Player* P1x, Player* P2x, ArrayDin Buildings
 
 void FlushStkGameState(Stack* GameStack){
     /* Flush semua GameState dan dealokasi GameState setiap selesai turn */
-    GameState GSdump;
+    GameState* GSdump;
     Player P1dump,P2dump;
     ArrayDin Bdump;
 
     while(!StackIsEmpty(*GameStack)){
-        PopStkGameStack(&GSdump,&P1dump,&P2dump,Bdump,GameStack);
-        DeleteGameState(&GSdump);
+        PopStkGameStack(&P1dump,&P2dump,Bdump,GameStack);
+        DeleteGameState(GSdump);
     }
 }
 

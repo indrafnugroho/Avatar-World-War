@@ -3,6 +3,7 @@
 
 #include "Command.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState, Graph Connect) {
 /*  Melakukan input Command menggunakan Word Processor */
@@ -12,34 +13,34 @@ void InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState,
     ScanWord(&input);
 
     if (WordEqualsString(input, "ATTACK")) {
-        AttackCommand(PTurn,PEnemy,Connect);
+        AttackCommand(PTurn,PEnemy,*Bldgs,Connect);
         CheckSkill(PTurn,PEnemy,input);
-        CaptureGameState(PTurn,PEnemy,Bldgs,GState,input);
+        CaptureGameState(*PTurn,*PEnemy,*Bldgs,*GState,input);
     }
     else if (WordEqualsString(input, "LEVEL_UP")) {
         LevelUpCommand(PTurn);
-        CaptureGameState(PTurn,PEnemy,Bldgs,GState,input);
+        CaptureGameState(*PTurn,*PEnemy,*Bldgs,*GState,input);
     }
     else if (WordEqualsString(input, "SKILL")) {
         SkillCommand(PTurn,PEnemy);
         CheckSkill(PTurn,PEnemy,input);
-        CaptureGameState(PTurn,PEnemy,Bldgs,GState,input);
+        CaptureGameState(*PTurn,*PEnemy,*Bldgs,*GState,input);
     }
     else if (WordEqualsString(input, "UNDO")) UndoCommand(PTurn,PEnemy,Bldgs,GState);
     else if (WordEqualsString(input, "END_TURN")) {
         EndTurnCommand(PTurn,PEnemy);
-        CaptureGameState(PTurn,PEnemy,Bldgs,GState,input);
+        CaptureGameState(*PTurn,*PEnemy,*Bldgs,*GState,input);
     }
     else if (WordEqualsString(input, "SAVE")) SaveCommand(PTurn,PEnemy);
     else if (WordEqualsString(input, "MOVE")) {
-        MoveCommand(PTurn,Connect);
-        CaptureGameState(PTurn,PEnemy,Bldgs,GState,input);
+        MoveCommand(PTurn,*Bldgs,Connect);
+        CaptureGameState(*PTurn,*PEnemy,*Bldgs,*GState,input);
     }
     else if (WordEqualsString(input, "EXIT")) ExitCommand();
     else printf("Command yang Anda masukkan salah!\n");
 }
 
-void AttackCommand(Player* PTurn, Player* PEnemy, Graph Connect) {
+void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect) {
 /*  Melakukan mekanisme attack apabila user menginput command Attack,
     yaitu mencetak daftar bangunan yang dimiliki user,
     opsi untuk menyerang dengan bangunan apa,
@@ -48,7 +49,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, Graph Connect) {
     jumlah pasukan yang digunakan untuk menyerang,
     dan hasil akhir penyerangan. */
     ListElement* El;
-    Building* B, BT, CB, BE;
+    Building* B, *BT, *CB, *BE;
     int i=1;
     bool Success;
 
@@ -82,10 +83,10 @@ void AttackCommand(Player* PTurn, Player* PEnemy, Graph Connect) {
         BT = ListElementVal(El);
 
         if (!AfterAttack(*BT)) {
-            if (!ListIsEmpty(*GraphGetVertexFromIdx(Connect, Search1(BT)))) {
+            if (!ListIsEmpty(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT))))) {
                 printf("Daftar bangunan yang dapat diserang:\n");
                 i=1;
-                ListTraversal(El, ListFirstElement(*GraphGetVertexFromIdx(Connect, Search1(BT))), El != Nil) {
+                ListTraversal(El, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT)))), El != Nil) {
                     CB = ListElementVal(El);
 
                     printf("%d. ", i);
@@ -108,9 +109,9 @@ void AttackCommand(Player* PTurn, Player* PEnemy, Graph Connect) {
                 printf("Bangunan yang diserang: ");
                 int InpBEnemy;
                 if (ScanInt(&InpBEnemy)) {
-                    if (InpBEnemy <= ListSize(*GraphGetVertexFromIdx(Connect, Search1(BT)))) {
+                    if (InpBEnemy <= ListSize(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT))))) {
                         i=1;
-                        ListTraversal(El, ListFirstElement(*GraphGetVertexFromIdx(Connect, Search1(BT))), El != Nil && i != InpBEnemy) i++;
+                        ListTraversal(El, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT)))), El != Nil && i != InpBEnemy) i++;
                     
                         BE = ListElementVal(El);
                         printf("Jumlah pasukan: ");
@@ -136,10 +137,10 @@ void AttackCommand(Player* PTurn, Player* PEnemy, Graph Connect) {
                                             else {
                                                 Troops(*BT) -= InpTroopsNum;
                                                 AfterAttack(*BT) = true;
-                                                ListDelVal(Buildings(*PEnemy),BE,Success);
+                                                ListDelVal(&Buildings(*PEnemy),BE);
                                                 Troops(*BE) = InpTroopsNum - Troops(*BE);
                                                 SetLvBuildingToLv1(BE);
-                                                ListAddLast(Buildings(*PTurn),BE);
+                                                ListAddLast(&Buildings(*PTurn),BE);
                                                 printf("Bangunan menjadi milikmu!\n");
                                             }
                                         }
@@ -153,10 +154,10 @@ void AttackCommand(Player* PTurn, Player* PEnemy, Graph Connect) {
                                             else {
                                                 Troops(*BT) -= InpTroopsNum;
                                                 AfterAttack(*BT) = true;
-                                                ListDelVal(Buildings(*PEnemy),BE,Success);
+                                                ListDelVal(&Buildings(*PEnemy),BE);
                                                 Troops(*BE) = InpTroopsNum - (int) (Troops(*BE)/2);
                                                 SetLvBuildingToLv1(BE);
-                                                ListAddLast(Buildings(*PTurn),BE);
+                                                ListAddLast(&Buildings(*PTurn),BE);
                                                 printf("Bangunan menjadi milikmu!\n");
                                             }
                                             CHs(*PTurn) = 0;
@@ -174,10 +175,10 @@ void AttackCommand(Player* PTurn, Player* PEnemy, Graph Connect) {
                                         else {
                                             Troops(*BT) -= InpTroopsNum;
                                             AfterAttack(*BT) = true;
-                                            ListDelVal(Buildings(*PEnemy),BE,Success);
+                                            ListDelVal(&Buildings(*PEnemy),BE);
                                             Troops(*BE) = InpTroopsNum - (int) (Troops(*BE)/(0.75));
                                             SetLvBuildingToLv1(BE);
-                                            ListAddLast(Buildings(*PTurn),BE);
+                                            ListAddLast(&Buildings(*PTurn),BE);
                                             printf("Bangunan menjadi milikmu!\n");
                                         }
                                         if (SHs(*PEnemy)>0) SHs(*PEnemy)--;
@@ -198,7 +199,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, Graph Connect) {
                                                 Troops(*BE) = InpTroopsNum - U(*BE);
                                                 Troops(*BT) -= InpTroopsNum;
                                                 AfterAttack(*BT) = true;
-                                                ListAddLast(Buildings(*PTurn),BE);
+                                                ListAddLast(&Buildings(*PTurn),BE);
                                                 printf("Bangunan menjadi milikmu!\n");
                                             }
                                         }
@@ -213,10 +214,10 @@ void AttackCommand(Player* PTurn, Player* PEnemy, Graph Connect) {
                                                 Troops(*BE) = InpTroopsNum - (int) (U(*BE)/2);
                                                 Troops(*BT) -= InpTroopsNum;
                                                 AfterAttack(*BT) = true;
-                                                ListAddLast(Buildings(*PTurn),BE);
+                                                ListAddLast(&Buildings(*PTurn),BE);
                                                 printf("Bangunan menjadi milikmu!\n");
                                             }
-                                            CHS(*PTurn) = 0;
+                                            CHs(*PTurn) = 0;
                                         }
                                         AUs(*PTurn) = false;
                                     }
@@ -232,7 +233,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, Graph Connect) {
                                             Troops(*BE) = InpTroopsNum - (int) (U(*BE)/(0.75));
                                             Troops(*BT) -= InpTroopsNum;
                                             AfterAttack(*BT) = true;
-                                            ListAddLast(Buildings(*PTurn),BE);
+                                            ListAddLast(&Buildings(*PTurn),BE);
                                             printf("Bangunan menjadi milikmu!\n");
                                         }
                                     }
@@ -340,12 +341,12 @@ void EndTurnCommand(Player* PTurn, Player* PEnemy) {
 void SaveCommand(Player* PTurn, Player* PEnemy) {}
 /*  Melakukan mekanisme Save_File, yaitu menyimpan state permainan yang sedang berlangsung*/
 
-void MoveCommand(Player* PSelf, Graph Connect) {
+void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
 /*  Melakukan mekanisme Move, yaitu memindahkan pasukan dari suatu bangunan ke bangunan lain milik
     pemain yang terhubung dengan bangunan tersebut. MOVE hanya dapat dilakukan
     sekali untuk tiap bangunan pada tiap gilirannya. */
     ListElement* El;
-    Building* BSelf, BReceive;
+    Building* BSelf, *BReceive;
     int i=1;
 
     printf("Daftar bangunan:\n");
@@ -379,7 +380,7 @@ void MoveCommand(Player* PSelf, Graph Connect) {
             if (!AfterMove(*BSelf)) {
                 printf("Daftar bangunan terdekat:\n");
                 j=1;
-                ListTraversal(El, ListFirstElement(*GraphGetVertexFromIdx(Connect, Search1(BSelf))), El!=Nil) {
+                ListTraversal(El, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BSelf)))), El!=Nil) {
                     BReceive = ListElementVal(El);
 
                     printf("%d. ", j);
@@ -393,7 +394,7 @@ void MoveCommand(Player* PSelf, Graph Connect) {
                     case'F' :
                         printf("Fort (%d,%d) %d lv. %d\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y, Troops(*BReceive), Level(*BReceive));
                         break;
-                    case 'V'
+                    case 'V':
                         printf("Village (%d,%d) %d lv. %d\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y, Troops(*BReceive), Level(*BReceive));
                         break;
                     }
@@ -403,9 +404,9 @@ void MoveCommand(Player* PSelf, Graph Connect) {
                 printf("Bangunan yang akan menerima: ");
                 int InpBRcv;
                 if (ScanInt(&InpBRcv)) {
-                    if (InpBRcv <= ListSize(*GraphGetVertexFromIdx(Connect, Search1(BSelf)))) {
+                    if (InpBRcv <= ListSize(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BSelf))))) {
                         j=1;
-                        ListTraversal(El, ListFirstElement(*GraphGetVertexFromIdx(Connect, Search1(BSelf))), El != Nil && j != InpBRcv) j++;
+                        ListTraversal(El, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BSelf)))), El != Nil && j != InpBRcv) j++;
                         BReceive = ListElementVal(El);
 
                         printf("Jumlah pasukan: ");
@@ -470,9 +471,10 @@ void AddAToAllBuilding (Player* P) {
 /*  I.S. Buildings(P) terdefinisi
     F.S. Melakukan penambahan pasukan (A) terhadap Buildings(P) apabila Troops(B)<M(B) */
     ListElement* El;
-
+    Building* B;
     ListTraversal(El, ListFirstElement(Buildings(*P)), El != Nil) {
-        if (Troops(Buildings(*P)) < M(Buildings(*P))) Troops(Buildings(*P)) += A(Buildings(*P));
+        B = ListElementVal(El);
+        if (Troops(*B) < M(*B)) Troops(*B) += A(*B);
     }
 }
 

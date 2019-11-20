@@ -77,6 +77,8 @@ void GameLoop(Game* game) {
     } else {
         pn = 2;
     }
+    DisplayPrompt2(pn, "BUILDINGS");
+    printf("\n\n");
     DisplayPrompt2(pn, "SKILL");
     if (!StackIsEmpty(game->turn->Skills)) {
         DisplaySkill(*(game->turn));
