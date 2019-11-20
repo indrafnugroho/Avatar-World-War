@@ -1,13 +1,13 @@
 /* main.c */
 
 #include <stdio.h>
-#include "bool.h"
-#include "Game.h"
-#include "List.h"
-#include "Loader.h"
-#include "WordProcessor.h"
-#include "Art.h"
-#include "pcolor.h"
+#include "bool/bool.h"
+#include "Game/Game.h"
+#include "List/List.h"
+#include "Loader/Loader.h"
+#include "WordProcessor/WordProcessor.h"
+#include "Art/Art.h"
+#include "pcolor/pcolor.h"
 #define GAMESTATE_MENU 0
 #define GAMESTATE_LOAD 1
 #define GAMESTATE_GAME 2

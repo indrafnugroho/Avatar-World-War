@@ -19,7 +19,7 @@ all: wrgmavow
 temp:
 	test -d $(TEMPDIR) || mkdir $(TEMPDIR)
 
-cmain:
+$(TEMPDIR)/main.o: temp
 	$(CC) -c -O1 -o $(TEMPDIR)/main.o $(SRCDIR)/main.c $(INCPATH) $(CFLAGS)
 
 $(TEMPDIR)/%.o: $(SRCDIR)/*/%.c $(HEADERS) temp
