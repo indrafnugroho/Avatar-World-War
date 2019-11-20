@@ -165,3 +165,32 @@ F.S.
         break;
     }
 }
+
+void SetLvBuildingToLv1 (Building* B) {
+/*  I.S. B sembarang
+    F.S. B menjadi level 1 dengan segala komponen di dalamnya diubah
+*/
+    Level(*B) = 1;
+    switch(Type(*B)) {
+    case 'C' :
+        A(*B) = 10;
+        M(*B) = 40;
+        Pb(*B) = false;
+        break;
+    case 'T' :
+        A(*B) = 5;
+        M(*B) = 20;
+        Pb(*B) = true;
+        break;
+    case 'F' :
+        A(*B) = 10;
+        M(*B) = 20;
+        Pb(*B) = false;
+        break;
+    case 'V' :
+        A(*B) = 5;
+        M(*B) = 20;
+        Pb(*B) = false;
+        break;
+    }
+}

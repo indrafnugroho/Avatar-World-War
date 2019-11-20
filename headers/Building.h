@@ -65,4 +65,9 @@ void LevelAdd (Building *B);
     Nilai A, M, dan Pb berubah sesuai Type Bangunan dan Level
     */
 
+void SetLvBuildingToLv1 (Building* B);
+/*  I.S. B sembarang
+    F.S. B menjadi level 1 dengan segala komponen di dalamnya diubah
+*/
+
 #endif
