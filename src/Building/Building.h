@@ -6,8 +6,8 @@ DEFINISI ABSTRAKSI GAME
 #ifndef _BUILDING_H
 #define _BUILDING_H
 
-#include "Point.h"
-#include "List.h"
+#include "Point/Point.h"
+#include "List/List.h"
 
 typedef struct {
     Point Koordinat;

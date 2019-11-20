@@ -4,9 +4,9 @@
 #ifndef _COMMAND_H
 #define _COMMAND_H
 
-#include "bool.h"
-#include "WordProcessor.h"
-#include "Player.h"
+#include "bool/bool.h"
+#include "WordProcessor/WordProcessor.h"
+#include "Player/Player.h"
 
 void InputCommand(Player* PTurn, Player* PEnemy);
 /* Melakukan input Command menggunakan Word Processor */

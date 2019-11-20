@@ -6,11 +6,11 @@ DEFINISI ABSTRAKSI GAME
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
-#include "Building.h"
-#include "List.h"
-#include "Queue.h"
-#include "bool.h"
-#include "WordProcessor.h"
+#include "Building/Building.h"
+#include "List/List.h"
+#include "Queue/Queue.h"
+#include "bool/bool.h"
+#include "WordProcessor/WordProcessor.h"
 
 #define Nil 0
 
