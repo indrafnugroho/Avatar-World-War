@@ -157,7 +157,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                         }
                                         else {
                                             if (InpTroopsNum < (int) (Troops(*BE)/2)) {
-                                                Troops(*BE) = (int) (Troops(*BE)/2) - InpTroopsNum;
+                                                Troops(*BE) = ((int) (Troops(*BE)/2) - InpTroopsNum)*2;
                                                 Troops(*BT) -= InpTroopsNum;
                                                 AfterAttack(*BT) = true;
                                                 printf("Bangunan gagal direbut\n");
@@ -178,7 +178,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                     //Bangunan yang diserang punya pertahanan
                                     else {
                                         if (InpTroopsNum < (int) (Troops(*BE)/(0.75))) {
-                                            Troops(*BE) = (int) (Troops(*BE)/(0.75)) - InpTroopsNum;
+                                            Troops(*BE) -= (int) InpTroopsNum*(0.75);
                                             Troops(*BT) -= InpTroopsNum;
                                             AfterAttack(*BT) = true;
                                             printf("Bangunan gagal direbut\n");
@@ -200,15 +200,15 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                     //Bangunan yang diserang tidak memiliki pertahanan
                                     if (!Pb(*BE) || AUs(*PTurn) || CHs(*PTurn)==1) {
                                         if (CHs(*PTurn)==0) {
-                                            if (InpTroopsNum < U(*BE)) {
-                                                U(*BE) -= InpTroopsNum;
+                                            if (InpTroopsNum < Troops(*BE)) {
+                                                Troops(*BE) -= InpTroopsNum;
                                                 Troops(*BT) -= InpTroopsNum;
                                                 AfterAttack(*BT) = true;
                                                 printf("Bangunan gagal direbut\n");
                                             }
                                             else {
-                                                printf("test");
-                                                Troops(*BE) = InpTroopsNum - U(*BE);
+                                                // printf("test");
+                                                Troops(*BE) = InpTroopsNum - Troops(*BE);
                                                 Troops(*BT) -= InpTroopsNum;
                                                 AfterAttack(*BT) = true;
                                                 ListAddLast(&Buildings(*PTurn),BE);
@@ -216,14 +216,14 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                             }
                                         }
                                         else {
-                                            if (InpTroopsNum < (int) (U(*BE)/2)) {
-                                                U(*BE) = (int) (U(*BE)/2) - InpTroopsNum;
+                                            if (InpTroopsNum < (int) (Troops(*BE)/2)) {
+                                                Troops(*BE) = ((int) (Troops(*BE)/2) - InpTroopsNum)*2;
                                                 Troops(*BT) -= InpTroopsNum;
                                                 AfterAttack(*BT) = true;
                                                 printf("Bangunan gagal direbut\n");
                                             }
                                             else {
-                                                Troops(*BE) = InpTroopsNum - (int) (U(*BE)/2);
+                                                Troops(*BE) = InpTroopsNum - (int) (Troops(*BE)/2);
                                                 Troops(*BT) -= InpTroopsNum;
                                                 AfterAttack(*BT) = true;
                                                 ListAddLast(&Buildings(*PTurn),BE);
@@ -235,14 +235,14 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                     }
                                     //Bangunan yang diserang memiliki pertahanan
                                     else {
-                                        if (InpTroopsNum < (int) (U(*BE)/(0.75))) {
-                                            U(*BE) = (int) (U(*BE)/(0.75)) - InpTroopsNum;
+                                        if (InpTroopsNum < (int) (Troops(*BE)/(0.75))) {
+                                            Troops(*BE) -= (int) InpTroopsNum*(0.75);
                                             Troops(*BT) -= InpTroopsNum;
                                             AfterAttack(*BT) = true;
                                             printf("Bangunan gagal direbut\n");
                                         }
                                         else {
-                                            Troops(*BE) = InpTroopsNum - (int) (U(*BE)/(0.75));
+                                            Troops(*BE) = InpTroopsNum - (int) (Troops(*BE)/(0.75));
                                             Troops(*BT) -= InpTroopsNum;
                                             AfterAttack(*BT) = true;
                                             ListAddLast(&Buildings(*PTurn),BE);
