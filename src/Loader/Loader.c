@@ -78,3 +78,48 @@ F.S.
     SetMap(map, *buildings);
     //PrintMap(*map, P1, P2);
 }
+
+void SaveGameFile(char* path, Player P1, Player P2, ArrayDin buildings, Graph connect, GameMap map) {
+    FILE* sav;
+    int i, j;
+    Building* b;
+    ListElement* p;
+
+    sav = fopen(path, "w");
+    
+    fprintf(sav, "%d %d\n%d\n", RowEff(map), ColEff(map), Neff(buildings));
+    for (i = GetFirstIdx(buildings); i < Neff(buildings); i++) {
+        b = Elmt(buildings, i);
+        fprintf(sav, "%c %d %d %d %d %d %d %d %d %d %d\n",
+            Type(*b), Koordinat(*b).x, Koordinat(*b).y, Troops(*b), Level(*b), 
+            A(*b), M(*b), Pb(*b), U(*b), AfterAttack(*b), AfterMove(*b)
+        );
+
+    }
+    for (i = GetFirstIdx(buildings); i < Neff(buildings); i++) { 
+        for (j = GetFirstIdx(buildings); j < Neff(buildings); j++) {
+            fprintf(sav, "%d ", GraphIsAdjacentIdx(connect, i, j));
+        }
+        fprintf(sav, "\n");
+    }
+    fprintf(sav, "%d %d %d %d %d %d\n", ListSize(Buildings(P1)), ListSize(Skills(P1)), CHs(P1), SHs(P1), AUs(P1), ETs(P1));
+    ListTraversal(p, ListFirstElement(Buildings(P1)), p != Nil) {
+        fprintf(sav, "%d ", Search1(buildings, ListElementVal(p)));
+    }
+    fprintf(sav, "\n");
+    ListTraversal(p, ListFirstElement(Skills(P1)), p != Nil) {
+        fprintf(sav, "%d ", ListElementVal(p));
+    } 
+    fprintf(sav, "\n");
+    fprintf(sav, "%d %d %d %d %d %d\n", ListSize(Buildings(P2)), ListSize(Skills(P2)), CHs(P2), SHs(P2), AUs(P2), ETs(P2));
+    ListTraversal(p, ListFirstElement(Buildings(P2)), p != Nil) {
+        fprintf(sav, "%d ", Search1(buildings, ListElementVal(p)));
+    }
+    fprintf(sav, "\n");
+    ListTraversal(p, ListFirstElement(Skills(P2)), p != Nil) {
+        fprintf(sav, "%d ", ListElementVal(p));
+    } 
+    fprintf(sav, "\n");
+
+    fclose(sav);
+}

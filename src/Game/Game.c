@@ -75,6 +75,7 @@ void GameLoop(Game* game) {
     int pn;
     Player* enemy;
     ListElement* p;
+    int loop;
     do {
         PrintMap(game->map, GameP1(*game), GameP2(*game));
         set_print_color(BLUE);
@@ -85,7 +86,7 @@ void GameLoop(Game* game) {
         set_print_color(RED);
         printf(" %d    PLAYER2\n", ListSize(Buildings(GameP2(*game))));
         set_print_color(WHITE);
-        printf("          [UNDO : %d]\n\n", ListSize(GameStateStack(*game)));
+        printf("  [UNDO : %d]\n\n", ListSize(GameStateStack(*game)));
         if (GamePTurn(*game) == &GameP1(*game)) {
             SetPlayerPrompt(1);
             enemy = &GameP2(*game);
@@ -110,7 +111,11 @@ void GameLoop(Game* game) {
             printf("No Available Skills\n");
         }
         //DisplayPrompt2("COMMAND");
-    } while (InputCommand(GamePTurn(*game), enemy, &GameBuildings(*game), &GameStateStack(*game), GameBAdj(*game)));
+        loop = InputCommand(GamePTurn(*game), enemy, &GameBuildings(*game), &GameStateStack(*game), GameBAdj(*game));
+        if (loop == 2) {
+            SaveGameFile("save.txt", GameP1(*game), GameP2(*game), GameBuildings(*game), GameBAdj(*game), GameMatrixMap(*game));
+        }
+    } while (loop);
     //ScanWord(&w);
 }
 

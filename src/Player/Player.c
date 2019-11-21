@@ -75,25 +75,25 @@ void DisplaySkill(Player P) {
             printf("-\n");
             break;
         case 1:
-            printf("IU\n");
+            printf("Instant Upgrade\n");
             break;
         case 2:
-            printf("SH\n");
+            printf("Shield\n");
             break;
         case 3:
-            printf("ET\n");
+            printf("Extra Turn\n");
             break;
         case 4:
-            printf("AU\n");
+            printf("Attack Up\n");
             break;
         case 5:
-            printf("CH\n");
+            printf("Critical Hit\n");
             break;
         case 6:
-            printf("IR\n");
+            printf("Instant Reinforcement\n");
             break;
         case 7:
-            printf("BR\n");
+            printf("Barrage\n");
             break;
         default:
             printf("Skill Id Invalid\n");

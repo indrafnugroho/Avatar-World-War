@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-bool InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState, Graph Connect) {
+int InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState, Graph Connect) {
 /*  Melakukan input Command menggunakan Word Processor */
 
     Word input;   
@@ -39,16 +39,16 @@ bool InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState,
             CheckSkill(PTurn,PEnemy,input);
             FlushStkGameState(GState);
             sleep(1);
-            return false;
+            return 0;
         }
-        else if (WordEqualsString(input, "SAVE")) SaveCommand(PTurn,PEnemy);
+        else if (WordEqualsString(input, "SAVE")) return 2;
         else if (WordEqualsString(input, "MOVE")) {
             CaptureGameState(*PTurn,*PEnemy,*Bldgs,GState,input);
             MoveCommand(PTurn,*Bldgs,Connect);
         }
         else if (WordEqualsString(input, "EXIT")) ExitCommand();
         else AddWarning("Invalid Command");
-        return true;
+        return 1;
 }
 
 void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect) {
