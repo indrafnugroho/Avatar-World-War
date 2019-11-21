@@ -20,9 +20,9 @@ bool InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState,
         DisplayPrompt2("COMMAND");
         ScanWord(&input);
         if (WordEqualsString(input, "ATTACK")) {
+            CaptureGameState(*PTurn,*PEnemy,*Bldgs,GState,input);
             AttackCommand(PTurn,PEnemy,*Bldgs,Connect);
-            //CheckSkill(PTurn,PEnemy,input);
-            //CaptureGameState(*PTurn,*PEnemy,*Bldgs,GState,input);
+            CheckSkill(PTurn,PEnemy,input);
         }
         else if (WordEqualsString(input, "LEVEL_UP")) {
             LevelUpCommand(PTurn);
@@ -65,7 +65,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
     int i=1;
     int j=1;
 
-    DisplayPrompt("OWNED BUILDINGS");
+    DisplayPrompt2("OWNED BUILDINGS");
     printf("\n\n");
     ListTraversal (El, ListFirstElement(Buildings(*PTurn)), El != Nil) {
         B = ListElementVal(El);
@@ -80,13 +80,14 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
     DisplayPrompt2("BUILDING TO USE");
     int InpBSelf;
     if (ScanInt(&InpBSelf)) {
+        if (InpBSelf < i) {
         i=1;
-        ListTraversal(El, ListFirstElement(Buildings(*PTurn)), ListElementNext(El) != Nil && i != InpBSelf) i++;
+        ListTraversal(El, ListFirstElement(Buildings(*PTurn)), El != Nil && i != InpBSelf) i++;
         //printf("%p ", El);
         BT = ListElementVal(El);
         if (!AfterAttack(*BT)) {
             if (!ListIsEmpty(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT))))) {
-                DisplayPrompt("NEAREST NEUTRAL AND ENEMY BUILDINGS");
+                DisplayPrompt2("NEAREST NEUTRAL AND ENEMY BUILDINGS");
                 printf("\n\n");
                 j=1;
                 ListTraversal(El2, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT)))), El2 != Nil) {
@@ -252,6 +253,8 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
             else AddWarning("Tidak ada bangunan yang dapat diserang");
         }
         else AddWarning("Bangunan yang Anda pilih sudah digunakan untuk menyerang sebelumnya");
+        }
+        else AddWarning("Input Bangunan salah");
     }
     else AddWarning("Input yang Anda masukkan salah");
 }
@@ -265,16 +268,17 @@ void LevelUpCommand(Player* PSelf) {
     Building* B;
     int i=1;
 
-    printf("Daftar bangunan:\n");
+    DisplayPrompt2("OWNED BUILDINGS");
+    printf("\n\n");
     ListTraversal (El, ListFirstElement(Buildings(*PSelf)), El != Nil) {
         B = ListElementVal(El);
 
-        printf("%d. ", i);
+        printf("  %d. ", i);
         PrintBuilding(*B);
         i++;
     }
-
-    printf("Bangunan yang akan di level up: ");
+    printf("\n");
+    printf("SELECT BUILDING");
     int InpBNUm;
     if (ScanInt(&InpBNUm)) {
         if (InpBNUm <= ListSize(Buildings(*PSelf))) {
@@ -317,11 +321,12 @@ void SkillCommand(Player* PTurn, Player* PEnemy) {
     UseSkill(PTurn,PEnemy);
 }
 
-void UndoCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState) {}
+void UndoCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState) {
 /*  Melakukan mekanisme Undo apabila user menginput command Undo.
     User hanya dapat melakukan UNDO hingga command sesudah END_TURN / SKILL. 
     Artinya, setelah command END_TURN / SKILL, pemain tidak dapat melakukan UNDO lagi */
-
+    RevertGameState(PTurn, PEnemy, Bldgs, GState); 
+}
 void EndTurnCommand(Player* PTurn, Player* PEnemy) {
 /*  Melakukan mekanisme End_Turn apabila user menginput command End_Turn. */
     if (SHs(*PTurn)>0) SHs(*PTurn)--;
@@ -341,16 +346,18 @@ void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
     Building* BSelf, *BReceive;
     int i=1;
 
-    printf("Daftar bangunan:\n");
+    DisplayPrompt2("OWNED BUILDINGS");
+    printf("\n\n");
     ListTraversal (El, ListFirstElement(Buildings(*PSelf)), El != Nil) {
         BSelf = ListElementVal(El);
 
-        printf("%d. ", i);
+        printf("  %d. ", i);
         PrintBuilding(*BSelf); 
         i++;
     }
 
-    printf("Pilih bangunan: ");
+    printf("\n");
+    DisplayPrompt2("FROM");
     int InpB;
     if (ScanInt(&InpB)) {
         if (InpB <= ListSize(Buildings(*PSelf))) {
@@ -359,7 +366,8 @@ void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
             BSelf = ListElementVal(El);
 
             if (!AfterMove(*BSelf)) {
-                printf("Daftar bangunan terdekat:\n");
+                DisplayPrompt2("NEAREST OWNED BUILDINGS");
+                printf("\n\n");
                 j=1;
                 ListTraversal(El, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BSelf)))), El!=Nil) {
                     BReceive = Elmt(Bldgs, GraphGetVertexIdx(Connect, ListElementVal(El)));
@@ -370,7 +378,8 @@ void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
                     }
                 }
                 if (j > 1) {
-                printf("Bangunan yang akan menerima: ");
+                printf("\n");
+                DisplayPrompt2("TO");
                 int InpBRcv;
                 if (ScanInt(&InpBRcv)) {
                     if (InpBRcv <= ListSize(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BSelf)))) && InpBRcv < j) {

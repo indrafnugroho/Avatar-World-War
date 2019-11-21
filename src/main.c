@@ -33,6 +33,7 @@ int main() {
                 //ReadConfigFile("config.txt", &b, &g, &map);
                 GameLoadInitConfig(&game, "config.txt");
                 GameInit(&game);
+                AddWarning("Game Starts!");
                 gameState = GAMESTATE_GAME;
                 reset_print_color();
             } else if (WordEqualsString(w, "QUIT") || WordEqualsString(w, "quit")) {

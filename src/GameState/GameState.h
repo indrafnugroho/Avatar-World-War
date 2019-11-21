@@ -39,14 +39,14 @@ void DeleteGameState(GameState* GS);
 void CaptureGameState(Player P1x, Player P2x, ArrayDin BuildingsState, Stack* GameStack, Word RC);
 /* Mengakuisisi GameState saat prosedur dijalankan */
 
-void RevertGameState(GameState* GS, Player* P1x, Player* P2x, ArrayDin BuildingsState, Stack* GameStack);
+void RevertGameState(Player* P1x, Player* P2x, ArrayDin* BuildingsState, Stack* GameStack);
 /* Mengembalikan GameState sebelumnya ke Game */
 
 /******** GAME STACK ********/
 void PushStkGameState(GameState GS, Stack* GameStack);
 /* Push GameState ke stack setiap command selesai dijalankan */
 
-void PopStkGameStack(Player* P1x, Player* P2x, ArrayDin BuildingsState, Stack* GameStack);
+void PopStkGameStack(Player* P1x, Player* P2x, ArrayDin* BuildingsState, Stack* GameStack);
 /* Pop GameState terakhir yang disimpan di stack (Top) */
 /* IS: GS berisi GameState Terakhir */
 

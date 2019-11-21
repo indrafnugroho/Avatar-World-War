@@ -34,20 +34,25 @@ void DeleteGameState(GameState* GS){
 void CaptureGameState(Player P1x, Player P2x, ArrayDin BuildingsState, Stack* GameStack, Word RC){
     /* Mengakuisisi GameState saat prosedur dijalankan */
     GameState GS;
-
+    ListElement* p;
     RecentCom(GS) = RC;
     ClonePlayer(P1x,&P1s(GS));
+    ListTraversal(p, ListFirstElement(Buildings(P1s(GS))), p != Nil) {
+        PrintBuilding(*(Building*)ListElementVal(p));
+    }
     ClonePlayer(P2x,&P2s(GS));
     CopyTab(BuildingsState,&StateBuildings(GS));
     PushStkGameState(GS,GameStack);
 }
 
-void RevertGameState(GameState* GS, Player* P1x, Player* P2x, ArrayDin BuildingsState, Stack* GameStack){
+void RevertGameState(Player* P1x, Player* P2x, ArrayDin *BuildingsState, Stack* GameStack){
     /* Mengembalikan GameState sebelumnya ke Game */
-    PopStkGameStack(P1x,P2x,BuildingsState,GameStack);
-    ClonePlayer(P1s(*GS),P1x);
-    ClonePlayer(P2s(*GS),P2x);
-    CopyTab(StateBuildings(*GS),&BuildingsState);
+    Player P1t, P2t;
+    ArrayDin Bs;
+    PopStkGameStack(&P1t,&P2t,&Bs,GameStack);
+    ClonePlayer(P1t,P1x);
+    ClonePlayer(P2t,P2x);
+    CopyTab(Bs,BuildingsState);
 }
 
 /******** GAME STACK ********/
@@ -56,14 +61,14 @@ void PushStkGameState(GameState GS, Stack* GameStack){
     StackPush(GameStack,CreateGameState(&P1s(GS),&P2s(GS),StateBuildings(GS),&GS));
 }
 
-void PopStkGameStack(Player* P1x, Player* P2x, ArrayDin BuildingsState, Stack* GameStack){
+void PopStkGameStack(Player* P1x, Player* P2x, ArrayDin* BuildingsState, Stack* GameStack){
     /* Pop GameState terakhir yang disimpan di stack (Top) */
     /* IS: GS berisi GameState Terakhir */
     GameState* GS;
     StackPop(GameStack,&GS);
     (*P1x) = P1s(*GS);
     (*P2x) = P2s(*GS);
-    BuildingsState = StateBuildings(*GS);
+    *BuildingsState = StateBuildings(*GS);
 }
 
 void FlushStkGameState(Stack* GameStack){
@@ -73,7 +78,7 @@ void FlushStkGameState(Stack* GameStack){
     ArrayDin Bdump;
 
     while(!StackIsEmpty(*GameStack)){
-        PopStkGameStack(&P1dump,&P2dump,Bdump,GameStack);
+        PopStkGameStack(&P1dump,&P2dump,&Bdump,GameStack);
         DeleteGameState(GSdump);
     }
 }

@@ -55,6 +55,7 @@ void GameTurn(Game* game) {
     /* Algoritma */
     // Minta variabel Next turn buat skill Extra Turn
     GameLoop(game);
+    AddWarning("Next Player's turn");
     if (GamePTurn(*game) == &GameP1(*game)) {
         GamePTurn(*game) = &GameP2(*game);
     } else {

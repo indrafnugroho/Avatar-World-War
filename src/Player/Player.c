@@ -177,8 +177,8 @@ void CheckSkill(Player* P, Player* PEnemy, Word LastCommand) {
     /* Cek skill AU - Ambigu player ally atau enemy? */
     if (WordEqualsString(LastCommand, "ATTACK")) {
         NbOfTower = 0;
-        i = 1;
-        while (i <= NbOfBuildings(*P)) {
+        i = 0;
+        while (i < NbOfBuildings(*P)) {
             if (Type(*(Building*)(ListElementVal(ListIdx(Buildings(*P), i)))) == 'T') {
                 NbOfTower += 1;
             }
