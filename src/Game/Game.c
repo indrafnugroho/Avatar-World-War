@@ -51,7 +51,8 @@ void GameLoadSave(Game* game, char* filename) {
     F.S.
         Sesi game yang telah disimpan dimuat dalam atribut game
     */
-    LoadGameFile("save.txt", &GameP1(*game), &GameP2(*game), &GameBuildings(*game), &GameBAdj(*game), &GameMatrixMap(*game), &GamePTurn(*game));
+    LoadGameFile("save.txt", &GameP1(*game), &GameP2(*game), &GameBuildings(*game), &GameBAdj(*game), &GameMatrixMap(*game), &GamePTurn(*game)); 
+    StackCreate(&(game->stkGameState));
 }
 
 void GameTurn(Game* game) { 

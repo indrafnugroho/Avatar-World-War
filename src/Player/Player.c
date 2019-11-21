@@ -4,6 +4,7 @@ IMPLEMENTASI ABSTRAKSI Player
 */
 
 #include "Player/Player.h"
+#include "Art/Art.h"
 #include <stdio.h>
 
 void CreateNewPlayer(Player *P)
@@ -151,7 +152,7 @@ void CheckSkill(Player* P, Player* PEnemy, Word LastCommand) {
     /* Cek skill SH */
     if (WordEqualsString(LastCommand, "ATTACK") && NbOfBuildings(*PEnemy) == 2) {
         AddSkill(PEnemy, 2);  // Shield
-        printf("Enemy player gained SHIELD skill\n");
+        AddWarning("Enemy player gained SHIELD skill\n");
     }
 
     /* Cek skill IR */
@@ -171,7 +172,7 @@ void CheckSkill(Player* P, Player* PEnemy, Word LastCommand) {
     /* Cek skill CH */
     if (WordEqualsString(LastCommand, "SKILL") && ETs(*P)) { /* Ada potensi bug */
         AddSkill(PEnemy, 5);
-        printf("Enemy player gained CRITICAL HIT skill\n");
+        AddWarning("Enemy player gained CRITICAL HIT skill\n");
     }
 
     /* Cek skill AU - Ambigu player ally atau enemy? */
@@ -186,14 +187,14 @@ void CheckSkill(Player* P, Player* PEnemy, Word LastCommand) {
         }
         if (NbOfTower == 3) {
             AddSkill(P, 4);
-            printf("Player gained ATTACK UP skill\n");
+            AddWarning("You gained ATTACK UP skill\n");
         }
     }
 
     /* Cek skill BR */
     if (WordEqualsString(LastCommand, "ATTACK") && (NbOfBuildings(*PEnemy) == 10)) { /* Ada potensi bug */
         AddSkill(P, 7);
-        printf("Player gained BARRAGE skill\n");
+        AddWarning("You gained BARRAGE skill\n");
     }
 
     /* Cek skill ET */
