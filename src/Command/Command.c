@@ -326,9 +326,10 @@ void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
 /*  Melakukan mekanisme Move, yaitu memindahkan pasukan dari suatu bangunan ke bangunan lain milik
     pemain yang terhubung dengan bangunan tersebut. MOVE hanya dapat dilakukan
     sekali untuk tiap bangunan pada tiap gilirannya. */
-    ListElement* El;
-    Building* BSelf, *BReceive;
+    ListElement* El, *ElCheck, *El2, *ElCheck2;
+    Building* BSelf, *BReceive, *BCheck;
     int i=1;
+    bool FoundOwn = false;
 
     printf("Daftar bangunan:\n");
     ListTraversal (El, ListFirstElement(Buildings(*PSelf)), El != Nil) {
@@ -347,72 +348,94 @@ void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
             ListTraversal(El, ListFirstElement(Buildings(*PSelf)), El != Nil && j != InpB) j++;
             BSelf = ListElementVal(El);
 
-            if (!AfterMove(*BSelf)) {
-                printf("Daftar bangunan terdekat:\n");
-                j=1;
-                ListTraversal(El, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BSelf)))), El!=Nil) {
-                    BReceive = ListElementVal(El);
+            if (!ListIsEmpty(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BSelf))))) {
+                if (!AfterMove(*BSelf)) {
+                    printf("Daftar bangunan terdekat:\n");
+                    j=1;
+                    ListTraversal(El, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BSelf)))), El!=Nil) {
+                        BReceive = Elmt(Bldgs, GraphGetVertexIdx(Connect, ListElementVal(El)));
 
-                    printf("%d. ", j);
-                    PrintBuilding(*BReceive);
-                    j++;
-                }
-
-                printf("Bangunan yang akan menerima: ");
-                int InpBRcv;
-                if (ScanInt(&InpBRcv)) {
-                    if (InpBRcv <= ListSize(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BSelf))))) {
-                        j=1;
-                        ListTraversal(El, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BSelf)))), El != Nil && j != InpBRcv) j++;
-                        BReceive = ListElementVal(El);
-
-                        printf("Jumlah pasukan: ");
-                        int InpTroops;
-                        if (ScanInt(&InpTroops)) {
-                            if (InpTroops <= Troops(*BReceive)) {
-                                Troops(*BSelf) -= InpTroops;
-                                Troops(*BReceive) += InpTroops;
-                                printf("%d pasukan dari ", InpTroops);
-                                switch (Type(*BSelf)) {
-                                case 'C' :
-                                    printf("Castle (%d,%d) ", Koordinat(*BSelf).x, Koordinat(*BSelf).y);
-                                    break;
-                                case 'T' :
-                                    printf("Tower (%d,%d) ", Koordinat(*BSelf).x, Koordinat(*BSelf).y);
-                                    break;
-                                case 'F' :
-                                    printf("Fort (%d,%d) ", Koordinat(*BSelf).x, Koordinat(*BSelf).y);
-                                    break;
-                                case 'V' :
-                                    printf("Village (%d,%d) ", Koordinat(*BSelf).x, Koordinat(*BSelf).y);
-                                    break;
-                                }
-                                printf("telah berpindah ke ");
-                                switch (Type(*BReceive)) {
-                                case 'C' :
-                                    printf("Castle (%d,%d)\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y);
-                                    break;
-                                case 'T' :
-                                    printf("Tower (%d,%d)\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y);
-                                    break;
-                                case 'F' :
-                                    printf("Fort (%d,%d)\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y);
-                                    break;
-                                case 'V' :
-                                    printf("Village (%d,%d)\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y);
-                                    break;
-                                }
-                                AfterMove(*BSelf) = true;
+                        //Cek apakah Connected Building adalah Building Player Turn
+                        //(Bukan milik lawan/bukan tidak berkepemilikan)
+                        ListTraversal(ElCheck, ListFirstElement(Buildings(*PSelf)), ElCheck != Nil) {
+                            if (ListElementVal(ElCheck) == BReceive) {
+                                FoundOwn = true;
+                                printf("%d. ", j);
+                                PrintBuilding(*BReceive);
+                                j++;
                             }
-                            else printf("Jumlah pasukan Bangunan Anda kurang\n");
+                        }
+                    }
+
+                    if (FoundOwn) {
+                        printf("Bangunan yang akan menerima: ");
+                        int InpBRcv;
+                        if (ScanInt(&InpBRcv)) {
+                            if (InpBRcv <= ListSize(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BSelf))))) {
+                                j=1;
+                                ListTraversal(El2, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BSelf)))), El2 != Nil) {
+                                    BCheck = Elmt(Bldgs, GraphGetVertexIdx(Connect, ListElementVal(El2)));
+
+                                    //Bangunan yang dipilih adalah bangunan milik Player Turn
+                                    ListTraversal(ElCheck2, ListFirstElement(Buildings(*PSelf)), ElCheck2 != Nil) {
+                                        if (ListElementVal(ElCheck2) == BCheck && j != InpBRcv) j++;
+                                        else if (ListElementVal(ElCheck2) == BCheck && j == InpBRcv) {
+                                            BReceive = Elmt(Bldgs, GraphGetVertexIdx(Connect, ListElementVal(ElCheck2)));
+
+                                        }
+                                    }
+                                }
+                                printf("Jumlah pasukan: ");
+                                int InpTroops;
+                                if (ScanInt(&InpTroops)) {
+                                    if (InpTroops <= Troops(*BSelf)) {
+                                        Troops(*BSelf) -= InpTroops;
+                                        Troops(*BReceive) += InpTroops;
+                                        printf("%d pasukan dari ", InpTroops);
+                                        switch (Type(*BSelf)) {
+                                        case 'C' :
+                                            printf("Castle (%d,%d) ", Koordinat(*BSelf).x, Koordinat(*BSelf).y);
+                                            break;
+                                        case 'T' :
+                                            printf("Tower (%d,%d) ", Koordinat(*BSelf).x, Koordinat(*BSelf).y);
+                                            break;
+                                        case 'F' :
+                                            printf("Fort (%d,%d) ", Koordinat(*BSelf).x, Koordinat(*BSelf).y);
+                                            break;
+                                        case 'V' :
+                                            printf("Village (%d,%d) ", Koordinat(*BSelf).x, Koordinat(*BSelf).y);
+                                            break;
+                                        }
+                                        printf("telah berpindah ke ");
+                                        switch (Type(*BReceive)) {
+                                        case 'C' :
+                                            printf("Castle (%d,%d)\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y);
+                                            break;
+                                        case 'T' :
+                                            printf("Tower (%d,%d)\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y);
+                                            break;
+                                        case 'F' :
+                                            printf("Fort (%d,%d)\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y);
+                                            break;
+                                        case 'V' :
+                                            printf("Village (%d,%d)\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y);
+                                            break;
+                                        }
+                                        AfterMove(*BSelf) = true;
+                                    }
+                                    else printf("Jumlah pasukan Bangunan Anda kurang\n");
+                                }
+                                else printf("Input yang Anda masukkan salah\n");
+                            }
+                            else printf("Input yang Anda masukkan salah\n");
                         }
                         else printf("Input yang Anda masukkan salah\n");
                     }
-                    else printf("Input yang Anda masukkan salah\n");
+                    else printf("Tidak ada bangunan milik Anda di sekitar\n");
                 }
-                else printf("Input yang Anda masukkan salah\n");
+                else printf("Bangunan yang Anda pilih sudah melakukan MOVE sebelumnya\n");
             }
-            else printf("Bangunan yang Anda pilih sudah melakukan MOVE sebelumnya\n");
+            else printf("Tidak ada bangunan di dekat Anda\n");
         }
         else printf("Input yang Anda masukkan salah\n");
     }
