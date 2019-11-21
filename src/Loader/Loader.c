@@ -16,7 +16,6 @@ F.S.
     int temp;
     char to;
     Building *B;
-    List* Adj;
     /* ALGORITMA */
     CreateEmpty(&CWord);
     if (ReadStart(path)) {
@@ -55,9 +54,7 @@ F.S.
             }
             InitializationBuilding(B);
             AddAsLastEl(buildings, B);
-            Adj = (List*) malloc(sizeof(List));
-            ListCreate(Adj);
-            GraphAddVertex(connect, Adj);
+            GraphNewVertexLast(connect);
             printf("Building #%d: %c(%d, %d)\n", i + 1,Type(*B), PointX(Koordinat(*B)), PointY(Koordinat(*B)));
         }
         /* Membaca keterhubungan building */
@@ -78,7 +75,7 @@ F.S.
     //PrintMap(*map, P1, P2);
 }
 
-void SaveGameFile(char* path, Player P1, Player P2, ArrayDin buildings, Graph connect, GameMap map, Player* Pturn) {
+void SaveGameFile(char* path, Player P1, Player P2, ArrayDin buildings, Graph connect, GameMap map, int turn) {
     FILE* sav;
     int i, j;
     Building* b;
@@ -118,7 +115,7 @@ void SaveGameFile(char* path, Player P1, Player P2, ArrayDin buildings, Graph co
     ListTraversal(p, ListFirstElement(Skills(P2)), p != Nil) {
         fprintf(sav, "%d ", ListElementVal(p));
     } 
-    fprintf(sav, "\n%d\n", Pturn == &P1 ? 1 : 2);
+    fprintf(sav, "\n%d\n", turn);
 
     fclose(sav);
 }
@@ -130,7 +127,6 @@ void LoadGameFile(char* path, Player* P1, Player* P2, ArrayDin* buildings, Graph
     int temp;
     char to;
     Building *B;
-    List* Adj;
     /* ALGORITMA */
     CreateEmpty(&CWord);
     if (ReadStart(path)) {
@@ -201,9 +197,7 @@ void LoadGameFile(char* path, Player* P1, Player* P2, ArrayDin* buildings, Graph
             } 
             //InitializationBuilding(B);
             AddAsLastEl(buildings, B);
-            Adj = (List*) malloc(sizeof(List));
-            ListCreate(Adj);
-            GraphAddVertex(connect, Adj);
+            GraphNewVertexLast(connect);
             printf("Building #%d: %c(%d, %d)\n", i + 1,Type(*B), PointX(Koordinat(*B)), PointY(Koordinat(*B)));
         }
         /* Membaca keterhubungan building */

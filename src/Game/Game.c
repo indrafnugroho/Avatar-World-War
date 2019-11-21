@@ -99,9 +99,11 @@ void GameLoop(Game* game) {
         printf("  [UNDO : %d]\n\n", ListSize(GameStateStack(*game)));
         if (GamePTurn(*game) == &GameP1(*game)) {
             SetPlayerPrompt(1);
+            pn = 1;
             enemy = &GameP2(*game);
         } else {
             SetPlayerPrompt(2);
+            pn = 2;
             enemy = &GameP1(*game);
         }
         DisplayWarning();
@@ -123,7 +125,7 @@ void GameLoop(Game* game) {
         //DisplayPrompt2("COMMAND");
         loop = InputCommand(GamePTurn(*game), enemy, &GameBuildings(*game), &GameStateStack(*game), GameBAdj(*game));
         if (loop == 2) {
-            SaveGameFile("save.txt", GameP1(*game), GameP2(*game), GameBuildings(*game), GameBAdj(*game), GameMatrixMap(*game), GamePTurn(*game));
+            SaveGameFile("save.txt", GameP1(*game), GameP2(*game), GameBuildings(*game), GameBAdj(*game), GameMatrixMap(*game), pn);
         }
     } while (loop);
     //ScanWord(&w);

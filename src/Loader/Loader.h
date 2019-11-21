@@ -20,7 +20,7 @@ F.S.
     File konfigurasi dibaca dan diolah sehingga siap dibuat GameMap.
 */
 
-void SaveGameFile(char* path, Player P1, Player P2, ArrayDin buildings, Graph connect, GameMap map, Player* Pturn);
+void SaveGameFile(char* path, Player P1, Player P2, ArrayDin buildings, Graph connect, GameMap map, int turn);
 
 void LoadGameFile(char* path, Player* P1, Player* P2, ArrayDin* buildings, Graph* connect, GameMap* map, Player** Pturn);
 #endif
