@@ -18,38 +18,30 @@ F.S.
 
     /* ALGORITMA */
     Level(*B) = 1;
-    switch (Type(*B)) {
-    case 'C':
-        // ke bawah masih salah
+    switch(Type(*B)) {
+    case 'C' :
+        A(*B) = 10;
+        M(*B) = 40;
+        Pb(*B) = false;
         U(*B) = 40;
-        if(Level(*B) == 1) A(*B) = 10;
-        else if(Level(*B) == 2) A(*B) = 15;
-        else if(Level(*B) == 3) A(*B) = 20;
-        else A(*B) = 25;
         break;
-    
-    case 'T':
+    case 'T' :
+        A(*B) = 5;
+        M(*B) = 20;
+        Pb(*B) = true;
         U(*B) = 30;
-        if(Level(*B) == 1) A(*B) = 5;
-        else if(Level(*B) == 2) A(*B) = 10;
-        else if(Level(*B) == 3) A(*B) = 20;
-        else A(*B) = 30;
         break;
-
-    case 'F':
+    case 'F' :
+        A(*B) = 10;
+        M(*B) = 20;
+        Pb(*B) = false;
         U(*B) = 80;
-        if(Level(*B) == 1) A(*B) = 10;
-        else if(Level(*B) == 2) A(*B) = 20;
-        else if(Level(*B) == 3) A(*B) = 30;
-        else A(*B) = 40;
         break;
-    
-    case 'V':
+    case 'V' :
+        A(*B) = 5;
+        M(*B) = 20;
+        Pb(*B) = false;
         U(*B) = 20;
-        if(Level(*B) == 1) A(*B) = 5;
-        else if(Level(*B) == 2) A(*B) = 10;
-        else if(Level(*B) == 3) A(*B) = 15;
-        else A(*B) = 20;
         break;
     }
     Troops(*B) = U(*B);
