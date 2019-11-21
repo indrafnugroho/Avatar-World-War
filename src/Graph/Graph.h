@@ -12,7 +12,7 @@ DEFINISI ADT GRAPH <Graph>
 typedef ListElement* GraphVertex;
 typedef List Graph;
 
-#define GraphVertexFirst(g) ListElementFirst(g)
+#define GraphVertexFirst(g) ListFrstElement(g)
 #define GraphVertexAdj(p) (*(List*)ListElementVal(p))
 
 void GraphCreate(Graph* g);
@@ -32,12 +32,22 @@ int  GraphSize(Graph g);
     /*
     Mengembalikan banyak vertex pada g
     */
+
+
 void GraphAddVertex(Graph* g, List* x);
     /*
     I.S.
-        x adalah pointer to list (sebagai adjacency list, g terdefinisi
+        x adalah pointer to list (sebagai adjacency list, g terdefinisi)
     F.S.
-        x menjadi niali vertex dari 
+        x menjadi niali vertex dari g 
+    */
+
+void GraphNewVertexLast(Graph* g);
+    /*
+    I.S
+        g terdefinisi
+    F.S.
+        terdepat vertex baru di g
     */
 
 void GraphAddEdge(Graph* g, GraphVertex v1, GraphVertex v2);

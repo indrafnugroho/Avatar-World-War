@@ -4,6 +4,7 @@ Body ADT GRAPH <Graph>
 */
 
 #include "Graph/Graph.h"
+#include <stdlib.h>
 
 void GraphCreate(Graph* g) {
      
@@ -30,17 +31,23 @@ int GraphSize(Graph g) {
 void GraphAddEdge(Graph* g, GraphVertex v1, GraphVertex v2) { 
     /* Algoritma */
     ListAddFirst(&GraphVertexAdj(v1), v2);
-    //ListAddFirst(&GraphVertexAdj(v2), v1);
-    //ListAddFirst(&Connect(*(Building*)GraphVertexVal(*g, v1)), GraphVertexVal(*g, v2));
-    //ListAddFirst(&Connect(*GraphVertexVal(*g, v2)), GraphVertexVal(*g, v1));
 }
+
+void GraphNewVertexLast(Graph* g) {
+    /* Kamus Lokal */
+    List* gv;
+    /* Algoritma */
+    gv = (List*)malloc(sizeof(List));
+    ListCreate(gv);
+    GraphAddVertex(g, gv);
+}
+
 
 void GraphAddEdgeIdx(Graph* g, int i1, int i2) {
     GraphAddEdge(g, GraphGetVertexFromIdx(*g, i1), GraphGetVertexFromIdx(*g, i2));
 }
 
 void GraphDelEdge(Graph* g, GraphVertex v1, GraphVertex v2){
-    bool success;
     ListDelVal(&GraphVertexAdj(v1), v2);
     //ListDelVal(&GraphVertexAdj(v2), v1);
     //ListDelVal(&Connect(*GraphVertexVal(*g,v1)), GraphVertexVal(*g, v2), success);
