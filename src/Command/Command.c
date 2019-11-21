@@ -335,18 +335,7 @@ void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
         BSelf = ListElementVal(El);
 
         printf("%d. ", i);
-        if (Type(*BSelf) == 'C') {
-            printf("Castle (%d,%d) %d lv. %d\n", Koordinat(*BSelf).x, Koordinat(*BSelf).y, Troops(*BSelf), Level(*BSelf));
-        }
-        else if (Type(*BSelf) == 'T') {
-            printf("Tower (%d,%d) %d lv. %d\n", Koordinat(*BSelf).x, Koordinat(*BSelf).y, Troops(*BSelf), Level(*BSelf));
-        }
-        else if (Type(*BSelf) == 'F') {
-            printf("Fort (%d,%d) %d lv. %d\n", Koordinat(*BSelf).x, Koordinat(*BSelf).y, Troops(*BSelf), Level(*BSelf));
-        }
-        else if (Type(*BSelf) == 'V') {
-            printf("Village (%d,%d) %d lv. %d\n", Koordinat(*BSelf).x, Koordinat(*BSelf).y, Troops(*BSelf), Level(*BSelf));
-        }
+        PrintBuilding(*BSelf);
         i++;
     }
 
@@ -365,20 +354,7 @@ void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
                     BReceive = ListElementVal(El);
 
                     printf("%d. ", j);
-                    switch(Type(*BReceive)) {
-                    case 'C' :
-                        printf("Castle (%d,%d) %d lv. %d\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y, Troops(*BReceive), Level(*BReceive));
-                        break;
-                    case 'T' :
-                        printf("Tower (%d,%d) %d lv. %d\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y, Troops(*BReceive), Level(*BReceive));
-                        break;
-                    case'F' :
-                        printf("Fort (%d,%d) %d lv. %d\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y, Troops(*BReceive), Level(*BReceive));
-                        break;
-                    case 'V':
-                        printf("Village (%d,%d) %d lv. %d\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y, Troops(*BReceive), Level(*BReceive));
-                        break;
-                    }
+                    PrintBuilding(*BReceive);
                     j++;
                 }
 
