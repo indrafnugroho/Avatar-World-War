@@ -30,7 +30,7 @@ typedef struct {
 #define StateBuildings(GS) (GS).Buildings
 
 /******** GAME STATE ********/
-GameState* CreateGameState(Player* P1x, Player* P2x, ArrayDin BuildingsState, GameState* GS);
+GameState* CreateGameState(Player P1x, Player P2x, ArrayDin BuildingsState);
 /* Membuat alokasi GameState */
 
 void DeleteGameState(GameState* GS);
@@ -46,7 +46,7 @@ void RevertGameState(Player* P1x, Player* P2x, ArrayDin* BuildingsState, Stack* 
 void PushStkGameState(GameState GS, Stack* GameStack);
 /* Push GameState ke stack setiap command selesai dijalankan */
 
-void PopStkGameStack(Player* P1x, Player* P2x, ArrayDin* BuildingsState, Stack* GameStack);
+void PopStkGameStack(GameState** GS, Stack* GameStack);
 /* Pop GameState terakhir yang disimpan di stack (Top) */
 /* IS: GS berisi GameState Terakhir */
 

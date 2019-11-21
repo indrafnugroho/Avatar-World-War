@@ -68,4 +68,8 @@ void SetLvBuildingToLv1 (Building* B);
 void PrintBuilding(Building B);
 /* Menampilkan info bangunan B */
 
+Building CopyBuilding(Building Bin); 
+/*  Mengembalikan salinan dari Bin
+*/
+
 #endif

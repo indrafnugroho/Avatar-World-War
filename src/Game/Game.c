@@ -83,7 +83,9 @@ void GameLoop(Game* game) {
         set_print_color(WHITE);
         printf("|");
         set_print_color(RED);
-        printf(" %d    PLAYER2\n\n", ListSize(Buildings(GameP2(*game))));
+        printf(" %d    PLAYER2\n", ListSize(Buildings(GameP2(*game))));
+        set_print_color(WHITE);
+        printf("          [UNDO : %d]\n\n", ListSize(GameStateStack(*game)));
         if (GamePTurn(*game) == &GameP1(*game)) {
             SetPlayerPrompt(1);
             enemy = &GameP2(*game);

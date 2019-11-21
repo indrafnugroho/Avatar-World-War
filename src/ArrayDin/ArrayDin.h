@@ -106,9 +106,11 @@ void CopyTab(ArrayDin Tin, ArrayDin *Tout);
 /* F.S. Tout berisi salinan dari Tin (identik, Neff dan MaxElem sama) */
 /* Proses : Menyalin isi Tin ke Tout */
 
-int SumTab(ArrayDin T);
-/* Menghasilkan hasil penjumlahan semua elemen T */
-/* Jika T kosong menghasilkan 0 */
+void RevertTab(ArrayDin Tin, ArrayDin *Tout);
+/* I.S. Tout dan Tin berukuran sama */
+/* F.S. Nilai elemen Building di Tout menjadi sama dengan di Tin */
+/* Proses : Menyalin isi Tin ke Tout */
+
 
 int CountX(ArrayDin T, Building* X);
 /* Menghasilkan berapa banyak kemunculan X di T */

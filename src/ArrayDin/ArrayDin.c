@@ -5,6 +5,7 @@ IMPLEMENTASI ABSTRAKSI ARRAY DINAMIS
 
 #include "ArrayDin/ArrayDin.h"
 #include <stdlib.h>
+#include <stdio.h>
 /* ********** KONSTRUKTOR ********** */
 /* Konstruktor : create tabel kosong  */
 void MakeEmpty(ArrayDin *T, int MaxEl) {
@@ -85,11 +86,24 @@ void CopyTab(ArrayDin Tin, ArrayDin *Tout){
     MakeEmpty(Tout, MaxElem(Tin));
   Neff(*Tout) = Neff(Tin);
   int i;
-  for (i=0 ; i< Neff(Tin); i++){
-    Elmt(*Tout, i) = Elmt(Tin,i);
+  for (i=0 ; i< Neff(Tin); i++) {
+    Elmt(*Tout, i) = (Building*)malloc(sizeof(Building));
+    *(Building*)Elmt(*Tout, i) = CopyBuilding(*(Building*)Elmt(Tin, i));
+    //printf("%p\n", Elmt(*Tout, i));
   }
 }
 
+void RevertTab(ArrayDin Tin, ArrayDin *Tout){
+/* I.S. Tout dan Tin berukuran sama */
+/* F.S. Nilai elemen Building di Tout menjadi sama dengan di Tin */
+/* Proses : Menyalin isi Tin ke Tout */
+  Neff(*Tout) = Neff(Tin);
+  int i;
+  for (i=0 ; i< Neff(Tin); i++) {
+    *(Building*)Elmt(*Tout, i) = CopyBuilding(*(Building*)Elmt(Tin, i));
+    //printf("%p\n", Elmt(*Tout, i));
+  }
+}
 
 
 int CountX(ArrayDin T, Building* X){

@@ -212,3 +212,24 @@ void PrintBuilding(Building B) {
     }
 
 }
+
+Building CopyBuilding(Building Bin) { 
+/*  Mengembalikan salinan dari Bin
+*/
+    /* Kamus Lokal */
+    Building Bout;
+    /* Algoritma */
+    Koordinat(Bout) = Koordinat(Bin);
+    Type(Bout) = Type(Bin);
+    Troops(Bout) = Troops(Bin);
+    Level(Bout) = Level(Bin);
+    A(Bout) = A(Bin);
+    M(Bout) = M(Bin);
+    Pb(Bout) = Pb(Bin);
+    U(Bout) = U(Bin);
+    AfterAttack(Bout) = AfterAttack(Bin);
+    AfterMove(Bout) = AfterMove(Bin);
+    return Bout; 
+}
+
+

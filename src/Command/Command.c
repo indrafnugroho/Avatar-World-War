@@ -25,27 +25,26 @@ bool InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState,
             CheckSkill(PTurn,PEnemy,input);
         }
         else if (WordEqualsString(input, "LEVEL_UP")) {
+            CaptureGameState(*PTurn,*PEnemy,*Bldgs,GState,input);
             LevelUpCommand(PTurn);
-            //CaptureGameState(*PTurn,*PEnemy,*Bldgs,GState,input);
         }
         else if (WordEqualsString(input, "SKILL")) {
-            printf("a");
             SkillCommand(PTurn,PEnemy);
             CheckSkill(PTurn,PEnemy,input);
-            //CaptureGameState(*PTurn,*PEnemy,*Bldgs,GState,input);
+            FlushStkGameState(GState);
         }
         else if (WordEqualsString(input, "UNDO")) UndoCommand(PTurn,PEnemy,Bldgs,GState);
         else if (WordEqualsString(input, "END_TURN")) {
             EndTurnCommand(PTurn,PEnemy);
             CheckSkill(PTurn,PEnemy,input);
-            //CaptureGameState(*PTurn,*PEnemy,*Bldgs,GState,input);
+            FlushStkGameState(GState);
             sleep(1);
             return false;
         }
         else if (WordEqualsString(input, "SAVE")) SaveCommand(PTurn,PEnemy);
         else if (WordEqualsString(input, "MOVE")) {
+            CaptureGameState(*PTurn,*PEnemy,*Bldgs,GState,input);
             MoveCommand(PTurn,*Bldgs,Connect);
-            ///CaptureGameState(*PTurn,*PEnemy,*Bldgs,GState,input);
         }
         else if (WordEqualsString(input, "EXIT")) ExitCommand();
         else AddWarning("Invalid Command");
@@ -112,7 +111,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                  i++;
                             }
                         }
-                        PrintBuilding(*BE);
+                        //PrintBuilding(*BE);
                         DisplayPrompt2("NUMBER OF TROOPS");
                         int InpTroopsNum;
                         if (ScanInt(&InpTroopsNum)) {
@@ -278,7 +277,7 @@ void LevelUpCommand(Player* PSelf) {
         i++;
     }
     printf("\n");
-    printf("SELECT BUILDING");
+    DisplayPrompt2("SELECT BUILDING");
     int InpBNUm;
     if (ScanInt(&InpBNUm)) {
         if (InpBNUm <= ListSize(Buildings(*PSelf))) {
@@ -325,7 +324,11 @@ void UndoCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState) 
 /*  Melakukan mekanisme Undo apabila user menginput command Undo.
     User hanya dapat melakukan UNDO hingga command sesudah END_TURN / SKILL. 
     Artinya, setelah command END_TURN / SKILL, pemain tidak dapat melakukan UNDO lagi */
-    RevertGameState(PTurn, PEnemy, Bldgs, GState); 
+    if (!StackIsEmpty(*GState)) {
+        RevertGameState(PTurn, PEnemy, Bldgs, GState); 
+    } else {
+        AddWarning("Can't undo further actions");
+    }
 }
 void EndTurnCommand(Player* PTurn, Player* PEnemy) {
 /*  Melakukan mekanisme End_Turn apabila user menginput command End_Turn. */
@@ -372,7 +375,7 @@ void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
                 ListTraversal(El, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BSelf)))), El!=Nil) {
                     BReceive = Elmt(Bldgs, GraphGetVertexIdx(Connect, ListElementVal(El)));
                     if (ListSearch(Buildings(*PSelf), BReceive) != Nil) {
-                        printf("%d. ", j);
+                        printf("  %d. ", j);
                         PrintBuilding(*BReceive) ;
                         j++;
                     }
@@ -389,8 +392,8 @@ void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
                             if (ListSearch(Buildings(*PSelf), BReceive) != Nil)
                                 j++; 
                         }
-                        PrintBuilding(*BReceive);
-                        printf("Jumlah pasukan: ");
+                        //PrintBuilding(*BReceive);
+                        DisplayPrompt2("TROOPS TO MOVE");
                         int InpTroops;
                         if (ScanInt(&InpTroops)) {
                             if (InpTroops <= Troops(*BSelf)) {
@@ -427,16 +430,16 @@ void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
                                     break;
                                 }
                                 AfterMove(*BSelf) = true;
+                                }
+                                else AddWarning("Jumlah pasukan Bangunan Anda kurang\n");
                             }
-                            else AddWarning("Jumlah pasukan Bangunan Anda kurang\n");
+                            else AddWarning("Input yang Anda masukkan salah\n");
                         }
                         else AddWarning("Input yang Anda masukkan salah\n");
                     }
                     else AddWarning("Input yang Anda masukkan salah\n");
                 }
-                else AddWarning("Input yang Anda masukkan salah\n");
-                }
-                else AddWarning("Tidak bangunan terdekat yang milik Anda\n");
+                else AddWarning("Tidak ada bangunan terdekat milik Anda\n");
             }
             else AddWarning("Bangunan yang Anda pilih sudah melakukan MOVE sebelumnya\n");
         }
