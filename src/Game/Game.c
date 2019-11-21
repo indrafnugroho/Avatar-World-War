@@ -90,6 +90,7 @@ void GameLoop(Game* game) {
             SetPlayerPrompt(2);
             enemy = &GameP1(*game);
         }
+        DisplayWarning();
         DisplayPrompt2("BUILDINGS");
         printf("\n\n");
         set_print_color(BOLD);
