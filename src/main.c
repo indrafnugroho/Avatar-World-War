@@ -39,6 +39,10 @@ int main() {
             } else if (WordEqualsString(w, "QUIT") || WordEqualsString(w, "quit")) {
                 printf("Quitting, huh?\n");
                 gameState = -1;
+            } else if  (WordEqualsString(w, "LOAD") || WordEqualsString(w, "load")) {
+                GameLoadSave(&game, "save.txt");
+                gameState = GAMESTATE_GAME;
+                AddWarning("Loaded.");
             } else {
                 AddWarning("Invalid Command");
             }
@@ -46,5 +50,4 @@ int main() {
             GameTurn(&game);
         }
     }
-
 }

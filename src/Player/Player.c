@@ -16,7 +16,7 @@ F.S.
 {
     QueueCreate(&Skills(*P));
     ListCreate(&Buildings(*P));
-    QueueAdd(&Skills(*P), (int*)1);
+    QueueAdd(&Skills(*P), 1);
     CHs(*P) = 0;
     SHs(*P) = 0;
     AUs(*P) = false;

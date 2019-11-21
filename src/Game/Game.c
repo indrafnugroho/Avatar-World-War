@@ -44,6 +44,16 @@ void GameInit(Game* game) {
     StackCreate(&(game->stkGameState));
 }
 
+void GameLoadSave(Game* game, char* filename) {
+    /*
+    I.S.
+        isi atribut pada game sebarang
+    F.S.
+        Sesi game yang telah disimpan dimuat dalam atribut game
+    */
+    LoadGameFile("save.txt", &GameP1(*game), &GameP2(*game), &GameBuildings(*game), &GameBAdj(*game), &GameMatrixMap(*game), &GamePTurn(*game));
+}
+
 void GameTurn(Game* game) { 
     /*
     I.S.
@@ -113,7 +123,7 @@ void GameLoop(Game* game) {
         //DisplayPrompt2("COMMAND");
         loop = InputCommand(GamePTurn(*game), enemy, &GameBuildings(*game), &GameStateStack(*game), GameBAdj(*game));
         if (loop == 2) {
-            SaveGameFile("save.txt", GameP1(*game), GameP2(*game), GameBuildings(*game), GameBAdj(*game), GameMatrixMap(*game));
+            SaveGameFile("save.txt", GameP1(*game), GameP2(*game), GameBuildings(*game), GameBAdj(*game), GameMatrixMap(*game), GamePTurn(*game));
         }
     } while (loop);
     //ScanWord(&w);

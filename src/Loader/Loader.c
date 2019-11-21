@@ -17,7 +17,6 @@ F.S.
     char to;
     Building *B;
     List* Adj;
-    Player P1, P2;
     /* ALGORITMA */
     CreateEmpty(&CWord);
     if (ReadStart(path)) {
@@ -79,7 +78,7 @@ F.S.
     //PrintMap(*map, P1, P2);
 }
 
-void SaveGameFile(char* path, Player P1, Player P2, ArrayDin buildings, Graph connect, GameMap map) {
+void SaveGameFile(char* path, Player P1, Player P2, ArrayDin buildings, Graph connect, GameMap map, Player* Pturn) {
     FILE* sav;
     int i, j;
     Building* b;
@@ -119,7 +118,192 @@ void SaveGameFile(char* path, Player P1, Player P2, ArrayDin buildings, Graph co
     ListTraversal(p, ListFirstElement(Skills(P2)), p != Nil) {
         fprintf(sav, "%d ", ListElementVal(p));
     } 
-    fprintf(sav, "\n");
+    fprintf(sav, "\n%d\n", Pturn == &P1 ? 1 : 2);
 
     fclose(sav);
+}
+
+void LoadGameFile(char* path, Player* P1, Player* P2, ArrayDin* buildings, Graph* connect, GameMap* map, Player** Pturn) {
+    /* Kamus Lokal */
+    Word CWord,TEMPWORD;
+    int i,j,N,M,NbOfB, NbOfPS, NbOfPB;
+    int temp;
+    char to;
+    Building *B;
+    List* Adj;
+    /* ALGORITMA */
+    CreateEmpty(&CWord);
+    if (ReadStart(path)) {
+        /* Membaca Ukuran Map */
+        ReadWord(&CWord);
+        if(WordToInt(CWord,&temp)){
+            N = temp;
+            printf("N: %d\n", N);
+        }
+        ReadWord(&CWord);
+        if(WordToInt(CWord,&temp)){
+            M = temp;
+            printf("M: %d\n", M);
+        }
+        CreateEmptyMap(map, N, M);
+        /* Membaca banyak building */
+        ReadWord(&CWord);
+        if(WordToInt(CWord,&temp)){
+            NbOfB = temp;
+            printf("Num of buildings: %d\n", NbOfB);
+        }
+        /* Membaca Building */
+        MakeEmpty(buildings ,NbOfB);
+        GraphCreate(connect); 
+        for(i = 0; i < NbOfB; i++) {
+            B = (Building*) malloc(sizeof(Building));
+            ReadWord(&CWord);
+            Type(*B) = CWord.Tab[0];
+            ReadWord(&CWord);
+            if(WordToInt(CWord,&temp)){
+                PointX(Koordinat(*B)) = temp;
+            }
+            ReadWord(&CWord);
+            if(WordToInt(CWord,&temp)){
+                PointY(Koordinat(*B)) = temp;
+            }
+            ReadWord(&CWord);
+            if(WordToInt(CWord,&temp)){
+                Troops(*B) = temp;
+            }
+             ReadWord(&CWord);
+            if(WordToInt(CWord,&temp)){
+                Level(*B) = temp;
+            }
+             ReadWord(&CWord);
+            if(WordToInt(CWord,&temp)){
+                A(*B) = temp;
+            }
+             ReadWord(&CWord);
+            if(WordToInt(CWord,&temp)){
+                M(*B) = temp;
+            }
+             ReadWord(&CWord);
+            if(WordToInt(CWord,&temp)){
+                Pb(*B) = temp;
+            }
+             ReadWord(&CWord);
+            if(WordToInt(CWord,&temp)){
+                U(*B) = temp;
+            }
+             ReadWord(&CWord);
+            if(WordToInt(CWord,&temp)){
+                AfterAttack(*B) = temp;
+            }
+             ReadWord(&CWord);
+            if(WordToInt(CWord,&temp)){
+                AfterMove(*B) = temp;
+            } 
+            //InitializationBuilding(B);
+            AddAsLastEl(buildings, B);
+            Adj = (List*) malloc(sizeof(List));
+            ListCreate(Adj);
+            GraphAddVertex(connect, Adj);
+            printf("Building #%d: %c(%d, %d)\n", i + 1,Type(*B), PointX(Koordinat(*B)), PointY(Koordinat(*B)));
+        }
+        /* Membaca keterhubungan building */
+        for (i = 0; i < NbOfB; i++) {
+            for (j = 0; j < NbOfB; j++) {
+                ReadWord(&CWord);
+                if (WordToInt(CWord, &temp)) {
+                    if(temp == 1) {
+                        GraphAddEdgeIdx(connect, i, j);
+                        printf("Connected: #%d -> #%d\t", i + 1, j + 1);
+                    }
+                }
+            }
+            printf("\n");
+        }
+        /* Player 1 */
+        CreateNewPlayer(P1);
+        QueueDel(&Skills(*P1), &temp);
+        ReadWord(&CWord);
+        if (WordToInt(CWord, &temp)) {
+            NbOfPB = temp;
+        } 
+        ReadWord(&CWord);
+        if (WordToInt(CWord, &temp)) {
+            NbOfPS = temp;
+        }
+        ReadWord(&CWord);
+        if (WordToInt(CWord, &temp)) {
+            CHs(*P1) = temp;
+        }
+        ReadWord(&CWord);
+        if (WordToInt(CWord, &temp)) {
+            SHs(*P1) = temp;
+        }
+        ReadWord(&CWord);
+        if (WordToInt(CWord, &temp)) {
+            AUs(*P1) = temp;
+        }
+        ReadWord(&CWord);
+        if (WordToInt(CWord, &temp)) {
+            ETs(*P1) = temp;
+        }
+        for (i = 0; i < NbOfPB; i++) {
+            ReadWord(&CWord);
+            if (WordToInt(CWord, &temp)) {
+                ListAddLast(&Buildings(*P1), Elmt(*buildings, temp));
+            }
+        }
+        for (i = 0; i < NbOfPS; i++) {
+            ReadWord(&CWord);
+            if (WordToInt(CWord, &temp)) {
+                AddSkill(P1, temp);
+            }
+        }
+        /* Player 2 */
+        CreateNewPlayer(P2);
+        QueueDel(&Skills(*P2), &temp);
+        ReadWord(&CWord);
+        if (WordToInt(CWord, &temp)) {
+            NbOfPB = temp;
+        } 
+        ReadWord(&CWord);
+        if (WordToInt(CWord, &temp)) {
+            NbOfPS = temp;
+        }
+        ReadWord(&CWord);
+        if (WordToInt(CWord, &temp)) {
+            CHs(*P2) = temp;
+        }
+        ReadWord(&CWord);
+        if (WordToInt(CWord, &temp)) {
+            SHs(*P2) = temp;
+        }
+        ReadWord(&CWord);
+        if (WordToInt(CWord, &temp)) {
+            AUs(*P2) = temp;
+        }
+        ReadWord(&CWord);
+        if (WordToInt(CWord, &temp)) {
+            ETs(*P2) = temp;
+        }
+        for (i = 0; i < NbOfPB; i++) {
+            ReadWord(&CWord);
+            if (WordToInt(CWord, &temp)) {
+                ListAddLast(&Buildings(*P2), Elmt(*buildings, temp));
+            }
+        }
+        for (i = 0; i < NbOfPS; i++) {
+            ReadWord(&CWord);
+            if (WordToInt(CWord, &temp)) {
+                AddSkill(P2, temp);
+            }
+        }
+
+        ReadWord(&CWord);
+        if (WordToInt(CWord, &temp)) {
+            *Pturn = temp == 1 ? P1 : P2;
+        }
+
+    }
+    SetMap(map, *buildings);
+
 }

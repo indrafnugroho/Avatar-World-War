@@ -38,11 +38,20 @@ typedef struct {
 void GameLoadInitConfig(Game* game, char* filename);
     /*
     I.S.
-        isi map dan arrBuilding pada game sebarang
+        isi atribut pada game sebarang
     F.S.
-        map dan arrBuilding pada game diisi dengan bangunan yang telah
+        atribut pada game diisi dengan nilai yang telah
 	didefinisikan di file "filename"
     */
+
+void GameLoadSave(Game* game, char* filename);
+    /*
+    I.S.
+        isi atribut pada game sebarang
+    F.S.
+        Sesi game yang telah disimpan dimuat dalam atribut game
+    */
+
 
 void GameInit(Game* game);
     /*
