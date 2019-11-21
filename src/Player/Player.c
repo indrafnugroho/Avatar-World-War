@@ -104,12 +104,13 @@ void DisplaySkill(Player P) {
 void UseSkill(Player* P,Player* PEnemy) {
     /* Menggunakan skill yang tersedia */
     QueueVal_t SkillID;
+    printf("We've made through thie point");
 
     if (!QueueIsEmpty(Skills(*P))) {
 
         QueueDel(&Skills(*P), &SkillID);
     }
-
+    printf("We've made through thie point");
     switch ((int) SkillID) {
         case 1:
             IU(P);
@@ -145,6 +146,7 @@ void CheckSkill(Player* P, Player* PEnemy, Word LastCommand) {
     int i;
     bool isLevel4;
     int NbOfTower;
+    ListElement* p;
 
     /* Cek skill SH */
     if (WordEqualsString(LastCommand, "ATTACK") && NbOfBuildings(*PEnemy) == 2) {
@@ -154,16 +156,16 @@ void CheckSkill(Player* P, Player* PEnemy, Word LastCommand) {
 
     /* Cek skill IR */
     isLevel4 = true;
-    i = 1;
-    while (i <= NbOfBuildings(*P)) {
+    i = 0;
+    while (i < NbOfBuildings(*P)) {
         if (Level(*(Building*)(ListElementVal(ListIdx(Buildings(*P), i)))) != 4) {
             isLevel4 = false;
         }
         i++;
     }
-    if (isLevel4) {
-        AddSkill(PEnemy, 6);
-        printf("Enemy player gained INSTANT REINFORCEMENT skill\n");
+    if (isLevel4 && WordEqualsString(LastCommand, "END_TURN")) {
+        AddSkill(P, 6);
+        printf("You  gained INSTANT REINFORCEMENT skill\n");
     }
 
     /* Cek skill CH */

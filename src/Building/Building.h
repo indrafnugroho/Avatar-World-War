@@ -65,4 +65,7 @@ void SetLvBuildingToLv1 (Building* B);
     F.S. B menjadi level 1 dengan segala komponen di dalamnya diubah
 */
 
+void PrintBuilding(Building B);
+/* Menampilkan info bangunan B */
+
 #endif

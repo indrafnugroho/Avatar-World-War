@@ -1,19 +1,22 @@
 /* Command.c
    Implementasi Command.h */
-
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+#endif
 #include "bool/bool.h"
 #include "Command.h"
 #include "Art/Art.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-void InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState, Graph Connect) {
+bool InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState, Graph Connect) {
 /*  Melakukan input Command menggunakan Word Processor */
 
     Word input;   
     bool loop;
     loop = true;
-    while(loop) {
         DisplayPrompt2("COMMAND");
         ScanWord(&input);
         if (WordEqualsString(input, "ATTACK")) {
@@ -26,6 +29,7 @@ void InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState,
             //CaptureGameState(*PTurn,*PEnemy,*Bldgs,GState,input);
         }
         else if (WordEqualsString(input, "SKILL")) {
+            printf("a");
             SkillCommand(PTurn,PEnemy);
             CheckSkill(PTurn,PEnemy,input);
             //CaptureGameState(*PTurn,*PEnemy,*Bldgs,GState,input);
@@ -33,8 +37,10 @@ void InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState,
         else if (WordEqualsString(input, "UNDO")) UndoCommand(PTurn,PEnemy,Bldgs,GState);
         else if (WordEqualsString(input, "END_TURN")) {
             EndTurnCommand(PTurn,PEnemy);
+            CheckSkill(PTurn,PEnemy,input);
             //CaptureGameState(*PTurn,*PEnemy,*Bldgs,GState,input);
-            loop = false;
+            sleep(2);
+            return false;
         }
         else if (WordEqualsString(input, "SAVE")) SaveCommand(PTurn,PEnemy);
         else if (WordEqualsString(input, "MOVE")) {
@@ -43,7 +49,7 @@ void InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState,
         }
         else if (WordEqualsString(input, "EXIT")) ExitCommand();
         else printf("Command yang Anda masukkan salah!\n");
-    }
+        return true;
 }
 
 void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect) {
@@ -65,20 +71,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
 
         //printf("%p ", El);
         printf("  %d. ", i);
-        switch (Type(*B)) {
-        case 'C' :
-            printf("Castle (%d,%d) %d lv. %d\n", Koordinat(*B).x, Koordinat(*B).y, Troops(*B), Level(*B));
-            break;
-        case 'T' :
-            printf("Tower (%d,%d) %d lv. %d\n", Koordinat(*B).x, Koordinat(*B).y, Troops(*B), Level(*B));
-            break;
-        case 'F' :
-            printf("Fort (%d,%d) %d lv. %d\n", Koordinat(*B).x, Koordinat(*B).y, Troops(*B), Level(*B));
-            break;
-        case 'V' :
-            printf("Village (%d,%d) %d lv. %d\n", Koordinat(*B).x, Koordinat(*B).y, Troops(*B), Level(*B));
-            break;
-        }
+        PrintBuilding(*B);
         printf("\n");
         i++;
     }
@@ -100,20 +93,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                     CB = Elmt(Bldgs, GraphGetVertexIdx(Connect, ListElementVal(El2)));
 
                     printf("  %d. ", i);
-                    switch (Type(*CB)) {  
-                    case 'C' :
-                        printf("Castle (%d,%d) %d lv. %d\n", Koordinat(*CB).x, Koordinat(*CB).y, Troops(*CB), Level(*CB));
-                        break;
-                    case 'T' :
-                        printf("Tower (%d,%d) %d lv. %d\n", Koordinat(*CB).x, Koordinat(*CB).y, Troops(*CB), Level(*CB));
-                        break;
-                    case 'F' :
-                        printf("Fort (%d,%d) %d lv. %d\n", Koordinat(*CB).x, Koordinat(*CB).y, Troops(*CB), Level(*CB));
-                        break;
-                    case 'V' :
-                        printf("Village (%d,%d) %d lv. %d\n", Koordinat(*CB).x, Koordinat(*CB).y, Troops(*CB), Level(*CB));
-                        break;
-                    }
+                    PrintBuilding(*CB);
                     i++;
                 }
                 printf("\n");
@@ -235,6 +215,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                     }
                                     //Bangunan yang diserang memiliki pertahanan
                                     else {
+                                        printf("test");
                                         if (InpTroopsNum < (int) (Troops(*BE)/(0.75))) {
                                             Troops(*BE) -= (int) InpTroopsNum*(0.75);
                                             Troops(*BT) -= InpTroopsNum;
@@ -280,20 +261,7 @@ void LevelUpCommand(Player* PSelf) {
         B = ListElementVal(El);
 
         printf("%d. ", i);
-        switch(Type(*B)) {
-        case 'C' :
-            printf("Castle (%d,%d) %d lv. %d\n", Koordinat(*B).x, Koordinat(*B).y, Troops(*B), Level(*B));
-            break;
-        case 'T' :
-            printf("Tower (%d,%d) %d lv. %d\n", Koordinat(*B).x, Koordinat(*B).y, Troops(*B), Level(*B));
-            break;
-        case 'F' :
-            printf("Fort (%d,%d) %d lv. %d\n", Koordinat(*B).x, Koordinat(*B).y, Troops(*B), Level(*B));
-            break;
-        case 'V' :
-            printf("Village (%d,%d) %d lv. %d\n", Koordinat(*B).x, Koordinat(*B).y, Troops(*B), Level(*B));
-            break;
-        }
+        PrintBuilding(*B);
         i++;
     }
 
@@ -334,6 +302,7 @@ void LevelUpCommand(Player* PSelf) {
 void SkillCommand(Player* PTurn, Player* PEnemy) {
 /*  Melakukan mekanisme Skill apabila user menginput command Skill,
     yang disesuaikan dengan efek Skill masing-masing */
+    printf("a");
     UseSkill(PTurn,PEnemy);
 }
 

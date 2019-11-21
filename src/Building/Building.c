@@ -48,7 +48,7 @@ F.S.
     AfterAttack(*B) = false;
     AfterMove(*B) = false;
     printf("%d ", A(*B));
-    M(*B) = 1000000;
+    //M(*B) = 1000000;
 
 }
 void AddPasukanNextTurn (Building *B)
@@ -191,4 +191,24 @@ void SetLvBuildingToLv1 (Building* B) {
         Pb(*B) = false;
         break;
     }
+}
+
+void PrintBuilding(Building B) {
+/* Menampilkan info bangunan B */
+    /* Algoritma */
+    switch (Type(B)) {
+        case 'C' :
+            printf("Castle (%d,%d) %d lv. %d\n", Koordinat(B).x, Koordinat(B).y, Troops(B), Level(B));
+            break;
+        case 'T' :
+            printf("Tower (%d,%d) %d lv. %d\n", Koordinat(B).x, Koordinat(B).y, Troops(B), Level(B));
+            break;
+        case 'F' :
+            printf("Fort (%d,%d) %d lv. %d\n", Koordinat(B).x, Koordinat(B).y, Troops(B), Level(B));
+            break;
+        case 'V' :
+            printf("Village (%d,%d) %d lv. %d\n", Koordinat(B).x, Koordinat(B).y, Troops(B), Level(B));
+            break;
+    }
+
 }

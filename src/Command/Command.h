@@ -13,7 +13,7 @@
 #include "GameState/GameState.h"
 
  
-void InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState, Graph Connect);
+bool InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState, Graph Connect);
 /* Melakukan input Command menggunakan Word Processor */
 
 void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect);

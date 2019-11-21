@@ -73,29 +73,40 @@ void GameLoop(Game* game) {
     Word w;
     int pn;
     Player* enemy;
-    PrintMap(game->map, GameP1(*game), GameP2(*game));
-    set_print_color(BLUE);
-    set_print_color(BOLD);
-    printf("  PLAYER1    %d ", ListSize(Buildings(GameP1(*game))));
-    set_print_color(WHITE);
-    printf("|");
-    set_print_color(RED);
-    printf(" %d    PLAYER2\n\n", ListSize(Buildings(GameP2(*game))));
-    if (GamePTurn(*game) == &GameP1(*game)) {
-        SetPlayerPrompt(1);
-        enemy = &GameP2(*game);
-    } else {
-        SetPlayerPrompt(2);
-        enemy = &GameP1(*game);
-    }
-    DisplayPrompt2("SKILL");
-    if (!StackIsEmpty(Skills(*GamePTurn(*game)))) {
-        DisplaySkill(*GamePTurn(*game));
-    } else {
-        printf("No Available Skills\n");
-    }
-    //DisplayPrompt2("COMMAND");
-    InputCommand(GamePTurn(*game), enemy, &GameBuildings(*game), &GameStateStack(*game), GameBAdj(*game));
+    ListElement* p;
+    do {
+        PrintMap(game->map, GameP1(*game), GameP2(*game));
+        set_print_color(BLUE);
+        set_print_color(BOLD);
+        printf("  PLAYER1    %d ", ListSize(Buildings(GameP1(*game))));
+        set_print_color(WHITE);
+        printf("|");
+        set_print_color(RED);
+        printf(" %d    PLAYER2\n\n", ListSize(Buildings(GameP2(*game))));
+        if (GamePTurn(*game) == &GameP1(*game)) {
+            SetPlayerPrompt(1);
+            enemy = &GameP2(*game);
+        } else {
+            SetPlayerPrompt(2);
+            enemy = &GameP1(*game);
+        }
+        DisplayPrompt2("BUILDINGS");
+        printf("\n\n");
+        set_print_color(BOLD);
+        ListTraversal (p, ListFirstElement(Buildings(*GamePTurn(*game))), p != Nil) {
+            printf("  ");
+            PrintBuilding(*(Building*)ListElementVal(p));
+        }
+        reset_print_color();
+        printf("\n");
+        DisplayPrompt2("SKILL");
+        if (!StackIsEmpty(Skills(*GamePTurn(*game)))) {
+            DisplaySkill(*GamePTurn(*game));
+        } else {
+            printf("No Available Skills\n");
+        }
+        //DisplayPrompt2("COMMAND");
+    } while (InputCommand(GamePTurn(*game), enemy, &GameBuildings(*game), &GameStateStack(*game), GameBAdj(*game)));
     //ScanWord(&w);
 }
 

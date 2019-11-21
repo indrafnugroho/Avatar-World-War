@@ -43,7 +43,7 @@ Point_driver: $(TEMPDIR)/Point_driver.o $(TEMPDIR)/Point.o
 	$(CC) -o $@ $^ $(INCPATH) $(CFLAGS)
 
 $(TEMPDIR)/%.o: $(SRCDIR)/*/%.c $(HEADERS) temp
-	$(CC) -c -O2 -o $@ $< $(INCPATH) $(CFLAGS)
+	$(CC) -c -o $@ $< $(INCPATH) $(CFLAGS)
 
 wrgmavow: $(TEMPDIR)/main.o $(OBJS)
 	$(CC) -o $@ $^ $(INCPATH) $(CFLAGS)
