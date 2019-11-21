@@ -53,6 +53,11 @@ F.S.
         break;
     }
     Troops(*B) = U(*B);
+    AfterAttack(*B) = false;
+    AfterMove(*B) = false;
+    printf("%d ", A(*B));
+    M(*B) = 1000000;
+
 }
 void AddPasukanNextTurn (Building *B)
 /*

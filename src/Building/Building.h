@@ -20,7 +20,6 @@ typedef struct {
     int U; // Pasukan awal yang harus dikalahkan untuk menjadikan bangunan milik pemain
     bool AfterAttack; //Bernilai True jika bangunan sdh digunakan utk menyerang, False jika belum
     bool AfterMove; //Bernilai True jika bangunan sdh digunakan utk memindahkan pasukan, False jika belum
-    List Connect;    
 } Building;
 
 /* Selektor */
@@ -34,7 +33,6 @@ typedef struct {
 #define U(B) (B).U
 #define AfterAttack(B) (B).AfterAttack
 #define AfterMove(B) (B).AfterMove
-#define Connect(B) (B).Connect
 
 void InitializationBuilding (Building *B);
     /*
