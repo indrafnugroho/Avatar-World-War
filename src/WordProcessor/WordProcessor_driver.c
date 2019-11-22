@@ -293,7 +293,7 @@ int main() {
                 
     // --------------------------------------------------------------------------------
 
-    start_test("");
+    start_test("Cek apakah suatu Word kontennya sama dengan suatu string.");
     // Isi parameter:
     // a = A
     // b = "skuy"
