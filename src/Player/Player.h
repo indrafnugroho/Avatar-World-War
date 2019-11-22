@@ -66,7 +66,7 @@ void AddSkill(Player *P, int skillNum);
                                         menjadi 10 bangunan
 */
 
-void DisplaySkill(Player P);
+void DisplaySkill(Player* P);
 /* Menampilkan skill yang tersedia pada terminal */
 
 void UseSkill(Player* P, Player* PEnemy);

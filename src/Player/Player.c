@@ -4,10 +4,10 @@ IMPLEMENTASI ABSTRAKSI Player
 */
 
 #include "Player/Player.h"
-#include "Art/Art.h"
 #include <stdio.h>
+#include "Art/Art.h"
 
-void CreateNewPlayer(Player *P)
+void CreateNewPlayer(Player* P)
 /*
 I.S.
     Parameter-parameter player belum terisi
@@ -30,7 +30,7 @@ int NbOfBuildings(Player P)
     return ListSize(Buildings(P));
 }
 
-void ClonePlayer(Player Pin,Player *Pout)
+void ClonePlayer(Player Pin, Player* Pout)
 /*
 I.S.
     Terdapat sembarang player Pin dan Pout.
@@ -48,7 +48,6 @@ F.S.
     ETs(*Pout) = ETs(Pin);
 }
 
-
 void AddSkill(Player* P, int skill) {
     /* Add skill by SkillNum to List Queue*/
     /* Skill List: 
@@ -63,83 +62,89 @@ void AddSkill(Player* P, int skill) {
     7. Barrage (BR)                 :   Lawan baru saja bertambah bangunannya 
                                         menjadi 10 bangunan */
     if (ListSize(Skills(*P)) <= 10) {
-        QueueAdd(&Skills(*P), skill);
+        QueueAdd(&Skills(*P),skill);
     } else {
         printf("Queue skill penuh\n");
     }
 }
 
-void DisplaySkill(Player P) {
+void DisplaySkill(Player* P) {
     /* Menampilkan skill yang tersedia pada terminal */
-    switch ((int)QueueValueHead(Skills(P))) {  // Sesuai skill ID
-        case 0:
-            printf("-\n");
-            break;
-        case 1:
-            printf("Instant Upgrade\n");
-            break;
-        case 2:
-            printf("Shield\n");
-            break;
-        case 3:
-            printf("Extra Turn\n");
-            break;
-        case 4:
-            printf("Attack Up\n");
-            break;
-        case 5:
-            printf("Critical Hit\n");
-            break;
-        case 6:
-            printf("Instant Reinforcement\n");
-            break;
-        case 7:
-            printf("Barrage\n");
-            break;
-        default:
-            printf("Skill Id Invalid\n");
-            break;  // Debugging
+    if (!QueueIsEmpty(Skills(*P))) {
+        int(*skill) = (int*)QueueValueHead(Skills(*P));
+
+        switch ((int)skill) {  // Sesuai skill ID
+            case 0:
+                printf("-\n");
+                break;
+            case 1:
+                printf("Instant Upgrade\n");
+                break;
+            case 2:
+                printf("Shield\n");
+                break;
+            case 3:
+                printf("Extra Turn\n");
+                break;
+            case 4:
+                printf("Attack Up\n");
+                break;
+            case 5:
+                printf("Critical Hit\n");
+                break;
+            case 6:
+                printf("Instant Reinforcement\n");
+                break;
+            case 7:
+                printf("Barrage\n");
+                break;
+            default:
+                printf("Skill Id Invalid\n");
+                break;  // Debugging
+        }
+    }
+    else {
+        printf("No Skill Available!\n");
     }
 }
 
-void UseSkill(Player* P,Player* PEnemy) {
+void UseSkill(Player* P, Player* PEnemy) {
     /* Menggunakan skill yang tersedia */
     QueueVal_t SkillID;
-    printf("We've made through thie point");
 
     if (!QueueIsEmpty(Skills(*P))) {
-
         QueueDel(&Skills(*P), &SkillID);
-    }
-    printf("We've made through thie point");
-    switch ((int) SkillID) {
-        case 1:
-            IU(P);
-            break;
-        case 2:
-            SH(P);
-            break;
-        case 3:
-            ET(P);
-            break;
-        case 4:
-            AU(P);
-            break;
-        case 5:
-            CH(P);
-            break;
-        case 6:
-            IR(P);
-            break;
-        case 7:
-            BR(PEnemy);
-            break;
-        default:
-            printf("Invalid Skill\n");
-            break;
+        printf("Using skill %d\n", SkillID);
+        switch ((int)SkillID) {
+            case 1:
+                IU(P);
+                break;
+            case 2:
+                SH(P);
+                break;
+            case 3:
+                ET(P);
+                break;
+            case 4:
+                AU(P);
+                break;
+            case 5:
+                CH(P);
+                break;
+            case 6:
+                IR(P);
+                break;
+            case 7:
+                BR(PEnemy);
+                break;
+            default:
+                printf("Invalid Skill\n");
+                break;
+        }
+    } else {
+        printf("Skill empty!\n");
     }
 }
-
 
 /****** CEK SKILL ******/
 void CheckSkill(Player* P, Player* PEnemy, Word LastCommand) {
@@ -211,8 +216,9 @@ void IU(Player* P) {
     /* Instant Upgrade (ID: 1)*/
     /* Seluruh bangunan yang dimiliki pemain akan naik 1 level */
     /* Representasi Array */
+    printf("IU Activated\n");
     ListElement* p;
-    ListTraversal (p, ListFirstElement(Buildings(*P)), p != Nil) {
+    ListTraversal(p, ListFirstElement(Buildings(*P)), p != Nil) {
         if (Level(*(Building*)ListElementVal(p)) < 4) {
             Level(*(Building*)ListElementVal(p)) += 1;
         }
@@ -226,6 +232,7 @@ void SH(Player* P) {
     pertahanan selama 2 turn */
     /* Apabila skill ini digunakan 2 kali berturut-turut, 
     durasi tidak akan bertambah, namun menjadi nilai maksimum (2 turn) */
+    printf("SH Activated\n");
     SHs(*P) = 2;
     /* 
         Logic: if(SHs(*P) || Ps(B)) 
@@ -236,12 +243,14 @@ void ET(Player* P) {
     /* Extra Turn (ID: 3)*/
     /* Fort pemain direbut lawan */
     /* Pemain pada turn selanjutnya tetap pemain yang sama */
+    printf("ET Activated\n");
     ETs(*P) = true;
 }
 
 void AU(Player* P) {
     /* Attack Up (ID: 4)*/
     /* Pertahanan bangunan musuh tidak akan mempengaruhi penyerangan */
+    printf("AU Activated\n");
     AUs(*P) = true;
     /* 
         Logic: if(!AUs(*P) && Ps(B)) 
@@ -252,6 +261,7 @@ void CH(Player* P) {
     /* Critical Hit (ID: 5)*/
     /* Jumlah Troops pada bangunan yang melakukan serangan tepat 
     selanjutnya hanya berkurang ½ dari jumlah seharusnya */
+    printf("CH Activated\n");
     CHs(*P) = 1;
     /* 
         Logic: Troops(Elmt(B,i)) -= ((float)1 - (float)CHs(*P)/2) * NAttack
@@ -262,8 +272,9 @@ void IR(Player* P) { /* to ally */
     /* Instant Reinforcement (ID: 6)*/
     /* Bangunan yang dimiliki memiliki level 4 */
     /* Seluruh bangunan mendapatkan tambahan 5 Troops */
+    printf("IR Activated\n");
     ListElement* p;
-    ListTraversal (p, ListFirstElement(Buildings(*P)), p != Nil) {
+    ListTraversal(p, ListFirstElement(Buildings(*P)), p != Nil) {
         Troops(*(Building*)ListElementVal(p)) += 5;
     }
 }
@@ -272,8 +283,9 @@ void BR(Player* P) { /* to enemy */
     /* Barrage (ID: 7)*/
     /* Jumlah Troops pada seluruh bangunan musuh akan berkurang
     sebanyak 10 Troops */
+    printf("BR Activated\n");
     ListElement* p;
-    ListTraversal (p, ListFirstElement(Buildings(*P)), p != Nil) {
+    ListTraversal(p, ListFirstElement(Buildings(*P)), p != Nil) {
         Troops(*(Building*)ListElementVal(p)) -= 10;
     }
 }
