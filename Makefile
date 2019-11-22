@@ -51,7 +51,7 @@ CharProcessor_driver: $(TEMPDIR)/CharProcessor_driver.o $(TEMPDIR)/CharProcessor
 WordProcessor_driver: $(TEMPDIR)/WordProcessor_driver.o $(TEMPDIR)/WordProcessor.o $(TEMPDIR)/CharProcessor.o
 	$(CC) -o $@ $^ $(INCPATH) $(CFLAGS)
 
-Command_driver: $(TEMPDIR)/Command_driver.o $(TEMPDIR)/Command.o $(TEMPDIR)/Art.o
+Command_driver: $(TEMPDIR)/Command_driver.o $(TEMPDIR)/Command.o $(TEMPDIR)/Art.o $(TEMPDIR)/ArrayDin.o $(TEMPDIR)/WordProcessor.o $(TEMPDIR)/Player.o $(TEMPDIR)/Graph.o $(TEMPDIR)/Stack.o $(TEMPDIR)/GameState.o
 	$(CC) -o $@ $^ $(INCPATH) $(CFLAGS)
 
 Building_driver: $(TEMPDIR)/Building_driver.o $(TEMPDIR)/Building.o $(TEMPDIR)/Point.o
