@@ -61,6 +61,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
     dan hasil akhir penyerangan. */
     ListElement* El, *El2;
     Building* B, *BT, *CB, *BE;
+    int NbBEnemyInit, NbEnemyFinal;
     int i=1;
     int j=1;
 
@@ -122,6 +123,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                             
                                 //Bangunan yang diserang milik lawan
                                 if (ListElementVal(El) == BE) {
+                                    NbBEnemyInit = ListSize(Buildings(*PEnemy));
                                     //Bangunan yang diserang tidak punya pertahanan
                                     //Dapat disebabkan juga oleh skill 
                                     if ((!Pb(*BE) && SHs(*PEnemy)==0) || AUs(*PTurn) || CHs(*PTurn)==1) {
@@ -181,6 +183,8 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                         }
                                         if (SHs(*PEnemy)>0) SHs(*PEnemy)--;
                                     }
+                                    NbEnemyFinal = ListSize(Buildings(*PEnemy));
+                                    if (NbBEnemyInit==3 && NbEnemyFinal==2) AddSkill(PEnemy,2);
                                 }
                                 //Bangunan yang diserang tidak berkepemilikan
                                 else {

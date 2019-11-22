@@ -154,11 +154,11 @@ void CheckSkill(Player* P, Player* PEnemy, Word LastCommand) {
     int NbOfTower;
     ListElement* p;
 
-    /* Cek skill SH */
-    if (WordEqualsString(LastCommand, "ATTACK") && NbOfBuildings(*PEnemy) == 2) {
-        AddSkill(PEnemy, 2);  // Shield
-        AddWarning("Enemy player gained SHIELD skill\n");
-    }
+    // /* Cek skill SH */
+    // if (WordEqualsString(LastCommand, "ATTACK") && NbOfBuildings(*PEnemy) == 2) {
+    //     AddSkill(PEnemy, 2);  // Shield
+    //     AddWarning("Enemy player gained SHIELD skill\n");
+    // }
 
     /* Cek skill IR */
     isLevel4 = true;
@@ -216,11 +216,93 @@ void IU(Player* P) {
     /* Instant Upgrade (ID: 1)*/
     /* Seluruh bangunan yang dimiliki pemain akan naik 1 level */
     /* Representasi Array */
+    Building* B;
+    
     printf("IU Activated\n");
     ListElement* p;
     ListTraversal(p, ListFirstElement(Buildings(*P)), p != Nil) {
-        if (Level(*(Building*)ListElementVal(p)) < 4) {
-            Level(*(Building*)ListElementVal(p)) += 1;
+        B = ListElementVal(p);
+        if(Level(*B) < 4) {
+            Level(*B)++;
+     
+            switch (Type(*B)) {
+            case 'C' :
+                switch (Level(*B)) {
+                case 2 :
+                    A(*B) = 15;
+                    M(*B) = 60;
+                    Pb(*B) = false;
+                    break;
+                case 3 :
+                    A(*B) = 20;
+                    M(*B) = 80;
+                    Pb(*B) = false;
+                    break;
+                case 4 :
+                    A(*B) = 25;
+                    M(*B) = 100;
+                    Pb(*B) = false;
+                    break;
+                }
+                break;
+            case 'T' :
+                switch (Level(*B)) {
+                case 2 :
+                    A(*B) = 10;
+                    M(*B) = 30;
+                    Pb(*B) = true;
+                    break;
+                case 3 :
+                    A(*B) = 20;
+                    M(*B) = 40;
+                    Pb(*B) = true;
+                    break;
+                case 4 :
+                    A(*B) = 30;
+                    M(*B) = 50;
+                    Pb(*B) = true;
+                    break;
+                }
+                break;
+            case 'F' :
+                switch (Level(*B)) {
+                case 2 :
+                    A(*B) = 20;
+                    M(*B) = 40;
+                    Pb(*B) = false;
+                    break;
+                case 3 :
+                    A(*B) = 30;
+                    M(*B) = 60;
+                    Pb(*B) = true;
+                    break;
+                case 4 :
+                    A(*B) = 40;
+                    M(*B) = 80;
+                    Pb(*B) = true;
+                    break;
+                }
+                break;
+            case 'V' :
+                switch (Level(*B)) {
+                case 2 :
+                    A(*B) = 10;
+                    M(*B) = 30;
+                    Pb(*B) = false;
+                    break;
+                case 3 :
+                    A(*B) = 15;
+                    M(*B) = 40;
+                    Pb(*B) = false;
+                    break;
+                case 4 :
+                    A(*B) = 20;
+                    M(*B) = 50;
+                    Pb(*B) = false;
+                    break;
+                }
+                break;
+            }
         }
     }
 }
@@ -233,7 +315,7 @@ void SH(Player* P) {
     /* Apabila skill ini digunakan 2 kali berturut-turut, 
     durasi tidak akan bertambah, namun menjadi nilai maksimum (2 turn) */
     printf("SH Activated\n");
-    SHs(*P) = 2;
+    SHs(*P) = 3;
     /* 
         Logic: if(SHs(*P) || Ps(B)) 
     */
