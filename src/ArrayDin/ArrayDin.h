@@ -12,6 +12,7 @@ DEFINISI ADT Array Implisit <IArray>
 #define IndexUndef 0
 #define IdxMin 1
 #define ValUndef -999999
+#define Nil 0
 
 //typedef Building Building;
 typedef int ArrayIndex;

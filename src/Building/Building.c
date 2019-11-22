@@ -76,10 +76,10 @@ F.S.
     - Jika level bangunan bertambah, jumlah pasukan pada bangunan berkurang sebanyak M/2
     Nilai A, M, dan Pb berubah sesuai Type Bangunan dan Level
 */
-    if(Troops(*B) >= M(*B)/2) {
+    if(Troops(*B) >= M(*B)/2 && Level(*B) < 4) {
         Level(*B)++;
         Troops(*B) -= M(*B)/2;
-    } 
+     
     switch (Type(*B)) {
     case 'C' :
         switch (Level(*B)) {
@@ -161,6 +161,7 @@ F.S.
         }
         printf("Level Village-mu meningkat menjadi %d!\n", Level(*B));
         break;
+    }
     }
 }
 

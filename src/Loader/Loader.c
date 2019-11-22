@@ -215,6 +215,7 @@ void LoadGameFile(char* path, Player* P1, Player* P2, ArrayDin* buildings, Graph
         }
         /* Player 1 */
         CreateNewPlayer(P1);
+        printf("Player 1 has:\n");
         QueueDel(&Skills(*P1), &temp);
         ReadWord(&CWord);
         if (WordToInt(CWord, &temp)) {
@@ -243,6 +244,7 @@ void LoadGameFile(char* path, Player* P1, Player* P2, ArrayDin* buildings, Graph
         for (i = 0; i < NbOfPB; i++) {
             ReadWord(&CWord);
             if (WordToInt(CWord, &temp)) {
+                printf("Building #%d\n", temp + 1);
                 ListAddLast(&Buildings(*P1), Elmt(*buildings, temp));
             }
         }
@@ -254,6 +256,7 @@ void LoadGameFile(char* path, Player* P1, Player* P2, ArrayDin* buildings, Graph
         }
         /* Player 2 */
         CreateNewPlayer(P2);
+        printf("Player 2 has:\n");
         QueueDel(&Skills(*P2), &temp);
         ReadWord(&CWord);
         if (WordToInt(CWord, &temp)) {
@@ -282,6 +285,7 @@ void LoadGameFile(char* path, Player* P1, Player* P2, ArrayDin* buildings, Graph
         for (i = 0; i < NbOfPB; i++) {
             ReadWord(&CWord);
             if (WordToInt(CWord, &temp)) {
+                printf("Building #%d\n", temp +1);
                 ListAddLast(&Buildings(*P2), Elmt(*buildings, temp));
             }
         }
@@ -294,10 +298,11 @@ void LoadGameFile(char* path, Player* P1, Player* P2, ArrayDin* buildings, Graph
 
         ReadWord(&CWord);
         if (WordToInt(CWord, &temp)) {
+            printf("It's Player %d's turn!", temp);
             *Pturn = temp == 1 ? P1 : P2;
         }
 
+        SetMap(map, *buildings);
     }
-    SetMap(map, *buildings);
 
 }

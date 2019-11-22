@@ -48,7 +48,7 @@ void DisplayTitle() {
 }
 
 void DisplayTitleMini() {
-    clrscr();
+    //clrscr();
     set_print_color(YELLOW);
     set_print_color(BOLD);
     printf("\n   wrgmavow ");

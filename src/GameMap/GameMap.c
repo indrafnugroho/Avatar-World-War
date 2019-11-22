@@ -24,7 +24,7 @@ void CreateEmptyMap(GameMap* Maps, int NRow, int NCol) {
 void SetMap(GameMap* Maps, ArrayDin Buildings) {
 /* Memasukkan elemen-elemen Building ke dalam Matrix yang siap dicetak */
     for (int i=0; i<Neff(Buildings); i++) {
-        printf("%d %c\n", i, Type(*Elmt(Buildings, i)));
+        //printf("%d %c\n", i, Type(*Elmt(Buildings, i)));
         MElmt(*Maps, Koordinat(*Elmt(Buildings, i)).x, Koordinat(*Elmt(Buildings, i)).y) = Elmt(Buildings, i);
     }
 }

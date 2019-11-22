@@ -88,6 +88,7 @@ void GameLoop(Game* game) {
     ListElement* p;
     int loop;
     do {
+        clrscr();
         PrintMap(game->map, GameP1(*game), GameP2(*game));
         set_print_color(BLUE);
         set_print_color(BOLD);
