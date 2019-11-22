@@ -6,7 +6,7 @@
 
 int _Art_p = 1;
 bool warn = false;
-char warnmsg[50];
+char warnmsg[100];
 
 void clrscr() {
     printf("\e[1;1H\e[2J"); 
