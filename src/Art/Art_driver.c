@@ -12,7 +12,7 @@ int main() {
     SetPlayerPrompt(2);
     DisplayPrompt2("PLAYER 2");
     printf("\n");
-    AddWarning("Warning!");
+    AddWarning("Warning!\no");
     DisplayWarning(); 
     printf("\n");
     return 0;

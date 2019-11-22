@@ -82,7 +82,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
     DisplayPrompt2("BUILDING TO USE");
     int InpBSelf;
     if (ScanInt(&InpBSelf)) {
-        if (InpBSelf < i) {
+        if (InpBSelf < i && InpBSelf >= 1) {
         i=1;
         ListTraversal(El, ListFirstElement(Buildings(*PTurn)), El != Nil && i != InpBSelf) i++;
         //printf("%p ", El);
@@ -106,7 +106,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                 DisplayPrompt2("BUILDING TO ATTACK");
                 int InpBEnemy;
                 if (ScanInt(&InpBEnemy)) {
-                    if (InpBEnemy <= ListSize(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT)))) && InpBEnemy < j) {
+                    if (InpBEnemy <= ListSize(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT)))) && InpBEnemy < j && InpBEnemy >= 1) {
                         i=1;
                         ListTraversal(El, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT)))), El != Nil && i <= InpBEnemy) {
                             BE = Elmt(Bldgs, GraphGetVertexIdx(Connect, ListElementVal(El)));
@@ -118,7 +118,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                         DisplayPrompt2("NUMBER OF TROOPS");
                         int InpTroopsNum;
                         if (ScanInt(&InpTroopsNum)) {
-                            if (InpTroopsNum <= Troops(*BT)) {
+                            if (InpTroopsNum <= Troops(*BT) && InpTroopsNum >= 0) {
                                 //Cek apakah bangunan yang diserang milik lawan
                                 int j=1;
                                 ListTraversal(El, ListFirstElement(Buildings(*PEnemy)), ListElementVal(El) != BE && ListElementNext(El) != Nil) j++;                            
@@ -148,8 +148,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                                 //Check if Enemy might gain Extra Turn Skill
                                                 if (Type(*BE)=='F') {
                                                     AddSkill(PEnemy,3);
-                                                    AddWarning("Bangunan menjadi milikmu!\n");
-                                                    AddWarning("Enemy player gained EXTRA TURN Skill\n");
+                                                    AddWarning("Bangunan menjadi milikmu!\nEnemy player gained EXTRA TURN Skill");
                                                 }
                                                 else AddWarning("Bangunan menjadi milikmu!\n");
                                             }
@@ -171,8 +170,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                                 //Check if Enemy might gain Extra Turn Skill
                                                 if (Type(*BE)=='F') {
                                                     AddSkill(PEnemy,3);
-                                                    AddWarning("Bangunan menjadi milikmu!\n");
-                                                    AddWarning("Enemy player gained EXTRA TURN Skill\n");
+                                                    AddWarning("Bangunan menjadi milikmu!\nEnemy player gained EXTRA TURN Skill");
                                                 }
                                                 else AddWarning("Bangunan menjadi milikmu!\n");
                                             }
@@ -198,8 +196,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                             //Check if Enemy might gain Extra Turn Skill
                                             if (Type(*BE)=='F') {
                                                 AddSkill(PEnemy,3);
-                                                AddWarning("Bangunan menjadi milikmu!\n");
-                                                AddWarning("Enemy player gained EXTRA TURN Skill\n");
+                                                AddWarning("Bangunan menjadi milikmu!\nEnemy player gained EXTRA TURN Skill");
                                             }
                                             else AddWarning("Bangunan menjadi milikmu!\n");
                                         }
@@ -324,7 +321,7 @@ void LevelUpCommand(Player* PSelf) {
     DisplayPrompt2("SELECT BUILDING");
     int InpBNUm;
     if (ScanInt(&InpBNUm)) {
-        if (InpBNUm <= ListSize(Buildings(*PSelf))) {
+        if (InpBNUm <= ListSize(Buildings(*PSelf)) && InpBNUm >= 1) {
             i=1;
             ListTraversal(El, ListFirstElement(Buildings(*PSelf)), El != Nil && i != InpBNUm) i++;
             B = ListElementVal(El);
@@ -407,7 +404,7 @@ void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
     DisplayPrompt2("FROM");
     int InpB;
     if (ScanInt(&InpB)) {
-        if (InpB <= ListSize(Buildings(*PSelf))) {
+        if (InpB <= ListSize(Buildings(*PSelf)) && InpB >= 1) {
             int j=1;
             ListTraversal(El, ListFirstElement(Buildings(*PSelf)), El != Nil && j != InpB) j++;
             BSelf = ListElementVal(El);
@@ -429,7 +426,7 @@ void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
                 DisplayPrompt2("TO");
                 int InpBRcv;
                 if (ScanInt(&InpBRcv)) {
-                    if (InpBRcv <= ListSize(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BSelf)))) && InpBRcv < j) {
+                    if (InpBRcv <= ListSize(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BSelf)))) && InpBRcv < j && InpBRcv >= 1) {
                         j=1;
                         ListTraversal(El, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BSelf)))), El != Nil && j <= InpBRcv) {
                             BReceive = Elmt(Bldgs, GraphGetVertexIdx(Connect, ListElementVal(El)));
@@ -440,7 +437,7 @@ void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
                         DisplayPrompt2("TROOPS TO MOVE");
                         int InpTroops;
                         if (ScanInt(&InpTroops)) {
-                            if (InpTroops <= Troops(*BSelf)) {
+                            if (InpTroops <= Troops(*BSelf) && InpTroops >= 0) {
                                 Troops(*BSelf) -= InpTroops;
                                 Troops(*BReceive) += InpTroops;
                                 printf("%d pasukan dari ", InpTroops);
