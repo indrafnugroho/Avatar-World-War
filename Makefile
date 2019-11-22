@@ -18,10 +18,10 @@ all: wrgmavow
 
 drivers: $(DRIV)
 
-temp:
-	test -d $(TEMPDIR) || mkdir $(TEMPDIR)
+$(TEMPDIR):
+	mkdir $(TEMPDIR)
 
-$(TEMPDIR)/main.o: temp
+$(TEMPDIR)/main.o: | $(TEMPDIR)
 	$(CC) -c -o $(TEMPDIR)/main.o $(SRCDIR)/main.c $(INCPATH) $(CFLAGS)
 
 List_driver: $(TEMPDIR)/List_driver.o $(TEMPDIR)/List.o
@@ -45,6 +45,15 @@ pcolor_driver: $(TEMPDIR)/pcolor_driver.o $(TEMPDIR)/pcolor.o
 Point_driver: $(TEMPDIR)/Point_driver.o $(TEMPDIR)/Point.o
 	$(CC) -o $@ $^ $(INCPATH) $(CFLAGS)
 
+CharProcessor_driver: $(TEMPDIR)/CharProcessor_driver.o $(TEMPDIR)/CharProcessor.o
+	$(CC) -o $@ $^ $(INCPATH) $(CFLAGS)
+
+WordProcessor_driver: $(TEMPDIR)/WordProcessor_driver.o $(TEMPDIR)/WordProcessor.o $(TEMPDIR)/CharProcessor.o
+	$(CC) -o $@ $^ $(INCPATH) $(CFLAGS)
+
+Command_driver: $(TEMPDIR)/Command_driver.o $(TEMPDIR)/Command.o
+	$(CC) -o $@ $^ $(INCPATH) $(CFLAGS)
+
 Building_driver: $(TEMPDIR)/Building_driver.o $(TEMPDIR)/Building.o $(TEMPDIR)/Point.o
 	$(CC) -o $@ $^ $(INCPATH) $(CFLAGS)
 
@@ -62,7 +71,7 @@ Game_driver: $(TEMPDIR)/Game_driver.o $(TEMPDIR)/Game.o $(TEMPDIR)/Loader.o $(TE
 	$(CC) -o $@ $^ $(INCPATH) $(CFLAGS)
 
 
-$(TEMPDIR)/%.o: $(SRCDIR)/*/%.c $(HEADERS) temp
+$(TEMPDIR)/%.o: $(SRCDIR)/*/%.c $(HEADERS) | $(TEMPDIR)
 	$(CC) -c -o $@ $< $(INCPATH) $(CFLAGS)
 
 wrgmavow: $(TEMPDIR)/main.o $(OBJS)
