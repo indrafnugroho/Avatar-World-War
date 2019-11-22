@@ -111,4 +111,7 @@ void BR(Player* P);  // ADT Reference to Player
 /* Jumlah pasukan pada seluruh bangunan musuh akan berkurang
    sebanyak 10 pasukan */
 
+int CheckNbOfTower(Player P);
+/*  Menghitung jumlah tower yang dimiliki Player */
+
 #endif

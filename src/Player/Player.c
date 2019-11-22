@@ -154,12 +154,6 @@ void CheckSkill(Player* P, Player* PEnemy, Word LastCommand) {
     int NbOfTower;
     ListElement* p;
 
-    // /* Cek skill SH */
-    // if (WordEqualsString(LastCommand, "ATTACK") && NbOfBuildings(*PEnemy) == 2) {
-    //     AddSkill(PEnemy, 2);  // Shield
-    //     AddWarning("Enemy player gained SHIELD skill\n");
-    // }
-
     /* Cek skill IR */
     isLevel4 = true;
     i = 0;
@@ -171,7 +165,7 @@ void CheckSkill(Player* P, Player* PEnemy, Word LastCommand) {
     }
     if (isLevel4 && WordEqualsString(LastCommand, "END_TURN")) {
         AddSkill(P, 6);
-        printf("You  gained INSTANT REINFORCEMENT skill\n");
+        AddWarning("You  gained INSTANT REINFORCEMENT skill\n");
     }
 
     /* Cek skill CH */
@@ -179,36 +173,6 @@ void CheckSkill(Player* P, Player* PEnemy, Word LastCommand) {
         AddSkill(PEnemy, 5);
         AddWarning("Enemy player gained CRITICAL HIT skill\n");
     }
-
-    /* Cek skill AU - Ambigu player ally atau enemy? */
-    if (WordEqualsString(LastCommand, "ATTACK")) {
-        NbOfTower = 0;
-        i = 0;
-        while (i < NbOfBuildings(*P)) {
-            if (Type(*(Building*)(ListElementVal(ListIdx(Buildings(*P), i)))) == 'T') {
-                NbOfTower += 1;
-            }
-            i++;
-        }
-        if (NbOfTower == 3) {
-            AddSkill(P, 4);
-            AddWarning("You gained ATTACK UP skill\n");
-        }
-    }
-
-    /* Cek skill BR */
-    if (WordEqualsString(LastCommand, "ATTACK") && (NbOfBuildings(*PEnemy) == 10)) { /* Ada potensi bug */
-        AddSkill(P, 7);
-        AddWarning("You gained BARRAGE skill\n");
-    }
-
-    /* Cek skill ET */
-    /*
-    if ( fort direbut lawan ) {
-        AddSkill(3, P)
-            printf("Player gained EXTRA TURN skill\n");
-    }
-    */
 }
 
 /****** IMPLEMENTASI EFEK SKILL ******/
@@ -316,9 +280,6 @@ void SH(Player* P) {
     durasi tidak akan bertambah, namun menjadi nilai maksimum (2 turn) */
     printf("SH Activated\n");
     SHs(*P) = 3;
-    /* 
-        Logic: if(SHs(*P) || Ps(B)) 
-    */
 }
 
 void ET(Player* P) {
@@ -334,9 +295,6 @@ void AU(Player* P) {
     /* Pertahanan bangunan musuh tidak akan mempengaruhi penyerangan */
     printf("AU Activated\n");
     AUs(*P) = true;
-    /* 
-        Logic: if(!AUs(*P) && Ps(B)) 
-    */
 }
 
 void CH(Player* P) {
@@ -345,9 +303,6 @@ void CH(Player* P) {
     selanjutnya hanya berkurang ½ dari jumlah seharusnya */
     printf("CH Activated\n");
     CHs(*P) = 1;
-    /* 
-        Logic: Troops(Elmt(B,i)) -= ((float)1 - (float)CHs(*P)/2) * NAttack
-    */
 }
 
 void IR(Player* P) { /* to ally */
@@ -370,4 +325,17 @@ void BR(Player* P) { /* to enemy */
     ListTraversal(p, ListFirstElement(Buildings(*P)), p != Nil) {
         Troops(*(Building*)ListElementVal(p)) -= 10;
     }
+}
+
+int CheckNbOfTower(Player P) {
+/*  Menghitung jumlah tower yang dimiliki Player */
+    int NbOfTower, i;
+    
+    NbOfTower = 0;
+    i = 0;
+    while (i < NbOfBuildings(P)) {
+        if (Type(*(Building*)(ListElementVal(ListIdx(Buildings(P), i)))) == 'T') NbOfTower++;
+        i++;
+    }
+    return NbOfTower;
 }

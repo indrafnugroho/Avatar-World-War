@@ -62,6 +62,8 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
     ListElement* El, *El2;
     Building* B, *BT, *CB, *BE;
     int NbBEnemyInit, NbBEnemyFinal;
+    int NbTowerEnemyInit, NbTowerEnemyFinal;
+    int NbBPlayerInit, NbBPlayerFinal;
     int i=1;
     int j=1;
 
@@ -123,7 +125,9 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                             
                                 //Bangunan yang diserang milik lawan
                                 if (ListElementVal(El) == BE) {
-                                    NbBEnemyInit = ListSize(Buildings(*PEnemy));
+                                    NbBEnemyInit = NbOfBuildings(*PEnemy);
+                                    NbTowerEnemyInit = CheckNbOfTower(*PEnemy);
+                                    NbBPlayerInit = NbOfBuildings(*PTurn);
                                     //Bangunan yang diserang tidak punya pertahanan
                                     //Dapat disebabkan juga oleh skill 
                                     if ((!Pb(*BE) && SHs(*PEnemy)==0) || AUs(*PTurn) || CHs(*PTurn)==1) {
@@ -141,7 +145,13 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                                 Troops(*BE) = InpTroopsNum - Troops(*BE);
                                                 SetLvBuildingToLv1(BE);
                                                 ListAddLast(&Buildings(*PTurn),BE);
-                                                AddWarning("Bangunan menjadi milikmu!\n");
+                                                //Check if Enemy might gain Extra Turn Skill
+                                                if (Type(*BE)=='F') {
+                                                    AddSkill(PEnemy,3);
+                                                    AddWarning("Bangunan menjadi milikmu!\n");
+                                                    AddWarning("Enemy player gained EXTRA TURN Skill\n");
+                                                }
+                                                else AddWarning("Bangunan menjadi milikmu!\n");
                                             }
                                         }
                                         else {
@@ -158,7 +168,13 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                                 Troops(*BE) = InpTroopsNum - (int) (Troops(*BE)/2);
                                                 SetLvBuildingToLv1(BE);
                                                 ListAddLast(&Buildings(*PTurn),BE);
-                                                AddWarning("Bangunan menjadi milikmu!\n");
+                                                //Check if Enemy might gain Extra Turn Skill
+                                                if (Type(*BE)=='F') {
+                                                    AddSkill(PEnemy,3);
+                                                    AddWarning("Bangunan menjadi milikmu!\n");
+                                                    AddWarning("Enemy player gained EXTRA TURN Skill\n");
+                                                }
+                                                else AddWarning("Bangunan menjadi milikmu!\n");
                                             }
                                             CHs(*PTurn) = 0;
                                         }
@@ -179,15 +195,35 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                             Troops(*BE) = InpTroopsNum - (int) (Troops(*BE)/(0.75));
                                             SetLvBuildingToLv1(BE);
                                             ListAddLast(&Buildings(*PTurn),BE);
-                                            AddWarning("Bangunan menjadi milikmu!\n");
+                                            //Check if Enemy might gain Extra Turn Skill
+                                            if (Type(*BE)=='F') {
+                                                AddSkill(PEnemy,3);
+                                                AddWarning("Bangunan menjadi milikmu!\n");
+                                                AddWarning("Enemy player gained EXTRA TURN Skill\n");
+                                            }
+                                            else AddWarning("Bangunan menjadi milikmu!\n");
                                         }
-                                        if (SHs(*PEnemy)>0) SHs(*PEnemy)--;
+                                        // if (SHs(*PEnemy)>0) SHs(*PEnemy)--;
                                     }
                                     //Check if Enemy might gain Shield Skill
-                                    NbBEnemyFinal = ListSize(Buildings(*PEnemy));
+                                    NbBEnemyFinal = NbOfBuildings(*PEnemy);
                                     if (NbBEnemyInit==3 && NbBEnemyFinal==2) {
                                         AddSkill(PEnemy,2);
                                         AddWarning("Enemy player gained SHIELD skill\n");
+                                    }
+
+                                    //Check if Player might gain Attack Up Skill
+                                    NbTowerEnemyFinal = CheckNbOfTower(*PEnemy);
+                                    if (NbTowerEnemyInit==4 && NbTowerEnemyFinal==3 && Type(*BE)=='T') {
+                                        AddSkill(PTurn,4);
+                                        AddWarning("You gained ATTACK UP skill\n");
+                                    }
+
+                                    //Check if Enemy might gain Barrage Skill
+                                    NbBPlayerFinal = NbOfBuildings(*PTurn);
+                                    if (NbBPlayerInit==9 && NbBPlayerFinal==10) {
+                                        AddSkill(PEnemy,7);
+                                        AddWarning("Enemy player gained BARRAGE skill\n");
                                     }
                                 }
                                 //Bangunan yang diserang tidak berkepemilikan
