@@ -120,7 +120,7 @@ void GameLoop(Game* game) {
         printf("\n");
         DisplayPrompt2("SKILL");
         if (!StackIsEmpty(Skills(*GamePTurn(*game)))) {
-            DisplaySkill(*GamePTurn(*game));
+            DisplaySkill(GamePTurn(*game));
         } else {
             printf("No Available Skills\n");
         }
