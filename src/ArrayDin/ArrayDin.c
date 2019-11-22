@@ -20,6 +20,10 @@ void MakeEmpty(ArrayDin *T, int MaxEl) {
 void Dealokasi(ArrayDin *T){
 /* I.S. T terdefinisi; */
 /* F.S. TI(T) dikembalikan ke system, MaxElem(T)=0; Neff(T)=0 */
+    int i;
+    for (i = GetFirstIdx(*T); i < Neff(*T); i++) {
+        free(Elmt(*T, i));
+    }
     free(TI(*T));
     Neff(*T) = 0;
     MaxElem(*T) = 0;
@@ -105,22 +109,6 @@ void RevertTab(ArrayDin Tin, ArrayDin *Tout){
   }
 }
 
-
-int CountX(ArrayDin T, Building* X){
-/* Menghasilkan berapa banyak kemunculan X di T */
-/* Jika T kosong menghasilkan 0 */
-    int i, count;
-  count = 0;
-  if (Neff(T)!= 0) {
-    for (i= 0; i< Neff(T); i++){
-          if (Elmt(T, i) == X){
-          count ++;
-          }
-    }
-  }
-    return count;
-}
-
 /* ********** MENAMBAH DAN MENGHAPUS ELEMEN DI AKHIR ********** */
 /* *** Menambahkan elemen terakhir *** */
 void AddAsLastEl(ArrayDin *T, Building* X){
@@ -146,12 +134,8 @@ void GrowTab(ArrayDin *T, int num){
 /* Proses : Menambahkan max element sebanyak num */
 /* I.S. Tabel sudah terdefinisi */
 /* F.S. Ukuran tabel bertambah sebanyak num */
-  ArrayDin temp;
-	MakeEmpty(&temp,MaxElem(*T));
-	CopyTab(*T,&temp);
-	MakeEmpty(T,MaxElem(*T)+num);
-	CopyTab(temp,T);
-	MaxElem(*T) += num;
+    MaxElem(*T) += num;
+    (TI(*T)) = (Building**) realloc(TI(*T), MaxElem(*T) * sizeof(Building*));
 }
 void ShrinkTab(ArrayDin *T, int num){
 /* Proses : Mengurangi max element sebanyak num */
@@ -168,6 +152,7 @@ void CompactTab(ArrayDin *T){
 /* I.S. Tabel tidak kosong */
 /* F.S. Ukuran MaxElem = Neff */
     MaxElem(*T) = Neff(*T);
+    (TI(*T)) = (Building**) realloc(TI(*T), MaxElem(*T) * sizeof(Building*));
 }
 
 Building SearchBuilding(ArrayDin T, int Row, int Col) {

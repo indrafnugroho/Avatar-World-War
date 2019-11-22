@@ -47,7 +47,7 @@ F.S.
     Troops(*B) = U(*B);
     AfterAttack(*B) = false;
     AfterMove(*B) = false;
-    printf("%d ", A(*B));
+    //printf("%d ", A(*B));
     //M(*B) = 1000000;
 
 }

@@ -10,8 +10,8 @@ int main() {
     GameTurn(&game);
     AddWarning("Game 2 : Load");
     GameLoadSave(&game2, "sav.txt");
-    GameTurn(&game);
-    GameTurn(&game);
+    GameTurn(&game2);
+    GameTurn(&game2);
     return 0;
 }
 
