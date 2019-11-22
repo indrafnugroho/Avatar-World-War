@@ -82,7 +82,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
     DisplayPrompt2("BUILDING TO USE");
     int InpBSelf;
     if (ScanInt(&InpBSelf)) {
-        if (InpBSelf < i) {
+        if (InpBSelf < i && InpBSelf > 0) {
         i=1;
         ListTraversal(El, ListFirstElement(Buildings(*PTurn)), El != Nil && i != InpBSelf) i++;
         //printf("%p ", El);
@@ -283,7 +283,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                     }
                                 }
                             }
-                            else AddWarning("Jumlah pasukan yang Anda masukkan melebihi jumlah pasukan di Bangunan");
+                            else AddWarning("Number you input exceeded your Building Troops");
                         }
                         else AddWarning("Input yang Anda masukkan salah");
                     }
@@ -295,7 +295,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
             }
             else AddWarning("Tidak ada bangunan yang dapat diserang");
         }
-        else AddWarning("Bangunan yang Anda pilih sudah digunakan untuk menyerang sebelumnya");
+        else AddWarning("A Building can only Attack ONCE in a turn!");
         }
         else AddWarning("Input Bangunan salah");
     }
@@ -324,7 +324,7 @@ void LevelUpCommand(Player* PSelf) {
     DisplayPrompt2("SELECT BUILDING");
     int InpBNUm;
     if (ScanInt(&InpBNUm)) {
-        if (InpBNUm <= ListSize(Buildings(*PSelf))) {
+        if (InpBNUm >0 && InpBNUm <= ListSize(Buildings(*PSelf))) {
             i=1;
             ListTraversal(El, ListFirstElement(Buildings(*PSelf)), El != Nil && i != InpBNUm) i++;
             B = ListElementVal(El);
@@ -381,9 +381,6 @@ void EndTurnCommand(Player* PTurn, Player* PEnemy) {
     SetToFalse(PTurn);
     AddAToAllBuilding(PEnemy);
 }
-
-void SaveCommand(Player* PTurn, Player* PEnemy) {}
-/*  Melakukan mekanisme Save_File, yaitu menyimpan state permainan yang sedang berlangsung*/
 
 void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
 /*  Melakukan mekanisme Move, yaitu memindahkan pasukan dari suatu bangunan ke bangunan lain milik
@@ -485,7 +482,7 @@ void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
                 }
                 else AddWarning("Tidak ada bangunan terdekat milik Anda\n");
             }
-            else AddWarning("Bangunan yang Anda pilih sudah melakukan MOVE sebelumnya\n");
+            else AddWarning("A Building can only Move ONCE in a turn!\n");
         }
         else AddWarning("Input yang Anda masukkan salah\n");
     }

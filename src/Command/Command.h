@@ -43,9 +43,6 @@ void UndoCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState);
 void EndTurnCommand(Player* PTurn, Player* PEnemy);
 /* Melakukan mekanisme End_Turn apabila user menginput command End_Turn. */
 
-void SaveCommand(Player* PTurn, Player* PEnemy);
-/* Melakukan mekanisme Save_File, yaitu menyimpan state permainan yang sedang berlangsung*/
-
 void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect);
 /* Melakukan mekanisme Move, yaitu memindahkan pasukan dari suatu bangunan ke bangunan lain milik
    pemain yang terhubung dengan bangunan tersebut. MOVE hanya dapat dilakukan
