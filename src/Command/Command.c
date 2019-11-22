@@ -61,7 +61,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
     dan hasil akhir penyerangan. */
     ListElement* El, *El2;
     Building* B, *BT, *CB, *BE;
-    int NbBEnemyInit, NbEnemyFinal;
+    int NbBEnemyInit, NbBEnemyFinal;
     int i=1;
     int j=1;
 
@@ -183,8 +183,12 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                         }
                                         if (SHs(*PEnemy)>0) SHs(*PEnemy)--;
                                     }
-                                    NbEnemyFinal = ListSize(Buildings(*PEnemy));
-                                    if (NbBEnemyInit==3 && NbEnemyFinal==2) AddSkill(PEnemy,2);
+                                    //Check if Enemy might gain Shield Skill
+                                    NbBEnemyFinal = ListSize(Buildings(*PEnemy));
+                                    if (NbBEnemyInit==3 && NbBEnemyFinal==2) {
+                                        AddSkill(PEnemy,2);
+                                        AddWarning("Enemy player gained SHIELD skill\n");
+                                    }
                                 }
                                 //Bangunan yang diserang tidak berkepemilikan
                                 else {
