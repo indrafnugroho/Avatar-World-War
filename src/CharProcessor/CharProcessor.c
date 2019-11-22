@@ -11,7 +11,6 @@ static int retval;
 
 bool START(char* path) {
 
-    /* Algoritma */
     if (cpStarted && cpReadFromFile) {
         fclose(cpStream);
     }
