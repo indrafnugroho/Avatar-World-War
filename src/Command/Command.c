@@ -38,7 +38,7 @@ int InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState, 
             EndTurnCommand(PTurn,PEnemy);
             CheckSkill(PTurn,PEnemy,input);
             FlushStkGameState(GState);
-            sleep(1);
+            Sleep(1000);
             return 0;
         }
         else if (WordEqualsString(input, "SAVE")) return 2;
