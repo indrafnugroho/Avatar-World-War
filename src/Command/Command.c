@@ -72,7 +72,6 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
     ListTraversal (El, ListFirstElement(Buildings(*PTurn)), El != Nil) {
         B = ListElementVal(El);
 
-        //printf("%p ", El);
         printf("  %d. ", i);
         PrintBuilding(*B);
         i++;
@@ -84,16 +83,16 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
         if (InpBSelf < i && InpBSelf > 0) {
         i=1;
         ListTraversal(El, ListFirstElement(Buildings(*PTurn)), El != Nil && i != InpBSelf) i++;
-        //printf("%p ", El);
         BT = ListElementVal(El);
+
         if (!AfterAttack(*BT)) {
             if (!ListIsEmpty(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT))))) {
                 DisplayPrompt2("NEAREST NEUTRAL AND ENEMY BUILDINGS");
                 printf("\n\n");
                 j=1;
                 ListTraversal(El2, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT)))), El2 != Nil) {
-                    //printf("%p ", El2);
                     CB = Elmt(Bldgs, GraphGetVertexIdx(Connect, ListElementVal(El2)));
+
                     if (ListSearch(Buildings(*PTurn), CB) == Nil) {
                         printf("  %d. ", j);
                         PrintBuilding(*CB);
@@ -112,7 +111,6 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                  i++;
                             }
                         }
-                        //PrintBuilding(*BE);
                         DisplayPrompt2("NUMBER OF TROOPS");
                         if (ScanInt(&InpTroopsNum)) {
                             if (InpTroopsNum > 0 && InpTroopsNum <= Troops(*BT)) {
@@ -120,11 +118,11 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                 j=1;
                                 ListTraversal(El, ListFirstElement(Buildings(*PEnemy)), ListElementVal(El) != BE && ListElementNext(El) != Nil) j++;                            
                             
+                                NbBPlayerInit = NbOfBuildings(*PTurn);
                                 //Bangunan yang diserang milik lawan
                                 if (ListElementVal(El) == BE) {
                                     NbBEnemyInit = NbOfBuildings(*PEnemy);
                                     NbTowerPlayerInit = CheckNbOfTower(*PTurn);
-                                    NbBPlayerInit = NbOfBuildings(*PTurn);
                                     //Bangunan yang diserang tidak punya pertahanan
                                     //Dapat disebabkan juga oleh skill 
                                     if ((!Pb(*BE) && SHs(*PEnemy)==0) || AUs(*PTurn) || CHs(*PTurn)==1) {
@@ -133,7 +131,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                                 Troops(*BE) -= InpTroopsNum;
                                                 Troops(*BT) -= InpTroopsNum;
                                                 AfterAttack(*BT) = true;
-                                                AddWarning("Bangunan gagal direbut\n");
+                                                AddWarning("Failed to capture building\n");
                                             }
                                             else {
                                                 Troops(*BT) -= InpTroopsNum;
@@ -145,9 +143,9 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                                 //Check if Enemy might gain Extra Turn Skill
                                                 if (Type(*BE)=='F') {
                                                     AddSkill(PEnemy,3);
-                                                    AddWarning("Bangunan menjadi milikmu!\nEnemy player gained EXTRA TURN Skill");
+                                                    AddWarning("Building captured!\nYour enemy gained EXTRA TURN Skill");
                                                 }
-                                                else AddWarning("Bangunan menjadi milikmu!\n");
+                                                else AddWarning("Building captured!\n");
                                             }
                                         }
                                         else {
@@ -155,7 +153,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                                 Troops(*BE) = ((int) (Troops(*BE)/2) - InpTroopsNum)*2;
                                                 Troops(*BT) -= InpTroopsNum;
                                                 AfterAttack(*BT) = true;
-                                                AddWarning("Bangunan gagal direbut\n");
+                                                AddWarning("Failed to capture building\n");
                                             }
                                             else {
                                                 Troops(*BT) -= InpTroopsNum;
@@ -167,9 +165,9 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                                 //Check if Enemy might gain Extra Turn Skill
                                                 if (Type(*BE)=='F') {
                                                     AddSkill(PEnemy,3);
-                                                    AddWarning("Bangunan menjadi milikmu!\nEnemy player gained EXTRA TURN Skill");
+                                                    AddWarning("Building captured!\nYour enemy gained EXTRA TURN Skill");
                                                 }
-                                                else AddWarning("Bangunan menjadi milikmu!\n");
+                                                else AddWarning("Building captured!\n");
                                             }
                                             CHs(*PTurn) = 0;
                                         }
@@ -181,7 +179,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                             Troops(*BE) -= (int) InpTroopsNum*(0.75);
                                             Troops(*BT) -= InpTroopsNum;
                                             AfterAttack(*BT) = true;
-                                            AddWarning("Bangunan gagal direbut\n");
+                                            AddWarning("Failed to capture building\n");
                                         }
                                         else {
                                             Troops(*BT) -= InpTroopsNum;
@@ -193,9 +191,9 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                             //Check if Enemy might gain Extra Turn Skill
                                             if (Type(*BE)=='F') {
                                                 AddSkill(PEnemy,3);
-                                                AddWarning("Bangunan menjadi milikmu!\nEnemy player gained EXTRA TURN Skill");
+                                                AddWarning("Building captured!\nYour enemy gained EXTRA TURN Skill");
                                             }
-                                            else AddWarning("Bangunan menjadi milikmu!\n");
+                                            else AddWarning("Building captured!\n");
                                         }
                                         // if (SHs(*PEnemy)>0) SHs(*PEnemy)--;
                                     }
@@ -203,7 +201,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                     NbBEnemyFinal = NbOfBuildings(*PEnemy);
                                     if (NbBEnemyInit==3 && NbBEnemyFinal==2) {
                                         AddSkill(PEnemy,2);
-                                        AddWarning("Enemy player gained SHIELD skill\n");
+                                        AddWarning("Your enemy gained SHIELD skill\n");
                                     }
 
                                     //Check if Player might gain Attack Up Skill
@@ -211,13 +209,6 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                     if (NbTowerPlayerInit==2 && NbTowerPlayerFinal==3 && Type(*BE)=='T') {
                                         AddSkill(PTurn,4);
                                         AddWarning("You gained ATTACK UP skill\n");
-                                    }
-
-                                    //Check if Enemy might gain Barrage Skill
-                                    NbBPlayerFinal = NbOfBuildings(*PTurn);
-                                    if (NbBPlayerInit==9 && NbBPlayerFinal==10) {
-                                        AddSkill(PEnemy,7);
-                                        AddWarning("Enemy player gained BARRAGE skill\n");
                                     }
                                 }
                                 //Bangunan yang diserang tidak berkepemilikan
@@ -229,15 +220,14 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                                 Troops(*BE) -= InpTroopsNum;
                                                 Troops(*BT) -= InpTroopsNum;
                                                 AfterAttack(*BT) = true;
-                                                AddWarning("Bangunan gagal direbut\n");
+                                                AddWarning("Failed to capture building\n");
                                             }
                                             else {
-                                                // printf("test");
                                                 Troops(*BE) = InpTroopsNum - Troops(*BE);
                                                 Troops(*BT) -= InpTroopsNum;
                                                 AfterAttack(*BT) = true;
                                                 ListAddLast(&Buildings(*PTurn),BE);
-                                                AddWarning("Bangunan menjadi milikmu!\n");
+                                                AddWarning("Building captured!\n");
                                             }
                                         }
                                         else {
@@ -245,14 +235,14 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                                 Troops(*BE) = ((int) (Troops(*BE)/2) - InpTroopsNum)*2;
                                                 Troops(*BT) -= InpTroopsNum;
                                                 AfterAttack(*BT) = true;
-                                                AddWarning("Bangunan gagal direbut\n");
+                                                AddWarning("Failed to capture building\n");
                                             }
                                             else {
                                                 Troops(*BE) = InpTroopsNum - (int) (Troops(*BE)/2);
                                                 Troops(*BT) -= InpTroopsNum;
                                                 AfterAttack(*BT) = true;
                                                 ListAddLast(&Buildings(*PTurn),BE);
-                                                AddWarning("Bangunan menjadi milikmu!\n");
+                                                AddWarning("Building captured!\n");
                                             }
                                             CHs(*PTurn) = 0;
                                         }
@@ -260,40 +250,45 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                     }
                                     //Bangunan yang diserang memiliki pertahanan
                                     else {
-                                        printf("test");
                                         if (InpTroopsNum < (int) (Troops(*BE)/(0.75))) {
                                             Troops(*BE) -= (int) InpTroopsNum*(0.75);
                                             Troops(*BT) -= InpTroopsNum;
                                             AfterAttack(*BT) = true;
-                                            AddWarning("Bangunan gagal direbut\n");
+                                            AddWarning("Failed to capture building\n");
                                         }
                                         else {
                                             Troops(*BE) = InpTroopsNum - (int) (Troops(*BE)/(0.75));
                                             Troops(*BT) -= InpTroopsNum;
                                             AfterAttack(*BT) = true;
                                             ListAddLast(&Buildings(*PTurn),BE);
-                                            AddWarning("Bangunan menjadi milikmu!\n");
+                                            AddWarning("Building captured!\n");
                                         }
                                     }
                                 }
+                                //Check if Enemy might gain Barrage Skill
+                                NbBPlayerFinal = NbOfBuildings(*PTurn);
+                                if (NbBPlayerInit==9 && NbBPlayerFinal==10) {
+                                    AddSkill(PEnemy,7);
+                                    AddWarning("Your enemy gained BARRAGE skill\n");
+                                }
                             }
-                            else AddWarning("Number you input exceeded your Building Troops");
+                            else AddWarning("Number you input exceeded your building troops");
                         }
-                        else AddWarning("Input yang Anda masukkan salah");
+                        else AddWarning("Invalid input");
                     }
-                    else AddWarning("Input yang Anda masukkan salah");
+                    else AddWarning("Invalid input");
                 }
-                else AddWarning("Input yang Anda masukkan salah");
+                else AddWarning("Invalid input");
                 }
-                else AddWarning("Tidak ada bangunan yang dapat diserang");
+                else AddWarning("No building available to attack");
             }
-            else AddWarning("Tidak ada bangunan yang dapat diserang");
+            else AddWarning("No building available to attack");
         }
-        else AddWarning("A Building can only Attack ONCE in a turn!");
+        else AddWarning("A building can only attack ONCE in a turn!");
         }
-        else AddWarning("Input Bangunan salah");
+        else AddWarning("Invalid building");
     }
-    else AddWarning("Input yang Anda masukkan salah");
+    else AddWarning("Invalid input");
 }
 
 void LevelUpCommand(Player* PSelf) {
@@ -331,25 +326,25 @@ void LevelUpCommand(Player* PSelf) {
                 else {
                     switch (Type(*B)) {
                     case 'C' :
-                        AddWarning("Jumlah pasukan Castle kurang untuk level up");
+                        AddWarning("Your Castle lacks troops to level up");
                         break;
                     case 'T' :
-                        AddWarning("Jumlah pasukan Tower kurang untuk level up");
+                        AddWarning("Your Tower lacks troops to level up");
                         break;
                     case 'F' :
-                        AddWarning("Jumlah pasukan Fort kurang untuk level up");
+                        AddWarning("Your Fort lacks troops to level up");
                         break;
                     case 'V' :
-                        AddWarning("Jumlah pasukan Village kurang untuk level up");
+                        AddWarning("Your Village lacks troops to level up");
                         break;
                     }
                 }
             }
-            else AddWarning("Level Bangunan Anda sudah maksimum");
+            else AddWarning("Your building has reached maximum level");
         }
-        else AddWarning("Input yang Anda masukkan salah");
+        else AddWarning("Invalid input");
     }
-    else AddWarning("Input yang Anda masukkan salah");
+    else AddWarning("Invalid input");
 }
 
 void SkillCommand(Player* PTurn, Player* PEnemy) {
@@ -431,7 +426,7 @@ void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
                             if (InpTroops > 0 && InpTroops <= Troops(*BSelf)) {
                                 Troops(*BSelf) -= InpTroops;
                                 Troops(*BReceive) += InpTroops;
-                                printf("%d pasukan dari ", InpTroops);
+                                printf("%d troops from ", InpTroops);
                                 switch (Type(*BSelf)) {
                                 case 'C' :
                                     printf("Castle (%d,%d) ", Koordinat(*BSelf).x, Koordinat(*BSelf).y);
@@ -446,7 +441,7 @@ void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
                                     printf("Village (%d,%d) ", Koordinat(*BSelf).x, Koordinat(*BSelf).y);
                                     break;
                                 }
-                                printf("telah berpindah ke ");
+                                printf("has been moved to ");
                                 switch (Type(*BReceive)) {
                                 case 'C' :
                                     printf("Castle (%d,%d)\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y);
@@ -463,21 +458,21 @@ void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
                                 }
                                 AfterMove(*BSelf) = true;
                                 }
-                                else AddWarning("Jumlah pasukan Bangunan Anda kurang\n");
+                                else AddWarning("Invalid input\n");
                             }
-                            else AddWarning("Input yang Anda masukkan salah\n");
+                            else AddWarning("Invalid input\n");
                         }
-                        else AddWarning("Input yang Anda masukkan salah\n");
+                        else AddWarning("Invalid input\n");
                     }
-                    else AddWarning("Input yang Anda masukkan salah\n");
+                    else AddWarning("Invalid input\n");
                 }
-                else AddWarning("Tidak ada bangunan terdekat milik Anda\n");
+                else AddWarning("No nearest owned building\n");
             }
-            else AddWarning("A Building can only Move ONCE in a turn!\n");
+            else AddWarning("A building can only move ONCE in a turn!\n");
         }
-        else AddWarning("Input yang Anda masukkan salah\n");
+        else AddWarning("Invalid input\n");
     }
-    else AddWarning("Input yang Anda masukkan salah\n");
+    else AddWarning("Invalid input\n");
 }
 
 void ExitCommand() {

@@ -64,7 +64,7 @@ void AddSkill(Player* P, int skill) {
     if (ListSize(Skills(*P)) <= 10) {
         QueueAdd(&Skills(*P),skill);
     } else {
-        printf("Queue skill penuh\n");
+        printf("Your skill queue is full\n");
     }
 }
 
@@ -165,13 +165,13 @@ void CheckSkill(Player* P, Player* PEnemy, Word LastCommand) {
     }
     if (isLevel4 && WordEqualsString(LastCommand, "END_TURN")) {
         AddSkill(P, 6);
-        AddWarning("You  gained INSTANT REINFORCEMENT skill\n");
+        AddWarning("You gained INSTANT REINFORCEMENT skill\n");
     }
 
     /* Cek skill CH */
     if (WordEqualsString(LastCommand, "SKILL") && ETs(*P)) { /* Ada potensi bug */
         AddSkill(PEnemy, 5);
-        AddWarning("Enemy player gained CRITICAL HIT skill\n");
+        AddWarning("Your enemy gained CRITICAL HIT skill\n");
     }
 }
 
