@@ -2,8 +2,10 @@
    Implementasi Command.h */
 #ifdef _WIN32
 #include <Windows.h>
+#define u_sleep Sleep(1000)
 #else
 #include <unistd.h>
+#define u_sleep sleep(1)
 #endif
 #include "bool/bool.h"
 #include "Command.h"
@@ -38,7 +40,7 @@ int InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState, 
             EndTurnCommand(PTurn,PEnemy);
             CheckSkill(PTurn,PEnemy,input);
             FlushStkGameState(GState);
-            Sleep(1000);
+            u_sleep;
             return 0;
         }
         else if (WordEqualsString(input, "SAVE")) return 2;

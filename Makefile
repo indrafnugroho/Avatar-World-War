@@ -9,7 +9,7 @@ TEMPDIR = .tmp
 
 DEPS = bool Art List Stack Queue  pcolor CharProcessor WordProcessor Building Loader ArrayDin Graph GameMap Player Game Command GameState
 SOURCES = Art List Stack Queue  pcolor CharProcessor WordProcessor Building Loader ArrayDin Graph GameMap Player Game Command GameState
-DRIV = List_driver Queue_driver Stack_driver pcolor_driver Art_driver Point_driver Graph_driver Building_driver Loader_driver Game_driver ArrayDin_driver Player_driver
+DRIV = List_driver Queue_driver Stack_driver pcolor_driver Art_driver Point_driver Graph_driver Building_driver Loader_driver Game_driver ArrayDin_driver Player_driver CharProcessor_driver WordProcessor_driver Command_driver GameMap_driver
 HEADERS = $(patsubst %,$(INCDIR)/*/%.h,$(DEPS))
 OBJS =  $(patsubst %,$(TEMPDIR)/%.o,$(SOURCES))
 INCPATH = -I$(INCDIR)
@@ -49,6 +49,9 @@ CharProcessor_driver: $(TEMPDIR)/CharProcessor_driver.o $(TEMPDIR)/CharProcessor
 	$(CC) -o $@ $^ $(INCPATH) $(CFLAGS)
 
 WordProcessor_driver: $(TEMPDIR)/WordProcessor_driver.o $(TEMPDIR)/WordProcessor.o $(TEMPDIR)/CharProcessor.o
+	$(CC) -o $@ $^ $(INCPATH) $(CFLAGS)
+
+GameMap_driver: $(TEMPDIR)/GameMap_driver.o $(TEMPDIR)/GameMap.o $(TEMPDIR)/ArrayDin.o $(TEMPDIR)/Building.o $(TEMPDIR)/Player.o $(TEMPDIR)/List.o $(TEMPDIR)/Queue.o $(TEMPDIR)/Art.o $(TEMPDIR)/WordProcessor.o $(TEMPDIR)/CharProcessor.o $(TEMPDIR)/pcolor.o $(TEMPDIR)/Point.o
 	$(CC) -o $@ $^ $(INCPATH) $(CFLAGS)
 
 Command_driver: $(TEMPDIR)/Command_driver.o $(TEMPDIR)/Command.o $(TEMPDIR)/Art.o $(TEMPDIR)/ArrayDin.o ${TEMPDIR}/Building.o ${TEMPDIR}/List.o ${TEMPDIR}/Queue.o ${TEMPDIR}/pcolor.o ${TEMPDIR}/Point.o $(TEMPDIR)/WordProcessor.o ${TEMPDIR}/CharProcessor.o $(TEMPDIR)/Player.o $(TEMPDIR)/Graph.o $(TEMPDIR)/Stack.o $(TEMPDIR)/GameState.o

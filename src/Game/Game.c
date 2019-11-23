@@ -66,12 +66,17 @@ void GameTurn(Game* game) {
     /* Algoritma */
     // Minta variabel Next turn buat skill Extra Turn
     GameLoop(game);
-    AddWarning("Next Player's turn");
-    if (GamePTurn(*game) == &GameP1(*game)) {
-        GamePTurn(*game) = &GameP2(*game);
+    if (!ETs(*GamePTurn(*game))) {
+        AddWarning("Next Player's turn");
+        if (GamePTurn(*game) == &GameP1(*game)) {
+            GamePTurn(*game) = &GameP2(*game);
+        } else {
+            GamePTurn(*game) = &GameP1(*game);
+        } 
     } else {
-        GamePTurn(*game) = &GameP1(*game);
-    } 
+        AddWarning("Extra Turn Activated!");
+        ETs(*GamePTurn(*game)) = false;
+    }
 }
 
 void GameLoop(Game* game) {
@@ -92,13 +97,21 @@ void GameLoop(Game* game) {
         PrintMap(game->map, GameP1(*game), GameP2(*game));
         set_print_color(BLUE);
         set_print_color(BOLD);
+        if (CHs(GameP1(*game))) printf("[CH]");
+        if (SHs(GameP1(*game))) printf("[SH]");
+        if (AUs(GameP1(*game))) printf("[AU]");
+        if (ETs(GameP1(*game))) printf("[ET]");
         printf("  PLAYER1    %d ", ListSize(Buildings(GameP1(*game))));
         set_print_color(WHITE);
         printf("|");
         set_print_color(RED);
-        printf(" %d    PLAYER2\n", ListSize(Buildings(GameP2(*game))));
+        printf(" %d    PLAYER2", ListSize(Buildings(GameP2(*game))));
+        if (ETs(GameP2(*game))) printf("[ET]");
+        if (AUs(GameP2(*game))) printf("[AU]");
+        if (SHs(GameP2(*game))) printf("[SH]");
+        if (CHs(GameP2(*game))) printf("[CH]");
         set_print_color(WHITE);
-        printf("  [UNDO : %d]\n\n", ListSize(GameStateStack(*game)));
+        printf("\n  [UNDO : %d]\n\n", ListSize(GameStateStack(*game)));
         if (GamePTurn(*game) == &GameP1(*game)) {
             SetPlayerPrompt(1);
             pn = 1;
