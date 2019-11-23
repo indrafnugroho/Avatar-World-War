@@ -12,7 +12,6 @@
 #include "Stack/Stack.h"
 #include "GameState/GameState.h"
 
- 
 int InputCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState, Graph Connect);
 /* Melakukan input Command menggunakan Word Processor */
 
