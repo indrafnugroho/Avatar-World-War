@@ -6,17 +6,9 @@ IMPLEMENTASI ABSTRAKSI BUILDING
 #include "Building/Building.h"
 //#include "Loader.h"
 #include <stdio.h>
-void InitializationBuilding (Building *B) 
-/*
-I.S.
-    Parameter-parameter pada Building belum terisi
-F.S.
-    Parameter-parameter pada building terisi, sesuai jenis Building
-*/
-{
-    /* KAMUS LOKAL */
-
-    /* ALGORITMA */
+void InitializationBuilding (Building *B) {
+/*  I.S.Parameter-parameter pada Building belum terisi
+    F.S.Parameter-parameter pada building terisi, sesuai jenis Building */
     Level(*B) = 1;
     switch(Type(*B)) {
     case 'C' :
@@ -47,9 +39,6 @@ F.S.
     Troops(*B) = U(*B);
     AfterAttack(*B) = false;
     AfterMove(*B) = false;
-    //printf("%d ", A(*B));
-    //M(*B) = 1000000;
-
 }
 void AddPasukanNextTurn (Building *B)
 /*
