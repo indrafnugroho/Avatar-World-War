@@ -59,13 +59,13 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
     opsi bangunan apa yang akan diserang,
     jumlah pasukan yang digunakan untuk menyerang,
     dan hasil akhir penyerangan. */
-    ListElement* El, *El2;
-    Building* B, *BT, *CB, *BE;
+    ListElement *El, *El2;
+    Building *B, *BT, *CB, *BE;
     int NbBEnemyInit, NbBEnemyFinal;
     int NbTowerPlayerInit, NbTowerPlayerFinal;
     int NbBPlayerInit, NbBPlayerFinal;
     int i=1, j=1;
-    int InpBSelf, InpTroopsNum, InpBEnemy;
+    int InpBSelf, InpBEnemy, InpTroopsNum;
 
     DisplayPrompt2("OWNED BUILDINGS");
     printf("\n\n");
@@ -81,210 +81,208 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
     DisplayPrompt2("BUILDING TO USE");
     if (ScanInt(&InpBSelf)) {
         if (InpBSelf < i && InpBSelf > 0) {
-        i=1;
-        ListTraversal(El, ListFirstElement(Buildings(*PTurn)), El != Nil && i != InpBSelf) i++;
-        BT = ListElementVal(El);
+            i=1;
+            ListTraversal(El, ListFirstElement(Buildings(*PTurn)), El != Nil && i != InpBSelf) i++;
+            BT = ListElementVal(El);
 
-        if (!AfterAttack(*BT)) {
-            if (!ListIsEmpty(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT))))) {
-                DisplayPrompt2("NEAREST NEUTRAL AND ENEMY BUILDINGS");
-                printf("\n\n");
-                j=1;
-                ListTraversal(El2, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT)))), El2 != Nil) {
-                    CB = Elmt(Bldgs, GraphGetVertexIdx(Connect, ListElementVal(El2)));
+            if (!AfterAttack(*BT)) {
+                if (!ListIsEmpty(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT))))) {
+                    DisplayPrompt2("NEAREST NEUTRAL AND ENEMY BUILDINGS");
+                    printf("\n\n");
+                    j=1;
+                    ListTraversal(El2, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT)))), El2 != Nil) {
+                        CB = Elmt(Bldgs, GraphGetVertexIdx(Connect, ListElementVal(El2)));
 
-                    if (ListSearch(Buildings(*PTurn), CB) == Nil) {
-                        printf("  %d. ", j);
-                        PrintBuilding(*CB);
-                        j++;
-                    }
-                }
-                printf("\n");
-                if (j > 1) {
-                DisplayPrompt2("BUILDING TO ATTACK");
-                if (ScanInt(&InpBEnemy)) {
-                    if (InpBEnemy > 0 && InpBEnemy <= ListSize(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT)))) && InpBEnemy < j) {
-                        i=1;
-                        ListTraversal(El, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT)))), El != Nil && i <= InpBEnemy) {
-                            BE = Elmt(Bldgs, GraphGetVertexIdx(Connect, ListElementVal(El)));
-                            if(ListSearch(Buildings(*PTurn), BE) == Nil) {
-                                 i++;
-                            }
+                        if (ListSearch(Buildings(*PTurn), CB) == Nil) {
+                            printf("  %d. ", j);
+                            PrintBuilding(*CB);
+                            j++;
                         }
-                        DisplayPrompt2("NUMBER OF TROOPS");
-                        if (ScanInt(&InpTroopsNum)) {
-                            if (InpTroopsNum > 0 && InpTroopsNum <= Troops(*BT)) {
-                                //Cek apakah bangunan yang diserang milik lawan
-                                j=1;
-                                ListTraversal(El, ListFirstElement(Buildings(*PEnemy)), ListElementVal(El) != BE && ListElementNext(El) != Nil) j++;                            
+                    }
+                    printf("\n");
+                    if (j > 1) {
+                        DisplayPrompt2("BUILDING TO ATTACK");
+                        if (ScanInt(&InpBEnemy)) {
+                            if (InpBEnemy > 0 && InpBEnemy <= ListSize(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT)))) && InpBEnemy < j) {
+                                i=1;
+                                ListTraversal(El, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BT)))), El != Nil && i <= InpBEnemy) {
+                                    BE = Elmt(Bldgs, GraphGetVertexIdx(Connect, ListElementVal(El)));
+                                    if (ListSearch(Buildings(*PTurn), BE) == Nil) i++;
+                                }
+                                DisplayPrompt2("NUMBER OF TROOPS");
+                                if (ScanInt(&InpTroopsNum)) {
+                                    if (InpTroopsNum > 0 && InpTroopsNum <= Troops(*BT)) {
+                                        //Cek apakah bangunan yang diserang milik lawan
+                                        j=1;
+                                        ListTraversal(El, ListFirstElement(Buildings(*PEnemy)), ListElementVal(El) != BE && ListElementNext(El) != Nil) j++;                            
                             
-                                NbBPlayerInit = NbOfBuildings(*PTurn);
-                                //Bangunan yang diserang milik lawan
-                                if (ListElementVal(El) == BE) {
-                                    NbBEnemyInit = NbOfBuildings(*PEnemy);
-                                    NbTowerPlayerInit = CheckNbOfTower(*PTurn);
-                                    //Bangunan yang diserang tidak punya pertahanan
-                                    //Dapat disebabkan juga oleh skill 
-                                    if ((!Pb(*BE) && SHs(*PEnemy)==0) || AUs(*PTurn) || CHs(*PTurn)==1) {
-                                        if (CHs(*PTurn)==0) {
-                                            if (InpTroopsNum < Troops(*BE)) {
-                                                Troops(*BE) -= InpTroopsNum;
-                                                Troops(*BT) -= InpTroopsNum;
-                                                AfterAttack(*BT) = true;
-                                                AddWarning("Failed to capture building\n");
-                                            }
-                                            else {
-                                                Troops(*BT) -= InpTroopsNum;
-                                                AfterAttack(*BT) = true;
-                                                ListDelVal(&Buildings(*PEnemy),BE);
-                                                Troops(*BE) = InpTroopsNum - Troops(*BE);
-                                                SetLvBuildingToLv1(BE);
-                                                ListAddLast(&Buildings(*PTurn),BE);
-                                                //Check if Enemy might gain Extra Turn Skill
-                                                if (Type(*BE)=='F') {
-                                                    AddSkill(PEnemy,3);
-                                                    AddWarning("Building captured!\nYour enemy gained EXTRA TURN Skill");
+                                        NbBPlayerInit = NbOfBuildings(*PTurn);
+                                        //Bangunan yang diserang milik lawan
+                                        if (ListElementVal(El) == BE) {
+                                            NbBEnemyInit = NbOfBuildings(*PEnemy);
+                                            NbTowerPlayerInit = CheckNbOfTower(*PTurn);
+                                            //Bangunan yang diserang tidak punya pertahanan
+                                            //Dapat disebabkan juga oleh skill 
+                                            if ((!Pb(*BE) && SHs(*PEnemy)==0) || AUs(*PTurn) || CHs(*PTurn)==1) {
+                                                if (CHs(*PTurn)==0) {
+                                                    if (InpTroopsNum < Troops(*BE)) {
+                                                        Troops(*BE) -= InpTroopsNum;
+                                                        Troops(*BT) -= InpTroopsNum;
+                                                        AfterAttack(*BT) = true;
+                                                        AddWarning("Failed to capture building\n");
+                                                    }
+                                                    else {
+                                                        Troops(*BT) -= InpTroopsNum;
+                                                        AfterAttack(*BT) = true;
+                                                        ListDelVal(&Buildings(*PEnemy),BE);
+                                                        Troops(*BE) = InpTroopsNum - Troops(*BE);
+                                                        SetLvBuildingToLv1(BE);
+                                                        ListAddLast(&Buildings(*PTurn),BE);
+                                                        //Check if Enemy might gain Extra Turn Skill
+                                                        if (Type(*BE)=='F') {
+                                                            AddSkill(PEnemy,3);
+                                                            AddWarning("Building captured!\nYour enemy gained EXTRA TURN Skill");   
+                                                        }
+                                                        else AddWarning("Building captured!\n");
+                                                    }
                                                 }
-                                                else AddWarning("Building captured!\n");
-                                            }
-                                        }
-                                        else {
-                                            if (InpTroopsNum < (int) (Troops(*BE)/2)) {
-                                                Troops(*BE) = ((int) (Troops(*BE)/2) - InpTroopsNum)*2;
-                                                Troops(*BT) -= InpTroopsNum;
-                                                AfterAttack(*BT) = true;
-                                                AddWarning("Failed to capture building\n");
-                                            }
-                                            else {
-                                                Troops(*BT) -= InpTroopsNum;
-                                                AfterAttack(*BT) = true;
-                                                ListDelVal(&Buildings(*PEnemy),BE);
-                                                Troops(*BE) = InpTroopsNum - (int) (Troops(*BE)/2);
-                                                SetLvBuildingToLv1(BE);
-                                                ListAddLast(&Buildings(*PTurn),BE);
-                                                //Check if Enemy might gain Extra Turn Skill
-                                                if (Type(*BE)=='F') {
-                                                    AddSkill(PEnemy,3);
-                                                    AddWarning("Building captured!\nYour enemy gained EXTRA TURN Skill");
+                                                else {
+                                                    if (InpTroopsNum < (int) (Troops(*BE)/2)) {
+                                                        Troops(*BE) = ((int) (Troops(*BE)/2) - InpTroopsNum)*2;
+                                                        Troops(*BT) -= InpTroopsNum;
+                                                        AfterAttack(*BT) = true;
+                                                        AddWarning("Failed to capture building\n");
+                                                    }
+                                                    else {
+                                                        Troops(*BT) -= InpTroopsNum;
+                                                        AfterAttack(*BT) = true;
+                                                        ListDelVal(&Buildings(*PEnemy),BE);
+                                                        Troops(*BE) = InpTroopsNum - (int) (Troops(*BE)/2);
+                                                        SetLvBuildingToLv1(BE);
+                                                        ListAddLast(&Buildings(*PTurn),BE);
+                                                        //Check if Enemy might gain Extra Turn Skill
+                                                        if (Type(*BE)=='F') {
+                                                            AddSkill(PEnemy,3);
+                                                            AddWarning("Building captured!\nYour enemy gained EXTRA TURN Skill");   
+                                                        }
+                                                        else AddWarning("Building captured!\n");
+                                                    }
+                                                    CHs(*PTurn) = 0;
                                                 }
-                                                else AddWarning("Building captured!\n");
+                                                AUs(*PTurn) = false;
                                             }
-                                            CHs(*PTurn) = 0;
-                                        }
-                                        AUs(*PTurn) = false;
-                                    }
-                                    //Bangunan yang diserang punya pertahanan
-                                    else {
-                                        if (InpTroopsNum < (int) (Troops(*BE)/(0.75))) {
-                                            Troops(*BE) -= (int) InpTroopsNum*(0.75);
-                                            Troops(*BT) -= InpTroopsNum;
-                                            AfterAttack(*BT) = true;
-                                            AddWarning("Failed to capture building\n");
-                                        }
-                                        else {
-                                            Troops(*BT) -= InpTroopsNum;
-                                            AfterAttack(*BT) = true;
-                                            ListDelVal(&Buildings(*PEnemy),BE);
-                                            Troops(*BE) = InpTroopsNum - (int) (Troops(*BE)/(0.75));
-                                            SetLvBuildingToLv1(BE);
-                                            ListAddLast(&Buildings(*PTurn),BE);
-                                            //Check if Enemy might gain Extra Turn Skill
-                                            if (Type(*BE)=='F') {
-                                                AddSkill(PEnemy,3);
-                                                AddWarning("Building captured!\nYour enemy gained EXTRA TURN Skill");
-                                            }
-                                            else AddWarning("Building captured!\n");
-                                        }
-                                        // if (SHs(*PEnemy)>0) SHs(*PEnemy)--;
-                                    }
-                                    //Check if Enemy might gain Shield Skill
-                                    NbBEnemyFinal = NbOfBuildings(*PEnemy);
-                                    if (NbBEnemyInit==3 && NbBEnemyFinal==2) {
-                                        AddSkill(PEnemy,2);
-                                        AddWarning("Your enemy gained SHIELD skill\n");
-                                    }
-
-                                    //Check if Player might gain Attack Up Skill
-                                    NbTowerPlayerFinal = CheckNbOfTower(*PTurn);
-                                    if (NbTowerPlayerInit==2 && NbTowerPlayerFinal==3 && Type(*BE)=='T') {
-                                        AddSkill(PTurn,4);
-                                        AddWarning("You gained ATTACK UP skill\n");
-                                    }
-                                }
-                                //Bangunan yang diserang tidak berkepemilikan
-                                else {
-                                    //Bangunan yang diserang tidak memiliki pertahanan
-                                    if (!Pb(*BE) || AUs(*PTurn) || CHs(*PTurn)==1) {
-                                        if (CHs(*PTurn)==0) {
-                                            if (InpTroopsNum < Troops(*BE)) {
-                                                Troops(*BE) -= InpTroopsNum;
-                                                Troops(*BT) -= InpTroopsNum;
-                                                AfterAttack(*BT) = true;
-                                                AddWarning("Failed to capture building\n");
-                                            }
+                                            //Bangunan yang diserang punya pertahanan
                                             else {
-                                                Troops(*BE) = InpTroopsNum - Troops(*BE);
-                                                Troops(*BT) -= InpTroopsNum;
-                                                AfterAttack(*BT) = true;
-                                                ListAddLast(&Buildings(*PTurn),BE);
-                                                AddWarning("Building captured!\n");
+                                                if (InpTroopsNum < (int) (Troops(*BE)/(0.75))) {
+                                                    Troops(*BE) -= (int) InpTroopsNum*(0.75);
+                                                    Troops(*BT) -= InpTroopsNum;
+                                                    AfterAttack(*BT) = true;
+                                                    AddWarning("Failed to capture building\n");
+                                                }
+                                                else {
+                                                    Troops(*BT) -= InpTroopsNum;
+                                                    AfterAttack(*BT) = true;
+                                                    ListDelVal(&Buildings(*PEnemy),BE);
+                                                    Troops(*BE) = InpTroopsNum - (int) (Troops(*BE)/(0.75));
+                                                    SetLvBuildingToLv1(BE);
+                                                    ListAddLast(&Buildings(*PTurn),BE); 
+                                                    //Check if Enemy might gain Extra Turn Skill
+                                                    if (Type(*BE)=='F') {
+                                                        AddSkill(PEnemy,3);
+                                                        AddWarning("Building captured!\nYour enemy gained EXTRA TURN Skill");
+                                                    }
+                                                    else AddWarning("Building captured!\n");
+                                                }
+                                                // if (SHs(*PEnemy)>0) SHs(*PEnemy)--;
+                                            }
+                                            //Check if Enemy might gain Shield Skill
+                                            NbBEnemyFinal = NbOfBuildings(*PEnemy);
+                                            if (NbBEnemyInit==3 && NbBEnemyFinal==2) {
+                                                AddSkill(PEnemy,2);
+                                                AddWarning("Your enemy gained SHIELD skill\n");
+                                            }
+       
+                                            //Check if Player might gain Attack Up Skill
+                                            NbTowerPlayerFinal = CheckNbOfTower(*PTurn);
+                                            if (NbTowerPlayerInit==2 && NbTowerPlayerFinal==3 && Type(*BE)=='T') {
+                                                AddSkill(PTurn,4);
+                                                AddWarning("You gained ATTACK UP skill\n");
                                             }
                                         }
+                                        //Bangunan yang diserang tidak berkepemilikan
                                         else {
-                                            if (InpTroopsNum < (int) (Troops(*BE)/2)) {
-                                                Troops(*BE) = ((int) (Troops(*BE)/2) - InpTroopsNum)*2;
-                                                Troops(*BT) -= InpTroopsNum;
-                                                AfterAttack(*BT) = true;
-                                                AddWarning("Failed to capture building\n");
+                                            //Bangunan yang diserang tidak memiliki pertahanan
+                                            if (!Pb(*BE) || AUs(*PTurn) || CHs(*PTurn)==1) {
+                                                if (CHs(*PTurn)==0) {
+                                                    if (InpTroopsNum < Troops(*BE)) {
+                                                        Troops(*BE) -= InpTroopsNum;
+                                                        Troops(*BT) -= InpTroopsNum;
+                                                        AfterAttack(*BT) = true;
+                                                        AddWarning("Failed to capture building\n");
+                                                    }
+                                                    else {
+                                                        Troops(*BE) = InpTroopsNum - Troops(*BE);
+                                                        Troops(*BT) -= InpTroopsNum;
+                                                       AfterAttack(*BT) = true;
+                                                        ListAddLast(&Buildings(*PTurn),BE);
+                                                        AddWarning("Building captured!\n");
+                                                    }
+                                                }
+                                                else {  
+                                                    if (InpTroopsNum < (int) (Troops(*BE)/2)) {
+                                                        Troops(*BE) = ((int) (Troops(*BE)/2) - InpTroopsNum)*2;
+                                                        Troops(*BT) -= InpTroopsNum;
+                                                        AfterAttack(*BT) = true;
+                                                        AddWarning("Failed to capture building\n");
+                                                    }
+                                                    else {
+                                                        Troops(*BE) = InpTroopsNum - (int) (Troops(*BE)/2);
+                                                        Troops(*BT) -= InpTroopsNum;
+                                                            AfterAttack(*BT) = true;
+                                                        ListAddLast(&Buildings(*PTurn),BE);
+                                                        AddWarning("Building captured!\n");
+                                                    }
+                                                    CHs(*PTurn) = 0;
+                                                }
+                                                AUs(*PTurn) = false;
                                             }
+                                            //Bangunan yang diserang memiliki pertahanan
                                             else {
-                                                Troops(*BE) = InpTroopsNum - (int) (Troops(*BE)/2);
-                                                Troops(*BT) -= InpTroopsNum;
-                                                AfterAttack(*BT) = true;
-                                                ListAddLast(&Buildings(*PTurn),BE);
-                                                AddWarning("Building captured!\n");
+                                                if (InpTroopsNum < (int) (Troops(*BE)/(0.75))) {
+                                                    Troops(*BE) -= (int) InpTroopsNum*(0.75);
+                                                    Troops(*BT) -= InpTroopsNum;
+                                                    AfterAttack(*BT) = true;
+                                                    AddWarning("Failed to capture building\n");
+                                                }
+                                                else {
+                                                    Troops(*BE) = InpTroopsNum - (int) (Troops(*BE)/(0.75));
+                                                    Troops(*BT) -= InpTroopsNum;
+                                                    AfterAttack(*BT) = true;
+                                                    ListAddLast(&Buildings(*PTurn),BE);
+                                                    AddWarning("Building captured!\n");
+                                                }
                                             }
-                                            CHs(*PTurn) = 0;
                                         }
-                                        AUs(*PTurn) = false;
-                                    }
-                                    //Bangunan yang diserang memiliki pertahanan
-                                    else {
-                                        if (InpTroopsNum < (int) (Troops(*BE)/(0.75))) {
-                                            Troops(*BE) -= (int) InpTroopsNum*(0.75);
-                                            Troops(*BT) -= InpTroopsNum;
-                                            AfterAttack(*BT) = true;
-                                            AddWarning("Failed to capture building\n");
-                                        }
-                                        else {
-                                            Troops(*BE) = InpTroopsNum - (int) (Troops(*BE)/(0.75));
-                                            Troops(*BT) -= InpTroopsNum;
-                                            AfterAttack(*BT) = true;
-                                            ListAddLast(&Buildings(*PTurn),BE);
-                                            AddWarning("Building captured!\n");
+                                        //Check if Enemy might gain Barrage Skill
+                                        NbBPlayerFinal = NbOfBuildings(*PTurn);
+                                        if (NbBPlayerInit==9 && NbBPlayerFinal==10) {
+                                            AddSkill(PEnemy,7);
+                                            AddWarning("Your enemy gained BARRAGE skill\n");
                                         }
                                     }
+                                    else AddWarning("Number you input exceeded your building troops");
                                 }
-                                //Check if Enemy might gain Barrage Skill
-                                NbBPlayerFinal = NbOfBuildings(*PTurn);
-                                if (NbBPlayerInit==9 && NbBPlayerFinal==10) {
-                                    AddSkill(PEnemy,7);
-                                    AddWarning("Your enemy gained BARRAGE skill\n");
-                                }
+                                else AddWarning("Invalid input");
                             }
-                            else AddWarning("Number you input exceeded your building troops");
+                            else AddWarning("Invalid input");
                         }
                         else AddWarning("Invalid input");
                     }
-                    else AddWarning("Invalid input");
-                }
-                else AddWarning("Invalid input");
+                    else AddWarning("No building available to attack");
                 }
                 else AddWarning("No building available to attack");
-            }
-            else AddWarning("No building available to attack");
-        }
-        else AddWarning("A building can only attack ONCE in a turn!");
+            }   
+            else AddWarning("A building can only attack ONCE in a turn!");
         }
         else AddWarning("Invalid building");
     }
@@ -409,54 +407,54 @@ void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
                         j++;
                     }
                 }
+
                 if (j > 1) {
-                printf("\n");
-                DisplayPrompt2("TO");
-                if (ScanInt(&InpBRcv)) {
-                    if (InpBRcv > 0 && InpBRcv <= ListSize(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BSelf)))) && InpBRcv < j) {
-                        j=1;
-                        ListTraversal(El, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BSelf)))), El != Nil && j <= InpBRcv) {
-                            BReceive = Elmt(Bldgs, GraphGetVertexIdx(Connect, ListElementVal(El)));
-                            if (ListSearch(Buildings(*PSelf), BReceive) != Nil)
-                                j++; 
-                        }
-                        //PrintBuilding(*BReceive);
-                        DisplayPrompt2("TROOPS TO MOVE");
-                        if (ScanInt(&InpTroops)) {
-                            if (InpTroops > 0 && InpTroops <= Troops(*BSelf)) {
-                                Troops(*BSelf) -= InpTroops;
-                                Troops(*BReceive) += InpTroops;
-                                printf("%d troops from ", InpTroops);
-                                switch (Type(*BSelf)) {
-                                case 'C' :
-                                    printf("Castle (%d,%d) ", Koordinat(*BSelf).x, Koordinat(*BSelf).y);
-                                    break;
-                                case 'T' :
-                                    printf("Tower (%d,%d) ", Koordinat(*BSelf).x, Koordinat(*BSelf).y);
-                                    break;
-                                case 'F' :
-                                    printf("Fort (%d,%d) ", Koordinat(*BSelf).x, Koordinat(*BSelf).y);
-                                    break;
-                                case 'V' :
-                                    printf("Village (%d,%d) ", Koordinat(*BSelf).x, Koordinat(*BSelf).y);
-                                    break;
-                                }
-                                printf("has been moved to ");
-                                switch (Type(*BReceive)) {
-                                case 'C' :
-                                    printf("Castle (%d,%d)\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y);
-                                    break;
-                                case 'T' :
-                                    printf("Tower (%d,%d)\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y);
-                                    break;
-                                case 'F' :
-                                    printf("Fort (%d,%d)\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y);
-                                    break;
-                                case 'V' :
-                                    printf("Village (%d,%d)\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y);
-                                    break;
-                                }
-                                AfterMove(*BSelf) = true;
+                    printf("\n");
+                    DisplayPrompt2("TO");
+                    if (ScanInt(&InpBRcv)) {
+                        if (InpBRcv > 0 && InpBRcv <= ListSize(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BSelf)))) && InpBRcv < j) {
+                            j=1;
+                            ListTraversal(El, ListFirstElement(GraphVertexAdj(GraphGetVertexFromIdx(Connect, Search1(Bldgs, BSelf)))), El != Nil && j <= InpBRcv) {
+                                BReceive = Elmt(Bldgs, GraphGetVertexIdx(Connect, ListElementVal(El)));
+                                if (ListSearch(Buildings(*PSelf), BReceive) != Nil) j++; 
+                            }
+                            //PrintBuilding(*BReceive);
+                            DisplayPrompt2("TROOPS TO MOVE");
+                            if (ScanInt(&InpTroops)) {
+                                if (InpTroops > 0 && InpTroops <= Troops(*BSelf)) {
+                                    Troops(*BSelf) -= InpTroops;
+                                    Troops(*BReceive) += InpTroops;
+                                    printf("%d troops from ", InpTroops);
+                                    switch (Type(*BSelf)) {
+                                    case 'C' :
+                                        printf("Castle (%d,%d) ", Koordinat(*BSelf).x, Koordinat(*BSelf).y);
+                                        break;
+                                    case 'T' :
+                                        printf("Tower (%d,%d) ", Koordinat(*BSelf).x, Koordinat(*BSelf).y);
+                                        break;
+                                    case 'F' :
+                                        printf("Fort (%d,%d) ", Koordinat(*BSelf).x, Koordinat(*BSelf).y);
+                                        break;
+                                    case 'V' :
+                                        printf("Village (%d,%d) ", Koordinat(*BSelf).x, Koordinat(*BSelf).y);
+                                        break;
+                                    }
+                                    printf("has been moved to ");
+                                    switch (Type(*BReceive)) {
+                                    case 'C' :
+                                        printf("Castle (%d,%d)\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y);
+                                        break;
+                                    case 'T' :
+                                        printf("Tower (%d,%d)\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y);
+                                        break;
+                                    case 'F' :
+                                        printf("Fort (%d,%d)\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y);
+                                        break;
+                                    case 'V' :
+                                        printf("Village (%d,%d)\n", Koordinat(*BReceive).x, Koordinat(*BReceive).y);
+                                        break;
+                                    }
+                                    AfterMove(*BSelf) = true;
                                 }
                                 else AddWarning("Invalid input\n");
                             }
@@ -475,7 +473,7 @@ void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
     else AddWarning("Invalid input\n");
 }
 
-void ExitCommand() {
+    void ExitCommand() {
 /*  Melakukan mekanisme Exit, yaitu keluar dari permainan */
     exit(0);
 }
