@@ -473,7 +473,7 @@ void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
     else AddWarning("Invalid input\n");
 }
 
-    void ExitCommand() {
+void ExitCommand() {
 /*  Melakukan mekanisme Exit, yaitu keluar dari permainan */
     exit(0);
 }
