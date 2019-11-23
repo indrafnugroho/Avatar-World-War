@@ -279,7 +279,7 @@ void SH(Player* P) {
     /* Apabila skill ini digunakan 2 kali berturut-turut, 
     durasi tidak akan bertambah, namun menjadi nilai maksimum (2 turn) */
     printf("SH Activated\n");
-    SHs(*P) = 3;
+    SHs(*P) = 4;
 }
 
 void ET(Player* P) {
@@ -320,10 +320,14 @@ void BR(Player* P) { /* to enemy */
     /* Barrage (ID: 7)*/
     /* Jumlah Troops pada seluruh bangunan musuh akan berkurang
     sebanyak 10 Troops */
-    printf("BR Activated\n");
     ListElement* p;
+    Building* B;
+
+    printf("BR Activated\n");    
     ListTraversal(p, ListFirstElement(Buildings(*P)), p != Nil) {
-        Troops(*(Building*)ListElementVal(p)) -= 10;
+        B = ListElementVal(p);
+        if (10 <= Troops(*B)) Troops(*B) -= 10;
+        else Troops(*B) = 0;
     }
 }
 

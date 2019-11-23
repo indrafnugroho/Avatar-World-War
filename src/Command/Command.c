@@ -62,7 +62,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
     ListElement* El, *El2;
     Building* B, *BT, *CB, *BE;
     int NbBEnemyInit, NbBEnemyFinal;
-    int NbTowerEnemyInit, NbTowerEnemyFinal;
+    int NbTowerPlayerInit, NbTowerPlayerFinal;
     int NbBPlayerInit, NbBPlayerFinal;
     int i=1, j=1;
     int InpBSelf, InpTroopsNum, InpBEnemy;
@@ -123,7 +123,7 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                 //Bangunan yang diserang milik lawan
                                 if (ListElementVal(El) == BE) {
                                     NbBEnemyInit = NbOfBuildings(*PEnemy);
-                                    NbTowerEnemyInit = CheckNbOfTower(*PEnemy);
+                                    NbTowerPlayerInit = CheckNbOfTower(*PTurn);
                                     NbBPlayerInit = NbOfBuildings(*PTurn);
                                     //Bangunan yang diserang tidak punya pertahanan
                                     //Dapat disebabkan juga oleh skill 
@@ -207,8 +207,8 @@ void AttackCommand(Player* PTurn, Player* PEnemy, ArrayDin Bldgs, Graph Connect)
                                     }
 
                                     //Check if Player might gain Attack Up Skill
-                                    NbTowerEnemyFinal = CheckNbOfTower(*PEnemy);
-                                    if (NbTowerEnemyInit==4 && NbTowerEnemyFinal==3 && Type(*BE)=='T') {
+                                    NbTowerPlayerFinal = CheckNbOfTower(*PTurn);
+                                    if (NbTowerPlayerInit==2 && NbTowerPlayerFinal==3 && Type(*BE)=='T') {
                                         AddSkill(PTurn,4);
                                         AddWarning("You gained ATTACK UP skill\n");
                                     }
