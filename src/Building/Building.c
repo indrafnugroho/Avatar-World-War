@@ -88,7 +88,7 @@ F.S.
             Pb(*B) = false;
             break;
         }
-        printf("Level Castle-mu meningkat menjadi %d!\n", Level(*B));
+        printf("Your Castle leveled up to level %d!\n", Level(*B));
         break;
     case 'T' :
         switch (Level(*B)) {
@@ -108,7 +108,7 @@ F.S.
             Pb(*B) = true;
             break;
         }
-        printf("Level Tower-mu meningkat menjadi %d!\n", Level(*B));
+        printf("Your Tower leveled up to level %d!\n", Level(*B));
         break;
     case 'F' :
         switch (Level(*B)) {
@@ -128,7 +128,7 @@ F.S.
             Pb(*B) = true;
             break;
         }
-        printf("Level Fort-mu meningkat menjadi %d!\n", Level(*B));
+        printf("Your Fort leveled up to level %d!\n", Level(*B));
         break;
     case 'V' :
         switch (Level(*B)) {
@@ -148,7 +148,7 @@ F.S.
             Pb(*B) = false;
             break;
         }
-        printf("Level Village-mu meningkat menjadi %d!\n", Level(*B));
+        printf("Your Village leveled up to level %d!\n", Level(*B));
         break;
     }
     }
@@ -188,16 +188,16 @@ void PrintBuilding(Building B) {
     /* Algoritma */
     switch (Type(B)) {
         case 'C' :
-            printf("Castle (%d,%d) %d lv. %d\n", Koordinat(B).x, Koordinat(B).y, Troops(B), Level(B));
+            printf("Castle lv. %d (%d,%d): %d troops\n", Level(B), Koordinat(B).x, Koordinat(B).y, Troops(B));
             break;
         case 'T' :
-            printf("Tower (%d,%d) %d lv. %d\n", Koordinat(B).x, Koordinat(B).y, Troops(B), Level(B));
+            printf("Tower lv. %d (%d,%d): %d troops\n", Level(B), Koordinat(B).x, Koordinat(B).y, Troops(B));
             break;
         case 'F' :
-            printf("Fort (%d,%d) %d lv. %d\n", Koordinat(B).x, Koordinat(B).y, Troops(B), Level(B));
+            printf("Fort lv. %d (%d,%d): %d troops\n", Level(B), Koordinat(B).x, Koordinat(B).y, Troops(B));
             break;
         case 'V' :
-            printf("Village (%d,%d) %d lv. %d\n", Koordinat(B).x, Koordinat(B).y, Troops(B), Level(B));
+            printf("Village lv. %d (%d,%d): %d troops\n", Level(B), Koordinat(B).x, Koordinat(B).y, Troops(B));
             break;
     }
 
