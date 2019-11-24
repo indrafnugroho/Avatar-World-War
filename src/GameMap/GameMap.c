@@ -7,6 +7,12 @@ IMPLEMENTASI ADT GAMEMAP <GameMap>
 #include "Art/Art.h"
 #include <stdio.h>
 
+const bool use_emoji = false;
+const char castle_icon[4] = {0xE2,0x9B,0xAA, '\0'};
+const char tower_icon[4] = {0xE2,0x9B,0xB2, '\0'};
+const char fort_icon[5] = {0xF0,0x9F,0x8F,0xAD, '\0'};
+const char village_icon[5] = {0xF0,0x9F,0x8F,0xA0, '\0'};
+
 void CreateEmptyMap(GameMap* Maps, int NRow, int NCol) {
 /* Membentuk sebuah MATRIKS "kosong" yang siap diisi berukuran NRow x NCol di "ujung kiri" memori */
 /* I.S. NRow dan NCol adalah valid untuk memori matriks yang dibuat */
@@ -36,6 +42,7 @@ void PrintMap(GameMap Maps, Player P1, Player P2) {
 // warna pemain
     int RowStar, ColStar;
     int Row, Col;
+    char type;
 
     RowStar = RowEff(Maps) + 2;
     ColStar = ColEff(Maps) + 2;
@@ -68,8 +75,27 @@ void PrintMap(GameMap Maps, Player P1, Player P2) {
                     else if (ListSearch(Buildings(P2), MElmt(Maps,Row,Col)) != Nil) 
                         set_print_color(RED);
                     else
-                        set_print_color(WHITE); 
-                    printf("%c ", Type(*MElmt(Maps,Row,Col)));
+                        set_print_color(WHITE);
+                    type = Type(*MElmt(Maps,Row,Col));
+                    if (use_emoji) {
+                        switch (type) {
+                            case 'C':
+                                printf("%s ", castle_icon);
+                                break;
+                            case 'T':
+                                printf("%s ", tower_icon);
+                                break;
+                            case 'F':
+                                printf("%s ", fort_icon);
+                                break;
+                            case 'V':
+                                printf("%s ", village_icon);
+                                break;
+                        }
+                    } else {
+                        printf("%c ", type);
+                    }
+                    
                 }
             }
             set_print_color(BG_WHITE);
@@ -79,4 +105,8 @@ void PrintMap(GameMap Maps, Player P1, Player P2) {
         }
     }
     printf("\n");
+    if (use_emoji) {
+        printf("  %s = Castle\n  %s = Fort\n  %s = Tower\n  %s = Village\n", castle_icon, fort_icon, tower_icon, village_icon);
+        printf("\n");
+    }
 }
