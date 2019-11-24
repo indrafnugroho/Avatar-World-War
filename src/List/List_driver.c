@@ -16,6 +16,7 @@ void PrintList(List l) {
 int main() {
     List l1, l2;
     ListVal_t x;
+    ListElement* p;
     int i;
 
     bool success;
@@ -41,6 +42,12 @@ int main() {
     printf("\nCopy List\n");
     l2 = CopyList(l1);
     PrintList(l2);
+    printf("\nAllocate Element with value 24, insert to first\n");
+    p = ListElementAlloc(24);
+    ListElAddFirst(&l1, p); 
+    PrintList(l1);
+    printf("\nSize: %d\n", ListSize(l1));
+    p = ListElementAlloc(24);
     printf("\nDelete Value after 11\n");
     ListDelAfter(&l1, &x, ListSearch(l1, 11));
     PrintList(l1);
