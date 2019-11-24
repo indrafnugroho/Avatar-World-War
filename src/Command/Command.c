@@ -365,10 +365,14 @@ void UndoCommand(Player* PTurn, Player* PEnemy, ArrayDin* Bldgs, Stack* GState) 
 }
 void EndTurnCommand(Player* PTurn, Player* PEnemy) {
 /*  Melakukan mekanisme End_Turn apabila user menginput command End_Turn. */
-    if (SHs(*PTurn)>0) SHs(*PTurn)--;
-    if (SHs(*PEnemy)>0) SHs(*PEnemy)--;
     SetToFalse(PTurn);
-    AddAToAllBuilding(PEnemy);
+    if (ETs(*PTurn)) AddAToAllBuilding(PTurn);
+    else {
+        AddAToAllBuilding(PEnemy);
+        if (SHs(*PTurn)>0) SHs(*PTurn)--;
+        if (SHs(*PEnemy)>0) SHs(*PEnemy)--;
+    }
+
 }
 
 void MoveCommand(Player* PSelf, ArrayDin Bldgs, Graph Connect) {
