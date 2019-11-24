@@ -6,8 +6,7 @@ IMPLEMENTASI ABSTRAKSI ARRAY DINAMIS
 #include "ArrayDin/ArrayDin.h"
 #include <stdlib.h>
 #include <stdio.h>
-/* ********** KONSTRUKTOR ********** */
-/* Konstruktor : create tabel kosong  */
+
 void MakeEmpty(ArrayDin *T, int MaxEl) {
 /* I.S. T sembarang, MaxElem > 0 */
 /* F.S. Terbentuk tabel T kosong dengan kapasitas MaxElem + 1 */
@@ -15,7 +14,6 @@ void MakeEmpty(ArrayDin *T, int MaxEl) {
     Neff(*T) = 0;
     MaxElem(*T) = MaxEl;
 }
-
 
 void Dealokasi(ArrayDin *T){
 /* I.S. T terdefinisi; */
@@ -29,8 +27,6 @@ void Dealokasi(ArrayDin *T){
     MaxElem(*T) = 0;
 }
 
-/* ********** SELEKTOR (TAMBAHAN) ********** */
-/* *** Banyaknya elemen *** */
 int NbElmt(ArrayDin T){
 /* Mengirimkan banyaknya elemen efektif tabel */
 /* Mengirimkan nol jika tabel kosong */
@@ -38,37 +34,18 @@ int NbElmt(ArrayDin T){
     return Neff(T);
 }
 
-
-int MaxElement(ArrayDin T){
-/* Mengirimkan maksimum elemen yang dapat ditampung oleh tabel */
-/* *** Selektor INDEKS *** */
-    return MaxElem(T);
-}
-
 ArrayIndex GetFirstIdx(ArrayDin T){
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen T pertama */
     return 0;
 }
+
 ArrayIndex GetLastIdx(ArrayDin T){
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen T terakhir */
     return Neff(T) - 1;
 }
-/* ********** Test Indeks yang valid ********** */
-bool IsIdxValid(ArrayDin T, ArrayIndex i){
-/* Mengirimkan true jika i adalah indeks yang valid utk ukuran tabel */
-/* yaitu antara indeks yang terdefinisi utk container*/
-    return ((0<= i) && (i < MaxElem(T)));
-}
-bool IsIdxEff(ArrayDin T, ArrayIndex i){
-/* Mengirimkan true jika i adalah indeks yang terdefinisi utk tabel */
-/* yaitu antara FirstIdx(T)..LastIdx(T) */
-    return((IdxMin <= i) && (i < Neff(T)));
 
-}
-/* ********** TEST KOSONG/PENUH ********** */
-/* *** Test tabel kosong *** */
 bool IsEmpty(ArrayDin T){
 /* Mengirimkan true jika tabel T kosong, mengirimkan false jika tidak */
 /* *** Test tabel penuh *** */
@@ -80,9 +57,6 @@ bool IsFull(ArrayDin T){
     return(Neff(T) == MaxElem(T));
 }
 
-
-
-/* ********** OPERASI LAIN ********** */
 void CopyTab(ArrayDin Tin, ArrayDin *Tout){
 /* I.S. Tin terdefinisi tidak kosong, Tout sembarang */
 /* F.S. Tout berisi salinan dari Tin (identik, Neff dan MaxElem sama) */
@@ -93,7 +67,6 @@ void CopyTab(ArrayDin Tin, ArrayDin *Tout){
   for (i=0 ; i< Neff(Tin); i++) {
     Elmt(*Tout, i) = (Building*)malloc(sizeof(Building));
     *(Building*)Elmt(*Tout, i) = CopyBuilding(*(Building*)Elmt(Tin, i));
-    //printf("%p\n", Elmt(*Tout, i));
   }
 }
 
@@ -105,12 +78,9 @@ void RevertTab(ArrayDin Tin, ArrayDin *Tout){
   int i;
   for (i=0 ; i< Neff(Tin); i++) {
     *(Building*)Elmt(*Tout, i) = CopyBuilding(*(Building*)Elmt(Tin, i));
-    //printf("%p\n", Elmt(*Tout, i));
   }
 }
 
-/* ********** MENAMBAH DAN MENGHAPUS ELEMEN DI AKHIR ********** */
-/* *** Menambahkan elemen terakhir *** */
 void AddAsLastEl(ArrayDin *T, Building* X){
 /* Proses: Menambahkan X sebagai elemen terakhir tabel */
 /* I.S. Tabel T boleh kosong, tetapi tidak penuh */
@@ -118,7 +88,7 @@ void AddAsLastEl(ArrayDin *T, Building* X){
     Neff(*T) += 1;
   Elmt(*T, Neff(*T) - 1) = X;
 }
-/* ********** MENGHAPUS ELEMEN ********** */
+
 void DelLastEl(ArrayDin *T, Building** X){
 /* Proses : Menghapus elemen terakhir tabel */
 /* I.S. Tabel tidak kosong */
@@ -129,7 +99,7 @@ void DelLastEl(ArrayDin *T, Building** X){
     Elmt(*T, Neff(*T) - 1) = Nil;
   Neff (*T) -= 1;
 }
-/* ********* MENGUBAH UKURAN ARRAY ********* */
+
 void GrowTab(ArrayDin *T, int num){
 /* Proses : Menambahkan max element sebanyak num */
 /* I.S. Tabel sudah terdefinisi */
@@ -137,6 +107,7 @@ void GrowTab(ArrayDin *T, int num){
     MaxElem(*T) += num;
     (TI(*T)) = (Building**) realloc(TI(*T), MaxElem(*T) * sizeof(Building*));
 }
+
 void ShrinkTab(ArrayDin *T, int num){
 /* Proses : Mengurangi max element sebanyak num */
 /* I.S. Tabel sudah terdefinisi, ukuran MaxElem > num, dan Neff < MaxElem - num. */
@@ -170,6 +141,7 @@ Building SearchBuilding(ArrayDin T, int Row, int Col) {
     }
     return *Elmt(T,i);
 }
+
 ArrayIndex Search1 (ArrayDin T, Building *X)
 /* Search apakah ada elemen tabel T yang bernilai X */
 /* Jika ada, menghasilkan indeks i terkecil, dengan elemen ke-i = X */
