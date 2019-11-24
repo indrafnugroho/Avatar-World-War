@@ -2,4 +2,10 @@
 
 ## Cara Compile
 Masukkan command berikut pada terminal:
-```$ make```
+```
+$ make
+```
+Untuk compile driver
+```
+$ make drivers
+```
