@@ -48,7 +48,7 @@ F.S.
     ETs(*Pout) = ETs(Pin);
 }
 
-void AddSkill(Player* P, int skill) {
+void AddSkill(Player* P, int skillNum) {
     /* Add skill by SkillNum to List Queue*/
     /* Skill List: 
     1. Instant Upgrade (IU)         :   Default skill awal
@@ -62,7 +62,7 @@ void AddSkill(Player* P, int skill) {
     7. Barrage (BR)                 :   Lawan baru saja bertambah bangunannya 
                                         menjadi 10 bangunan */
     if (ListSize(Skills(*P)) <= 10) {
-        QueueAdd(&Skills(*P),skill);
+        QueueAdd(&Skills(*P),skillNum);
     } else {
         printf("Your skill queue is full\n");
     }
@@ -138,11 +138,11 @@ void UseSkill(Player* P, Player* PEnemy) {
                 BR(PEnemy);
                 break;
             default:
-                printf("Invalid Skill\n");
+                AddWarning("Invalid Skill");
                 break;
         }
     } else {
-        printf("Skill empty!\n");
+        AddWarning("Skill Empty");
     }
 }
 
@@ -278,7 +278,7 @@ void SH(Player* P) {
     pertahanan selama 2 turn */
     /* Apabila skill ini digunakan 2 kali berturut-turut, 
     durasi tidak akan bertambah, namun menjadi nilai maksimum (2 turn) */
-    printf("SH Activated\n");
+    AddWarning("SH Activated");
     SHs(*P) = 4;
 }
 
@@ -286,14 +286,14 @@ void ET(Player* P) {
     /* Extra Turn (ID: 3)*/
     /* Fort pemain direbut lawan */
     /* Pemain pada turn selanjutnya tetap pemain yang sama */
-    printf("ET Activated\n");
+    AddWarning("ET Activated");
     ETs(*P) = true;
 }
 
 void AU(Player* P) {
     /* Attack Up (ID: 4)*/
     /* Pertahanan bangunan musuh tidak akan mempengaruhi penyerangan */
-    printf("AU Activated\n");
+    AddWarning("AU Activated");
     AUs(*P) = true;
 }
 
@@ -301,7 +301,7 @@ void CH(Player* P) {
     /* Critical Hit (ID: 5)*/
     /* Jumlah Troops pada bangunan yang melakukan serangan tepat 
     selanjutnya hanya berkurang ½ dari jumlah seharusnya */
-    printf("CH Activated\n");
+    AddWarning("CH Activated");
     CHs(*P) = 1;
 }
 
@@ -309,7 +309,7 @@ void IR(Player* P) { /* to ally */
     /* Instant Reinforcement (ID: 6)*/
     /* Bangunan yang dimiliki memiliki level 4 */
     /* Seluruh bangunan mendapatkan tambahan 5 Troops */
-    printf("IR Activated\n");
+    AddWarning("IR Activated");
     ListElement* p;
     ListTraversal(p, ListFirstElement(Buildings(*P)), p != Nil) {
         Troops(*(Building*)ListElementVal(p)) += 5;
@@ -323,7 +323,7 @@ void BR(Player* P) { /* to enemy */
     ListElement* p;
     Building* B;
 
-    printf("BR Activated\n");    
+    AddWarning("BR Activated");
     ListTraversal(p, ListFirstElement(Buildings(*P)), p != Nil) {
         B = ListElementVal(p);
         if (10 <= Troops(*B)) Troops(*B) -= 10;
