@@ -33,6 +33,8 @@ int main() {
     printf("\nAdd 100 after 15\n");
     ListAddAfter(&l1, 100, ListSearch(l1, 15));
     PrintList(l1);
+    printf("\nindex 5: %d\n", ListElementVal(ListIdx(l1, 5)));
+    printf("\nval 17 is of index %d\n", ListGetIdx(l1, ListSearch(l1, 17)));
     printf("\nDelete 7\n");
     ListDelVal(&l1, 7);
     PrintList(l1);

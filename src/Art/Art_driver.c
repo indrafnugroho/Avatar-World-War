@@ -5,6 +5,7 @@ int main() {
     clrscr();
     DisplayTitle();
     DisplayPrompt("TEST");
+    DisplayTitleMini();
     printf("\n");
     SetPlayerPrompt(1);
     DisplayPrompt2("PLAYER 1"); 
@@ -12,7 +13,8 @@ int main() {
     SetPlayerPrompt(2);
     DisplayPrompt2("PLAYER 2");
     printf("\n");
-    AddWarning("Warning!\no");
+    AddWarning("Warning!");
+    printf("Test Warning\n");
     DisplayWarning(); 
     printf("\n");
     return 0;

@@ -99,7 +99,7 @@ void GameLoop(Game* game) {
         set_print_color(BLUE);
         set_print_color(BOLD);
         if (CHs(GameP1(*game))) printf("[CH]");
-        if (SHs(GameP1(*game))) printf("[SH]");
+        if (SHs(GameP1(*game))) printf("[SH:%d]", SHs(GameP1(*game)));
         if (AUs(GameP1(*game))) printf("[AU]");
         if (ETs(GameP1(*game))) printf("[ET]");
         printf("  PLAYER1    %d ", ListSize(Buildings(GameP1(*game))));
@@ -109,7 +109,7 @@ void GameLoop(Game* game) {
         printf(" %d    PLAYER2", ListSize(Buildings(GameP2(*game))));
         if (ETs(GameP2(*game))) printf("[ET]");
         if (AUs(GameP2(*game))) printf("[AU]");
-        if (SHs(GameP2(*game))) printf("[SH]");
+        if (SHs(GameP2(*game))) printf("[SH:%d]", SHs(GameP2(*game)));
         if (CHs(GameP2(*game))) printf("[CH]");
         set_print_color(WHITE);
 
