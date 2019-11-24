@@ -132,7 +132,7 @@ void GameLoop(Game* game) {
         reset_print_color();
         printf("\n");
         DisplayPrompt2("SKILL");
-        if (!StackIsEmpty(Skills(*GamePTurn(*game)))) {
+        if (!QueueIsEmpty(Skills(*GamePTurn(*game)))) {
             DisplaySkill(GamePTurn(*game));
         } else {
             printf("No Available Skills\n");
