@@ -53,7 +53,4 @@ void PopStkGameStack(GameState** GS, Stack* GameStack);
 void FlushStkGameState(Stack* GameStack);
 /* Flush semua GameState dan dealokasi GameState setiap selesai turn */
 
-void InfoStkGameState(Player* P1x, Player* P2x, ArrayDin BuildingsState, Stack* GameStack);
-/* Memberi informasi isi stack GameState */
-
 #endif

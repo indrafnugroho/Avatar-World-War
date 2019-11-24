@@ -25,7 +25,6 @@ GameState* CreateGameState(Player P1x, Player P2x, ArrayDin BuildingsState){
     else{
         return Nil;
     }
-    
 }
 
 void DeleteGameState(GameState* GS){
@@ -37,9 +36,9 @@ void CaptureGameState(Player P1x, Player P2x, ArrayDin BuildingsState, Stack* Ga
     /* Mengakuisisi GameState saat prosedur dijalankan */
     GameState GS;
     ListElement* k;
-    RecentCom(GS) = RC;
     ClonePlayer(P1x,&P1s(GS));
     ClonePlayer(P2x,&P2s(GS));
+    CopyWord(RC,&RecentCom(GS));
 
     CopyTab(BuildingsState,&StateBuildings(GS));
     PushStkGameState(GS,GameStack);
@@ -80,11 +79,4 @@ void FlushStkGameState(Stack* GameStack){
         PopStkGameStack(&GSdump,GameStack);
         DeleteGameState(GSdump);
     }
-}
-
-void InfoStkGameState(Player* P1x, Player* P2x, ArrayDin BuildingsState, Stack* GameStack){
-    /* Memberi informasi isi stack GameState */
-    printf("Recent Command: ");
-    PrintWord(RecentCom(*(GameState*)StackValueTop(*GameStack)));
-    printf("Command count: %d\n",ListSize(*(List*)StackValueTop(*GameStack)));
 }
