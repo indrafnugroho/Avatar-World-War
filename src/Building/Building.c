@@ -44,7 +44,7 @@ void AddPasukanNextTurn (Building *B)
 /*  I.S. Jumlah pasukan pada building sembarang
     F.S. Ketika giliran pemain P, jumlah pasukan pada setiap building yang dimiliki pemain P bertambah sesuai jenis building */
 {
-    if(Troops(*B) + A(*B) <= M(*B)) {
+    if(Troops(*B) < M(*B)) {
         Troops(*B) += A(*B);
     }
 }

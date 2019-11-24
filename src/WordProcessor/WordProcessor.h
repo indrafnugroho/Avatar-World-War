@@ -41,7 +41,7 @@ void ADVWORD();
 /* I.S. : CC adalah karakter pertama kata yang akan diakuisisi
    F.S. : CWord adalah kata terakhir yang sudah diakuisisi,
           CC adalah karakter pertama dari kata berikutnya, mungkin MARK
-          Jika CC = MARK, EndKata = true.
+          Jika CC = MARK, EndWord = true.
    Proses : Akuisisi kata menggunakan procedure SalinKata */
 
 void SalinWord();
