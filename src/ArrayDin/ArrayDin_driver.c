@@ -30,7 +30,7 @@ int main() {
     GrowTab(&buildings, 2);
     AddAsLastEl(&buildings, &b5);
     CompactTab(&buildings);
-    printf("Array 1\nNbElmt: %d\nMaxEl: %d\nIsFull: %d \n", NbElmt(buildings), MaxElement(buildings), IsFull(buildings));
+    printf("Array 1\nNbElmt: %d\nMaxEl: %d\nIsFull: %d \n", NbElmt(buildings), MaxElem(buildings), IsFull(buildings));
     for (i = GetFirstIdx(buildings); i < Neff(buildings); i++) {
         PrintBuilding(*Elmt(buildings, i));
     }

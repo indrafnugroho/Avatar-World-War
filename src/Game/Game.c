@@ -42,6 +42,7 @@ void GameInit(Game* game) {
     ListAddLast(&Buildings(GameP2(*game)), Elmt(GameBuildings(*game), 1));
     GamePTurn(*game) = &GameP1(*game);
     StackCreate(&(game->stkGameState));
+    AddAToAllBuilding(&GameP1(*game));
 }
 
 void GameLoadSave(Game* game, char* filename) {
@@ -111,7 +112,18 @@ void GameLoop(Game* game) {
         if (SHs(GameP2(*game))) printf("[SH]");
         if (CHs(GameP2(*game))) printf("[CH]");
         set_print_color(WHITE);
+
         printf("\n  [UNDO : %d]\n\n", ListSize(GameStateStack(*game)));
+        if (ListSize(Buildings(GameP2(*game))) == 0) {
+            DisplayPrompt("GAME FINISH");
+            printf("Player 1 Wins!\n");
+            exit(0);
+        } else if (ListSize(Buildings(GameP1(*game))) == 0) {
+            DisplayPrompt("GAME FINISH");
+            printf("Player 2 Wins!\n");
+            exit(0);
+        }
+
         if (GamePTurn(*game) == &GameP1(*game)) {
             SetPlayerPrompt(1);
             pn = 1;
