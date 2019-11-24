@@ -35,41 +35,27 @@ typedef struct {
 #define AfterMove(B) (B).AfterMove
 
 void InitializationBuilding (Building *B);
-    /*
-    I.S.
-        Parameter-parameter pada Building belum terisi
-    F.S.
-        Parameter-parameter pada building terisi, sesuai jenis Building
-    */
+/*  I.S. Parameter-parameter pada Building belum terisi
+    F.S. Parameter-parameter pada building terisi, sesuai jenis Building */
 
 void AddPasukanNextTurn (Building *B);
-    /*
-    I.S.
-        Jumlah pasukan pada building sembarang
-    F.S.
-        Jumlah pasukan pada building bertambah sebesar A, sesuai jenis building
-    */
+/*  I.S. Jumlah pasukan pada building sembarang
+    F.S. Jumlah pasukan pada building bertambah sebesar A, sesuai jenis building */
 
 void LevelAdd (Building *B);
-    /*
-    I.S.
-    Level bangunan kurang dari 4
-    F.S.
-    - Level bangunan bertambah apabila jumlah pasukan pada bangunan >= M/2
-    - Jika level bangunan bertambah, jumlah pasukan pada bangunan berkurang sebanyak M/2
-    Nilai A, M, dan Pb berubah sesuai Type Bangunan dan Level
-    */
+/*  I.S. Level bangunan kurang dari 4
+    F.S. - Level bangunan bertambah apabila jumlah pasukan pada bangunan >= M/2
+         - Jika level bangunan bertambah, jumlah pasukan pada bangunan berkurang sebanyak M/2
+         - Nilai A, M, dan Pb berubah sesuai Type Bangunan dan Level */
 
 void SetLvBuildingToLv1 (Building* B);
-/*  I.S. B sembarang
-    F.S. B menjadi level 1 dengan segala komponen di dalamnya diubah
-*/
+/*  I.S. B terdefinisi
+    F.S. B menjadi level 1 dengan segala komponen di dalamnya diubah */
 
 void PrintBuilding(Building B);
 /* Menampilkan info bangunan B */
 
 Building CopyBuilding(Building Bin); 
-/*  Mengembalikan salinan dari Bin
-*/
+/*  Mengembalikan salinan dari Bin */
 
 #endif
