@@ -67,6 +67,12 @@ bool WordToInt(Word w, int* i);
             i tidak berubah
             Fungsi mengembalikan false */
 
+void OutputWord(Word w, bool newline);
+/* Mencetak suatu Word w ke layar.
+   Jika newline bernilai true maka akan diakhiri tanda newline, jika tidak maka tidak.
+   I.S. : w terdefinisi
+   F.S. : w tercetak di layar dengan / tanpa diakhiri tanda newline */
+
 void WriteWord(Word w);
 /* Mencetak suatu Word w ke layar.
    I.S. : w terdefinisi
